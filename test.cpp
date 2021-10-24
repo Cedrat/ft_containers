@@ -1,69 +1,44 @@
 #include <vector>
-#include "utils.hpp"
 #include <iostream>
 #include <iterator>
 #include "is_integral.hpp"
+#include "lexicographical_compare.hpp"
+#include "test_function.hpp"
 
-
-// template <class T>
-//     typename ft::enable_if<std::is_trivially_copyable<T>::value>::type f(T) {
-//       // ...
-//    }
-// int main() {
-//    using std::vector;
-//    vector<int> v;
-//    f(v); // serait illégal
-// }
-
-// iterator_traits example
-// #include <iostream>     // std::cout
-// #include <iterator>     // std::iterator_traits
-// #include <typeinfo>     // typeid
-
-// int main() {
-//   typedef ft::iterator_traits<int*> traits;
-//   if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
-//     std::cout << "int* is a random-access iterator";
-//   return 0;
-// }
-
-#include <iostream>
-#include <type_traits>
-
-class A {};
- 
-enum E : int {};
- 
-template<class T>
-T f(T i)
-{
-    static_assert(std::is_integral<T>::value, "Integral required.");
-    return i;
+bool mycomp (char c1, char c2)
+{ 
+    return std::tolower(c1)<std::tolower(c2);
 }
- 
-int main() 
+
+int main () 
 {
     {
-        std::cout << std::is_integral<A>::value << '\n';
-        std::cout << std::is_integral<E>::value << '\n';
-        std::cout << std::is_integral<float>::value << '\n';
-        std::cout << ft::is_integral<int &>::value << '\n';
-        std::cout << ft::is_integral<int *>::value << '\n';
-        std::cout << std::is_integral<int>::value << '\n';
-        std::cout << std::is_integral<const int>::value << '\n';
-        std::cout << std::is_integral<bool>::value << '\n';
-        std::cout << f(123) << '\n';
+        char foo[]="apple";
+        char bar[]="apartment";
+
+        std::cout << "Test lexicographical without func comp\n" << std::endl;
+        verify_equality(std::lexicographical_compare(foo,foo+5,bar,bar+9), ft::lexicographical_compare(foo,foo+5,bar,bar+9));
+        verify_equality(std::lexicographical_compare(foo,foo,bar,bar), ft::lexicographical_compare(foo,foo,bar,bar));
+        verify_equality(std::lexicographical_compare(foo,foo + 1,bar,bar), ft::lexicographical_compare(foo,foo + 1,bar,bar)); 
+        verify_equality(std::lexicographical_compare(foo,foo + 1,bar,bar + 1), ft::lexicographical_compare(foo,foo + 1,bar,bar + 1));
+        verify_equality(std::lexicographical_compare(foo,foo + 6,foo, foo + 6), ft::lexicographical_compare(foo,foo + 6,foo, foo + 6)); 
+        verify_equality(std::lexicographical_compare(foo,foo + 6,foo, foo + 5), ft::lexicographical_compare(foo,foo + 6,foo, foo + 5));
+        verify_equality(std::lexicographical_compare(foo,foo + 5,foo, foo + 6), ft::lexicographical_compare(foo,foo + 5,foo, foo + 6));
+        std::cout << '\n';
     }
+
     {
-        std::cout << std::endl;
-        std::cout << ft::is_integral<A>::value << '\n';
-        std::cout << ft::is_integral<E>::value << '\n';
-        std::cout << ft::is_integral<float>::value << '\n';
-        std::cout << ft::is_integral<int &>::value << '\n';
-        std::cout << ft::is_integral<int *>::value << '\n';
-        std::cout << ft::is_integral<int>::value << '\n';
-        std::cout << ft::is_integral<const int>::value << '\n';
-        std::cout << ft::is_integral<bool>::value << '\n';
-        std::cout << f(123) << '\n';
+        char foo[]="ApPleer";
+        char bar[]="applees";
+
+        std::cout << "Test lexicographical with function comp\n" << std::endl;
+        verify_equality(std::lexicographical_compare(foo,foo+5,bar,bar+9, mycomp), ft::lexicographical_compare(foo,foo+5,bar,bar+9, mycomp));
+        verify_equality(std::lexicographical_compare(foo,foo,bar,bar, mycomp), ft::lexicographical_compare(foo,foo,bar,bar, mycomp));
+        verify_equality(std::lexicographical_compare(foo,foo + 1,bar,bar, mycomp), ft::lexicographical_compare(foo,foo + 1,bar,bar, mycomp)); 
+        verify_equality(std::lexicographical_compare(foo,foo + 1,bar,bar + 1, mycomp), ft::lexicographical_compare(foo,foo + 1,bar,bar + 1, mycomp));
+        verify_equality(std::lexicographical_compare(foo,foo + 6,foo, foo + 6, mycomp), ft::lexicographical_compare(foo,foo + 6,foo, foo + 6, mycomp)); 
+        verify_equality(std::lexicographical_compare(foo,foo + 6,foo, foo + 5, mycomp), ft::lexicographical_compare(foo,foo + 6,foo, foo + 5, mycomp));
+        verify_equality(std::lexicographical_compare(foo,foo + 5,foo, foo + 6, mycomp), ft::lexicographical_compare(foo,foo + 5,foo, foo + 6, mycomp));
+        std::cout << '\n';
     }
 }

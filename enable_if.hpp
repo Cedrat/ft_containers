@@ -1,3 +1,6 @@
+#ifndef ENABLE_IF_HPP
+# define ENABLE_IF_HPP
+
 #include <type_traits>
 
 namespace ft
@@ -29,17 +32,6 @@ namespace ft
     {
         typedef T type; 
     };
-    /*
-        Iterator traits
-    */
-    // template< class Iterator >
-    // struct iterator_traits
-    // {
-    //     typedef difference_type     std::incrementable_traits<Iterator>::difference_type
-    //     typedef value_type          Iterator::value_type;
-    //     typedef pointer             Iterator::pointer;
-    //     typedef reference           Iterator::reference;
-    //     typedef iterator_category   Iterator::iterator_categorie;
-    // };
-
 }
+
+#endif

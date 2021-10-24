@@ -2,7 +2,7 @@ NAME = test
 VPATH =objs:./srcs:
 
 SRCS = test.cpp 
-HEADER = is_integral.hpp utils.hpp
+HEADER = is_integral.hpp enable_if.hpp iterator_traits.hpp lexicographical_compare.hpp test_function.hpp
 
 PATH_OBJS = ./.objs/
 PATH_GCH = ./.gch/
