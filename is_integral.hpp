@@ -8,7 +8,7 @@ namespace ft
     template <class T, T v>
     struct integral_constant
     {
-        static constexpr T value = v;
+        static constexpr    T value = v;
         
         typedef T value_type;
         typedef integral_constant<T,v> type;

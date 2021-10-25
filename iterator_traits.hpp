@@ -6,14 +6,36 @@ namespace ft
 /*
     Iterator traits
 */
-// template< class Iterator >
-// struct iterator_traits
-// {
-//     typedef difference_type     std::incrementable_traits<Iterator>::difference_type
-//     typedef value_type          Iterator::value_type;
-//     typedef pointer             Iterator::pointer;
-//     typedef reference           Iterator::reference;
-//     typedef iterator_category   Iterator::iterator_categorie;
-// };
+template< class Iterator >
+struct iterator_traits
+{
+    typedef typename Iterator::difference_type       difference_type;
+    typedef typename Iterator::value_type            value_type;
+    typedef typename Iterator::pointer               pointer;             
+    typedef typename Iterator::reference             reference;  
+    typedef typename Iterator::iterator_category    iterator_category;
+};
+
+template <class T> 
+struct iterator_traits<T*>
+{
+    typedef typename ptrdiff_t                         difference_type;
+    typedef T                                 value_type;
+    typedef typename T*                                pointer;             
+    typedef typename T&                                reference;  
+    typedef typename std::random_acces_iterator_tag         iterator_category;
+};
+
+template <class T> 
+struct iterator_traits<const T*>
+{
+    typedef typename ptrdiff_t                         difference_type;
+    typedef typename T                                 value_type;
+    typedef  typenameconst T*                                   pointer;             
+    typedef  typename const T&                                   reference;  
+    typedef typename std::random_acces_iterator_tag         iterator_category;
+};
+
+
 }
 #endif
