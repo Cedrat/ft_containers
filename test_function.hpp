@@ -3,13 +3,16 @@
 
 #include <iostream>
 
+#define EMOJI_TRUE "\U00002705"
+#define  EMOJI_FALSE "\U0000274C"
+
 template<class T>
 void verify_equality(T test1, T test2)
 {
     if (test1 == test2)
-        std::cout << "\U00002705" << std::endl;
+        std::cout << EMOJI_TRUE << std::endl;
     else
-        std::cout << "\U0000274C" << std::endl;
+        std::cout << EMOJI_FALSE << std::endl;
 }
 
 #endif

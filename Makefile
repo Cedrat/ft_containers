@@ -1,8 +1,10 @@
-NAME = test
+LIB = ft_containers.a
+
 VPATH =objs:./srcs:
 
-SRCS = test.cpp 
-HEADER = is_integral.hpp enable_if.hpp iterator_traits.hpp lexicographical_compare.hpp test_function.hpp equal.hpp pair.hpp
+SRCS = 
+HEADER = is_integral.hpp enable_if.hpp iterator_traits.hpp lexicographical_compare.hpp \
+ 		test_function.hpp equal.hpp pair.hpp reverse_iterator.hpp
 
 PATH_OBJS = ./.objs/
 PATH_GCH = ./.gch/
@@ -10,7 +12,7 @@ PATH_GCH = ./.gch/
 OBJS = $(addprefix ${PATH_OBJS},${SRCS:.cpp=.o})
 GCH = $(addprefix ${PATH_GCH},${HEADER:.hpp=.hpp.gch})
 CXX= clang++
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 RM = rm -f
 
@@ -22,16 +24,17 @@ $(PATH_OBJS)%.o : %.cpp $(GCH)
 
 
 
-all : 		${PATH_GCH} ${PATH_OBJS}  ${NAME} 
+all : 		${PATH_GCH} ${PATH_OBJS}  ${LIB}
 
-${NAME}:	${GCH} ${OBJS} 
-			$(CXX) -o ${NAME} ${CFLAGS} ${OBJS} 
+${LIB}:	${GCH} ${OBJS}
+			ar rcs ${LIB} ${OBJS} ${GCH} 
+
 
 clean :		
-			${RM} ${OBJS} ${GCH}
+			${RM} ${OBJS} ${GCH} 
 
 fclean :	clean
-			${RM} ${NAME} 
+			${RM} ${NAME_FT} ${LIB}
 
 re :		fclean all
 
