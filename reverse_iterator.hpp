@@ -59,7 +59,7 @@ class reverse_iterator
 
         reverse_iterator& operator++()
         {
-            iterator_type temp = base();
+            //iterator_type temp = base();
             ++_current;
             return (*this);
         };
@@ -73,14 +73,14 @@ class reverse_iterator
 
         reverse_iterator& operator--()
         {
-            (*this)++;
+            --_current;
             return (*this);
         };
         
         reverse_iterator operator-- (int) 
         {
             reverse_iterator temp = (*this);
-            ++(*this);
+            --_current;
             return (temp);
         };
 };

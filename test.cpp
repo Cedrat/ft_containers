@@ -1,50 +1,42 @@
-#include <iostream>     // std::cout
-#include <iterator>     // std::reverse_iterator
-#include <vector>       // std::vector
-#include "test_function.hpp"
-#include "reverse_iterator.hpp"
+#include "vector.hpp"
+#include <vector>
+#include <iostream>
 
 #ifndef NAMESPACE
 # define NAMESPACE ft
 #endif
 
-int main () 
+#define FALSE 0
+
+template<class T>
+void print_vector(NAMESPACE::vector<T> the_vector)
 {
+    std::cout << "size : " << the_vector.size() << std::endl;
+    std::cout << "max_size : " << the_vector.max_size() << std::endl;
+    std::cout << "capacity : " << the_vector.capacity() << std::endl;
+    std::cout << "empty : " << the_vector.empty() << std::endl;
+    if (the_vector.empty() == FALSE)
+    {
+        std::cout << "front_value " << the_vector.front() << std::endl;
+        // std::cout << the_vector.back() << std::endl;
+    }
+};
 
-    std::cout << "test iterator constructor" << std::endl;
-    std::vector<int> myvector;
-    for (int i=2; i<10; i++) 
+int main()
+{
+    NAMESPACE::vector<int> myvector;
+    print_vector<int>(myvector);
+    for (int i=0; i<100; i++)
+    {
+        print_vector<int>(myvector);
         myvector.push_back(i);
-    
-    
+        std::cout << myvector[i] << std::endl;
+    }
 
-    //typedef std::vector<int>::reverse_iterator iter_type;
-
-    std::reverse_iterator<std::vector<int>::iterator> std_it_begin;
-
-    // NAMESPACE::reverse_iterator<std::vector<int>::iterator> rev_it_begin;
-
-    std_it_begin = myvector.rbegin();
-    NAMESPACE::reverse_iterator<std::reverse_iterator<std::vector<int>::iterator>> rev_it_begin(std_it_begin);
-
-    std::cout << *rev_it_begin << std::endl;
-    std::cout << *rev_it_begin++ << std::endl;
-    std::cout << *++rev_it_begin << std::endl;
-    // std::cout << *rev_it_begin << std::endl;
-    // std::cout << *rev_it_begin.base() << std::endl;
-                                                            
-    // iter_type from (myvector.begin());                     
-                                                            
-    // iter_type until (myvector.end());                      
-                                                            
-    // NAMESPACE::reverse_iterator<iter_type> rev_until (from);    
-                                                            
-    // NAMESPACE::reverse_iterator<iter_type> rev_from (until);
-
-    // std::cout << "myvector:";
-    // while (rev_from != rev_until)
-    //     std::cout << ' ' << *rev_from++;
-    // std::cout << '\n';
-
-    // return 0;
+    // NAMESPACE::vector<int>::iterator it_begin = myvector.begin();
+    // for (int i=0; i<10; i++)
+    // {
+    //     //print_vector<int>(myvector);
+    //     //myvector.erase(it_begin);
+    // }
 }
