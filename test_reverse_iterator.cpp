@@ -21,12 +21,12 @@ int main ()
 
     //typedef std::vector<int>::reverse_iterator iter_type;
 
-    std::reverse_iterator<std::vector<int>::iterator> std_it_begin;
+    std::reverse_iterator<std::vector<int>::iterator> std_rev_it_begin;
 
     // NAMESPACE::reverse_iterator<std::vector<int>::iterator> rev_it_begin;
 
-    std_it_begin = myvector.rbegin();
-    NAMESPACE::reverse_iterator<std::reverse_iterator<std::vector<int>::iterator>> rev_it_begin(std_it_begin);
+    std_rev_it_begin = myvector.rbegin();
+    NAMESPACE::reverse_iterator<std::reverse_iterator<std::vector<int>::iterator>> rev_it_begin(std_rev_it_begin);
 
     std::cout << *rev_it_begin << std::endl;
     std::cout << *rev_it_begin++ << std::endl;

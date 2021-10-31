@@ -25,6 +25,15 @@ class vector
         size_type _capacity = 0;
         size_type _size = 0;
         size_type _max_size = 0;
+
+        void reallocate(size_type new_capacity)
+        {
+            Alloc alloc;
+
+            alloc.deallocate(_array, capacity());
+            _capacity = new_capacity;
+            _array = alloc.allocate(capacity() * sizeof(T*));
+        }
     
     public :
         explicit vector ()
@@ -38,7 +47,7 @@ class vector
         {
             Alloc alloc;
             _array = alloc.allocate(sizeof(T*) * x.size());
-            _capacity = x.capacity();
+            _capacity = x.size();
             _max_size = alloc.max_size();
             for (size_t i = 0; i < x.size(); i++) // in the future, use range of iterator 
             {
@@ -72,6 +81,20 @@ class vector
             return (_size == FALSE);
         }
 
+		void reserve (size_type n)
+		{
+			if (n > max_size())
+				throw(std::length_error("ft::vector reserve max size exceeded"));
+			if (n > capacity())
+			{
+				ft::vector<T> temp(*this);
+
+                reallocate(n);
+                for (size_t i = 0; i < temp.size(); i++) // in the future, use range of iterator 
+                    _array[i] = temp[i];
+			}
+		}
+
         reference front()
         {
             return (_array[0]);
@@ -81,24 +104,50 @@ class vector
             return front();
         }
 
+        reference back()
+        {
+            return (_array[_size - 1]);
+        }
+        const_reference back() const
+        {
+            return back();
+        }
+
         void push_back(const value_type& val)
         {
-            if ((max_size() + 1) > (capacity()))
+            if ((size() + 1) > (capacity()))
             {
-                Alloc alloc;
                 if (capacity() == 0)
                 {
-                    alloc.deallocate(_array, 0);
-                    _array = alloc.allocate(1);
-                    _capacity = 1;
+                    reallocate(1);
                 }
                 else
                 {
-
+					reserve(capacity() * 2);
                 }
             }
             _array[_size] = val;
             _size++;
+        }
+        void pop_back()
+        {
+            _array[_size] = T();
+            _size--;
+        }
+
+
+        void resize (size_type n, value_type val = value_type())
+        {
+            if (n < size())
+            {
+                while (n < size())
+                    pop_back();
+            }
+            if (n > size())
+            {
+				while (n > size())
+					push_back(val);
+            }
         }
 
         reference operator[] (size_type n)
@@ -109,6 +158,24 @@ class vector
         {
             return (_array[n]);
         }
+		reference at (size_type n)
+		{
+			if (n < 0 || n >= size())
+				throw (std::out_of_range("ft::vector at out_of_range"));
+			return (_array[n]);
+		}
+		const_reference at (size_type n) const
+		{
+			return at(n);
+		}
+        vector& operator= (const vector& current)
+        {
+            ft::vector<T> new_vector(current);
+
+            return (new_vector);
+        }
+
+
 };
 
 
