@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <iostream>
+#include "input_iterator.hpp"
 
 #define FALSE 0
 #define TRUE 1
@@ -17,8 +18,9 @@ class vector
         typedef T value_type;
         typedef Alloc allocator_type;
         typedef size_t size_type;
-        typedef typename allocator_type::reference reference;
-        typedef typename allocator_type::const_reference const_reference;
+
+
+
         
         T*  _array;
         
@@ -36,6 +38,14 @@ class vector
         }
     
     public :
+
+        typedef typename allocator_type::reference reference;
+        typedef typename allocator_type::const_reference const_reference;
+        typedef typename allocator_type::pointer pointer;
+        typedef typename allocator_type::const_pointer const_pointer;
+        typedef input_iterator_tag<value_type> iterator;
+        typedef std::random_access_iterator_tag const_iterator; 
+
         explicit vector ()
         {
              Alloc alloc;
@@ -59,6 +69,21 @@ class vector
         {
             Alloc alloc;
             alloc.deallocate(_array, capacity());
+        }
+
+        iterator begin()
+        {
+            return (iterator(_array));
+        }
+
+        const_iterator begin() const
+        {
+            return (begin());
+        }
+
+        iterator end()
+        {
+            return (iterator(_array + size() - 1));
         }
 
         size_type capacity() const
@@ -99,6 +124,7 @@ class vector
         {
             return (_array[0]);
         }
+
         const_reference front() const
         {
             return front();
@@ -106,8 +132,9 @@ class vector
 
         reference back()
         {
-            return (_array[_size - 1]);
+            return (_array[size() - 1]);
         }
+
         const_reference back() const
         {
             return back();
@@ -174,10 +201,7 @@ class vector
 
             return (new_vector);
         }
-
-
 };
-
 
 };
 
