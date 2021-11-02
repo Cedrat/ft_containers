@@ -173,14 +173,36 @@ void at_vector_test()
         }
     }
 }
+
+void iterator_vector_test()
+{
+    NAMESPACE::vector<int> myvector;
+    for (int i = 1 ; i < NB_OF_ELEMENTS ; i++) 
+        myvector.push_back(i);
+
+    NAMESPACE::vector<int>::iterator it_begin;
+    NAMESPACE::vector<int>::iterator it_end;
+
+    it_begin = myvector.begin();
+    it_end = myvector.end();
+
+    std::cout << *it_begin << std::endl;
+    while (it_begin != it_end)
+    {
+        // *it_begin = 5;
+        std::cout << *it_begin << std::endl;
+        it_begin++;
+    }
+}
 int main()
 {
-    // NAMESPACE::vector<int> myvector;
+    NAMESPACE::vector<int> myvector;
 
     // push_back_test<int>(myvector);
     // pop_back_test<int>(myvector);
-
     // resize_vector_test();
     // reserve_vector_test();
-    at_vector_test();
+    // at_vector_test();
+    iterator_vector_test();
+
 }
