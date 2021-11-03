@@ -12,7 +12,7 @@
 #endif
 
 
-#define NB_OF_ELEMENTS 10
+#define NB_OF_ELEMENTS 2000000
 #define FALSE 0
 
 unsigned long int	chrono_init(void)
@@ -61,12 +61,12 @@ void push_back_test(NAMESPACE::vector<T> &the_vector)
 {
     size_t start = chrono_init();
     
-    print_vector<int>(the_vector);
+    // print_vector<int>(the_vector);
     for (int i=0; i < NB_OF_ELEMENTS; i++)
     {
         print_vector<int>(the_vector);
         the_vector.push_back(i);
-        print_element_i_vector(the_vector, i);
+        // print_element_i_vector(the_vector, i);
     }
     std::cout << "time : " << stamp_time(start)<< std::endl;
 }
@@ -176,6 +176,7 @@ void at_vector_test()
 
 void iterator_vector_test()
 {
+    std::cout << "iterator_test" << std::endl;
     NAMESPACE::vector<int> myvector;
     for (int i = 1 ; i < NB_OF_ELEMENTS ; i++) 
         myvector.push_back(i);
@@ -186,6 +187,8 @@ void iterator_vector_test()
     it_begin = myvector.begin();
     it_end = myvector.end();
 
+
+    std::cout << "increment test and while (it_begin != it_end)" << std::endl;
     std::cout << *it_begin << std::endl;
     while (it_begin != it_end)
     {
@@ -193,16 +196,85 @@ void iterator_vector_test()
         std::cout << *it_begin << std::endl;
         it_begin++;
     }
+    it_begin = myvector.begin();
+    it_end--;
+    std::cout << "decrement test and while (it_begin != it_end)" << std::endl;
+    while (it_begin != it_end)
+    {
+        // *it_begin = 5;
+        std::cout << *--it_end << std::endl;
+    }
+
+    it_end = myvector.end();
+
+    it_begin += 2;
+    std::cout << *(it_begin) << std::endl;
+    it_begin += 5;
+    std::cout << *(it_begin) << std::endl;
+    it_begin -= 3;
+    std::cout << *(it_begin) << std::endl;
+    std::cout << *(it_begin + 3) << std::endl;
+    std::cout << *(it_begin - 3) << std::endl;
+    std::cout << it_begin[1] << std::endl;
+    std::cout << (it_begin[1] > it_begin[0]) << std::endl;
+    std::cout << (it_begin[1] < it_begin[0]) << std::endl;
+    std::cout << (it_begin[1] >= it_begin[0]) << std::endl;
+    std::cout << (it_begin[0] >= it_begin[0]) << std::endl;
+    std::cout << (it_begin[1] <= it_begin[0]) << std::endl;
+    std::cout << (it_begin[0] <= it_begin[0]) << std::endl;
+
+
+}
+
+void copy_constructor_time()
+{
+    NAMESPACE::vector<int> my_vector;
+
+    for (int i = 0; i < NB_OF_ELEMENTS; i++)
+    {
+        my_vector.push_back(i);
+    }
+    size_t start = chrono_init();
+    NAMESPACE::vector<int> copy_vector(my_vector);
+    std::cout << "time : " << stamp_time(start)<< std::endl;
+}
+
+void assign_vector_test()
+{
+    NAMESPACE::vector<int> first;
+    NAMESPACE::vector<int> second;
+    NAMESPACE::vector<int> third;
+
+    first.assign (7,100);             // 7 ints with a value of 100
+
+    NAMESPACE::vector<int>::iterator it;
+    it=first.begin()+1;
+
+    second.assign (it,first.end()-1); // the 5 central values of first
+
+    int myints[] = {1776,7,4};
+    third.assign (myints,myints+3);   // assigning from array.
+
+    std::cout << "Size of first: " << int (first.size()) << '\n';
+    std::cout << "Size of second: " << int (second.size()) << '\n';
+    std::cout << "Size of third: " << int (third.size()) << '\n';
+
 }
 int main()
 {
-    NAMESPACE::vector<int> myvector;
 
+    // NAMESPACE::vector<int> myvector;
+
+
+    // copy_constructor_time();
     // push_back_test<int>(myvector);
     // pop_back_test<int>(myvector);
+    
     // resize_vector_test();
     // reserve_vector_test();
     // at_vector_test();
-    iterator_vector_test();
-
+    // iterator_vector_test();
+    assign_vector_test();
 }
+
+ //std::vector<int>

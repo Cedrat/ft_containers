@@ -3,7 +3,9 @@
 
 #include <memory>
 #include <iostream>
-#include "input_iterator.hpp"
+#include "random_access_iterator.hpp"
+#include "is_integral.hpp"
+#include "enable_if.hpp"
 
 #define FALSE 0
 #define TRUE 1
@@ -43,7 +45,7 @@ class vector
         typedef typename allocator_type::const_reference const_reference;
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
-        typedef input_iterator_tag<value_type> iterator;
+        typedef random_access_iterator<value_type> iterator;
         typedef std::random_access_iterator_tag const_iterator; 
 
         explicit vector ()
@@ -83,7 +85,7 @@ class vector
 
         iterator end()
         {
-            return (iterator(_array + size() - 1));
+            return (iterator(_array + size()));
         }
 
         size_type capacity() const
@@ -138,6 +140,35 @@ class vector
         const_reference back() const
         {
             return back();
+        }
+
+
+
+        // template <class InputIterator, ft::enable_if<ft::is_integral<InputIterator>::value> = true>
+        // void assign (InputIterator first, InputIterator last)
+        // {
+        //     while (first != last)
+        //     {
+        //         push_back(*first);
+        //         first++;
+        //     }
+        // }
+        // template <class InputIterator, typename ft::enable_if<InputIterator::iterator_category == iterator::iterator_category>>
+        // void assign (InputIterator first, InputIterator last)
+        // {
+        //     while (first != last)
+        //     {
+        //         push_back(*first);
+        //         first++;
+        //     }
+        // }
+
+        void assign (size_type n, const T& val)
+        {
+            for (size_type i(0); i < n; i++)
+            {
+                push_back(val);
+            }
         }
 
         void push_back(const value_type& val)

@@ -1,14 +1,14 @@
-#ifndef INPUT_ITERATOR_HPP
-# define INPUT_ITERATOR_HPP
+#ifndef OUTPUT_ITERATOR_HPP
+# define OUTPUT_ITERATOR_HPP
 
 namespace ft
 {   
     template<class T>
-    struct input_iterator_tag
+    struct output_iterator_tag
     {
 
         public :
-            typedef input_iterator_tag iterator_category;
+            typedef output_iterator_tag iterator_category;
             typedef ptrdiff_t difference_type;
             typedef T value_type;
             typedef T* pointer;
@@ -22,14 +22,9 @@ namespace ft
             {
             }
 
-            reference operator*() const
+            void operator*(T value) const
             {
-                return (*_ptr);
-            }
-
-            pointer operator->()
-            {
-                return (_ptr);
+                _ptr = value;
             }
 
             input_iterator_tag& operator++() //preincrement
