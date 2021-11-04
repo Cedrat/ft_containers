@@ -38,6 +38,23 @@ class vector
             _capacity = new_capacity;
             _array = alloc.allocate(capacity() * sizeof(T*));
         }
+        template<class Iterator>
+        void assign(Iterator first, Iterator last, ft::false_type)
+        {
+            while (first != last)
+            {
+                push_back(*first);
+                first++;
+            }
+        }
+
+        void assign(size_type n, const T& val, ft::true_type)
+        {
+            for (size_type i(0); i < n; i++)
+            {
+                push_back(val);
+            }
+        }
     
     public :
 
@@ -144,24 +161,12 @@ class vector
 
 
 
-        // template <class InputIterator, ft::enable_if<ft::is_integral<InputIterator>::value> = true>
-        // void assign (InputIterator first, InputIterator last)
-        // {
-        //     while (first != last)
-        //     {
-        //         push_back(*first);
-        //         first++;
-        //     }
-        // }
-        // template <class InputIterator, typename ft::enable_if<InputIterator::iterator_category == iterator::iterator_category>>
-        // void assign (InputIterator first, InputIterator last)
-        // {
-        //     while (first != last)
-        //     {
-        //         push_back(*first);
-        //         first++;
-        //     }
-        // }
+
+        template <class InputIterator>
+        void assign (InputIterator first, InputIterator last)
+        {
+            assign(first, last, ft::is_integral<InputIterator>());
+        }
 
         void assign (size_type n, const T& val)
         {
