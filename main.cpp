@@ -1,15 +1,18 @@
 #include <memory>
 #include <iostream>
+#include <vector>
+#include "vector.hpp"
 
 int main()
 {
-    int *array;
 
-    std::allocator<int> alloc_int;
+    ft::vector<int> test;
 
-    array = alloc_int.allocate(5);
-    array[0] = 5;
-    std::cout << array[0] << std::endl;
+    test.push_back(6);
+    test.push_back(6);
+    test.push_back(6);
 
-    alloc_int.deallocate(array, 5);
+    ft::vector<int>::iterator it_begin = test.begin();
+    ft::vector<int>::iterator it_end = test.end();
+    std::cout << it_begin - it_end  << std::endl;
 }

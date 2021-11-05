@@ -12,7 +12,7 @@
 #endif
 
 
-#define NB_OF_ELEMENTS 2000000
+#define NB_OF_ELEMENTS 200000000
 #define FALSE 0
 
 unsigned long int	chrono_init(void)
@@ -241,23 +241,30 @@ void copy_constructor_time()
 
 void assign_vector_test()
 {
+    size_t start = chrono_init();
+
     NAMESPACE::vector<int> first;
     NAMESPACE::vector<int> second;
     NAMESPACE::vector<int> third;
 
-    first.assign (7,100);             // 7 ints with a value of 100
-
+    first.assign (NB_OF_ELEMENTS,100);             // 7 ints with a value of 100
+    print_vector(first);
     NAMESPACE::vector<int>::iterator it;
     it=first.begin()+1;
 
+    std::cout << "Second assign" << std::endl;
     second.assign (it,first.end()-1); // the 5 central values of first
+    print_vector(second);
 
     int myints[] = {1776,7,4};
     third.assign (myints,myints+3);   // assigning from array.
+    print_vector(third);
 
     std::cout << "Size of first: " << int (first.size()) << '\n';
     std::cout << "Size of second: " << int (second.size()) << '\n';
     std::cout << "Size of third: " << int (third.size()) << '\n';
+
+    std::cout << "time : " << stamp_time(start)<< std::endl;
 
 }
 int main()
@@ -273,8 +280,8 @@ int main()
     // resize_vector_test();
     // reserve_vector_test();
     // at_vector_test();
-    // iterator_vector_test();
+    iterator_vector_test();
     assign_vector_test();
 }
 
- //std::vector<int>
+ //std::vector<int>::iterator::difference_type

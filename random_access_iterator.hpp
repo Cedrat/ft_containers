@@ -86,6 +86,11 @@ namespace ft
                 return (temp); 
             }
 
+            // difference_type operator -(random_access_iterator second)
+            // {
+            //     return (_ptr - second._ptr); 
+            // }
+
             random_access_iterator & operator -=(int decrement)
             {
                 _ptr = _ptr - decrement;
@@ -98,6 +103,11 @@ namespace ft
                 --(*this);
                 
                 return (temp);
+            }
+
+            friend difference_type operator-(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+            {
+                return (lhs._ptr - rhs._ptr);
             }
 
             friend bool operator!=(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)

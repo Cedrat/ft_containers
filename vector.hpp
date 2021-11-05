@@ -41,19 +41,26 @@ class vector
         template<class Iterator>
         void assign(Iterator first, Iterator last, ft::false_type)
         {
+            reallocate(last - first);
+            _size = (last - first);
+            int i(0);
             while (first != last)
             {
-                push_back(*first);
+                _array[i] = *first;
                 first++;
+                i++;
             }
+
         }
 
         void assign(size_type n, const T& val, ft::true_type)
         {
+            reallocate(n);
             for (size_type i(0); i < n; i++)
             {
-                push_back(val);
+                _array[i] = val;
             }
+            _size = n;
         }
     
     public :
@@ -63,7 +70,8 @@ class vector
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
         typedef random_access_iterator<value_type> iterator;
-        typedef std::random_access_iterator_tag const_iterator; 
+        typedef random_access_iterator<value_type> const_iterator;
+        typedef std::ptrdiff_t difference_type;
 
         explicit vector ()
         {
@@ -170,10 +178,7 @@ class vector
 
         void assign (size_type n, const T& val)
         {
-            for (size_type i(0); i < n; i++)
-            {
-                push_back(val);
-            }
+            assign(n, val, true_type());
         }
 
         void push_back(const value_type& val)
