@@ -12,7 +12,7 @@
 #endif
 
 
-#define NB_OF_ELEMENTS 200000
+#define NB_OF_ELEMENTS 2050
 #define FALSE 0
 
 unsigned long int	chrono_init(void)
@@ -280,16 +280,19 @@ void assign_vector_test()
 
 void test_insert()
 {
-    NAMESPACE::vector<int> myvector (3,100);
+    NAMESPACE::vector<int> myvector (5,100);
     NAMESPACE::vector<int>::iterator it;
 
+    //print_all_vectors_elements(myvector);
+    myvector.push_back(5);
     it = myvector.begin();
+    std::cout << myvector.end() - it << std::endl;
     it = myvector.insert ( it , 200 );
 
-    std::cout << it - myvector.end() << std::endl;
-    print_all_vectors_elements(myvector);
+    // std::cout << myvector.end() - it << std::endl;
 
     // myvector.insert (it,2,300);
+    // print_all_vectors_elements(myvector);
 
     // // "it" no longer valid, get a new one:
     // it = myvector.begin();
@@ -331,7 +334,7 @@ void test_constructor()
 int main()
 {
 
-    // NAMESPACE::vector<int> myvector;
+    NAMESPACE::vector<int> myvector;
 
     // test_constructor();
     // copy_constructor_time();

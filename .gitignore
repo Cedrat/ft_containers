@@ -2,3 +2,5 @@
 /.objs
 /.vscode
 a.out
+ft_test
+std_test

@@ -227,18 +227,47 @@ class vector
             iterator temp = position;
             if (_size == _capacity)
             {
+                std::cout << "REALLOC" << std::endl;
                 reserve(_capacity * 2);
             }
             pos = position - begin();
+
             while (position != end())
             {
-                _array[end() - position] = *position;
+                std::cerr << position - begin() << std::endl;
+                _array[position - begin()] = *position;
                 position++;
             }
             _array[pos] = val;
             _size++;
             return (temp);
         }
+
+        // void insert (iterator position, size_type n, const value_type& val)
+        // {
+        //     size_t pos;
+        //     //iterator temp = position;
+        //     if ((_size + n) > _capacity)
+        //     {
+        //         while ((_size + n) > _capacity)
+        //         {
+        //             _capacity *=2;
+        //         }
+        //         reserve(_capacity);
+        //     }
+        //     pos = position - begin();
+
+        //     while (position != end())
+        //     {
+        //         _array[end() - position + n] = *position;
+        //         position++;
+        //     }
+        //     for (size_t i = 0; i < n; i++)
+        //     {
+        //         _array[pos + i] = val; 
+        //     }
+        //     _size += n;
+        // }
 
 
         void resize (size_type n, value_type val = value_type())
