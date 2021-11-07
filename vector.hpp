@@ -33,10 +33,10 @@ class vector
         void reallocate(size_type new_capacity)
         {
             Alloc alloc;
-
-            alloc.deallocate(_array, capacity());
+            if (capacity() != 0)
+                alloc.deallocate(_array, capacity());
             _capacity = new_capacity;
-            _array = alloc.allocate(capacity() * sizeof(T*));
+            _array = alloc.allocate(capacity());
         }
         template<class Iterator>
         void assign(Iterator first, Iterator last, ft::false_type)
@@ -80,16 +80,29 @@ class vector
             _max_size = alloc.max_size();
         }
 
+        explicit vector (size_type n, const value_type& val = value_type(),
+                        const allocator_type& alloc = allocator_type())
+        {
+            assign(n, val);
+            _capacity = _size;
+            _max_size = alloc.max_size();
+        }
+
+        template <class InputIterator>
+        vector (InputIterator first, InputIterator last,
+                const allocator_type& alloc = allocator_type())
+        {
+            assign(first, last);
+            _capacity = _size;
+            _max_size = alloc.max_size();
+        }
         vector (const vector& x)
         {
             Alloc alloc;
-            _array = alloc.allocate(sizeof(T*) * x.size());
+            _array = alloc.allocate(x.size());
             _capacity = x.size();
             _max_size = alloc.max_size();
-            for (size_t i = 0; i < x.size(); i++) // in the future, use range of iterator 
-            {
-                push_back(x[i]);
-            }
+            assign(x.begin(), x.end());
         }
 
         ~vector()
@@ -105,12 +118,17 @@ class vector
 
         const_iterator begin() const
         {
-            return (begin());
+            return (iterator(_array));
         }
 
         iterator end()
         {
             return (iterator(_array + size()));
+        }
+
+        const_iterator end() const
+        {
+             return (iterator(_array + size()));
         }
 
         size_type capacity() const
@@ -201,6 +219,25 @@ class vector
         {
             _array[_size] = T();
             _size--;
+        }
+
+        iterator insert (iterator position, const value_type& val)
+        {
+            size_t pos;
+            iterator temp = position;
+            if (_size == _capacity)
+            {
+                reserve(_capacity * 2);
+            }
+            pos = position - begin();
+            while (position != end())
+            {
+                _array[end() - position] = *position;
+                position++;
+            }
+            _array[pos] = val;
+            _size++;
+            return (temp);
         }
 
 

@@ -110,6 +110,11 @@ namespace ft
                 return (lhs._ptr - rhs._ptr);
             }
 
+            // friend difference_type operator+(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
+            // {
+            //     return (lhs._ptr + rhs._ptr);
+            // }
+
             friend bool operator!=(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
             {
                 return (lhs._ptr != rhs._ptr);
