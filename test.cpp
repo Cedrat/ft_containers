@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sys/time.h>
 #include <ctime>
+#include <poll.h>
 
 
 #ifndef NAMESPACE
@@ -12,7 +13,7 @@
 #endif
 
 
-#define NB_OF_ELEMENTS 2050
+#define NB_OF_ELEMENTS 6
 #define FALSE 0
 
 unsigned long int	chrono_init(void)
@@ -281,32 +282,39 @@ void assign_vector_test()
 void test_insert()
 {
     NAMESPACE::vector<int> myvector (5,100);
+    NAMESPACE::vector<int> tyvector;
     NAMESPACE::vector<int>::iterator it;
 
-    //print_all_vectors_elements(myvector);
     myvector.push_back(5);
-    it = myvector.begin();
-    std::cout << myvector.end() - it << std::endl;
-    it = myvector.insert ( it , 200 );
+    // it = myvector.begin();
+    // it = myvector.insert ( it , 200 );
 
     // std::cout << myvector.end() - it << std::endl;
+    // myvector.clear();
+    for (int i = 0; i < 8; i++)
+    {
+        tyvector.push_back(i);
+    }
+    it = tyvector.end();
+    //print_all_vectors_elements(tyvector);
+    // print_all_vectors_elements(tyvector);
 
-    // myvector.insert (it,2,300);
-    // print_all_vectors_elements(myvector);
+    tyvector.insert (it,11,300);
+    print_all_vectors_elements(tyvector);
 
-    // // "it" no longer valid, get a new one:
-    // it = myvector.begin();
+    // "it" no longer valid, get a new one:
+    it = myvector.begin();
 
-    // NAMESPACE::vector<int> anothervector (2,400);
-    // myvector.insert (it+2,anothervector.begin(),anothervector.end());
+    NAMESPACE::vector<int> anothervector (2,400);
+    myvector.insert (it+2,anothervector.begin(),anothervector.end());
 
-    // int myarray [] = { 501,502,503 };
-    // myvector.insert (myvector.begin(), myarray, myarray+3);
+    int myarray [] = { 501,502,503 };
+    myvector.insert (myvector.begin(), myarray, myarray+3);
 
-    // std::cout << "myvector contains:";
-    // for (it=myvector.begin(); it<myvector.end(); it++)
-    // std::cout << ' ' << *it;
-    // std::cout << '\n';
+    std::cout << "myvector contains:";
+    for (it=myvector.begin(); it<myvector.end(); it++)
+    std::cout << ' ' << *it;
+    std::cout << '\n';
 
 }
 

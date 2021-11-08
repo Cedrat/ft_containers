@@ -16,10 +16,21 @@ namespace ft
 template <class T, class Alloc = std::allocator<T>> 
 class vector
 {
-    private :
+      public :
+
         typedef T value_type;
         typedef Alloc allocator_type;
         typedef size_t size_type;
+        typedef typename allocator_type::reference reference;
+        typedef typename allocator_type::const_reference const_reference;
+        typedef typename allocator_type::pointer pointer;
+        typedef typename allocator_type::const_pointer const_pointer;
+        typedef random_access_iterator<value_type> iterator;
+        typedef random_access_iterator<value_type> const_iterator;
+        typedef std::ptrdiff_t difference_type;
+
+    private :
+        
 
 
 
@@ -36,7 +47,7 @@ class vector
             if (capacity() != 0)
                 alloc.deallocate(_array, capacity());
             _capacity = new_capacity;
-            _array = alloc.allocate(capacity());
+            _array = alloc.allocate(capacity() * sizeof(T*));
         }
         template<class Iterator>
         void assign(Iterator first, Iterator last, ft::false_type)
@@ -62,16 +73,67 @@ class vector
             }
             _size = n;
         }
+
+        void insert (iterator position, size_type n, const value_type& val,  ft::true_type)
+        {
+            size_t pos;
+            pos = position - begin();
+            if ((_size + n) > _capacity)
+            {
+                _capacity = _size + n;
+                reserve(_capacity);
+            }
+            
+            iterator it_end = end();
+            _size+=n;
+            while ((position) != (it_end))
+            {
+                _array[it_end - begin() + n - 1] = *(it_end - 1);
+                it_end--;
+            }
+            for (size_t i = 0; i < pos; i++)
+            {
+                _array[i] = *(begin() + i);
+            }
+            for (size_t i = 0; i < n; i++)
+            {
+                _array[pos + i] = val; 
+            }
+        }
+
+        template <class InputIterator>
+        void insert (iterator position, InputIterator first, InputIterator last, ft::false_type)
+        {
+            size_t pos;
+            size_t range;
+
+            range = last - first;
+            pos = position - begin();
+            if ((_size + range) > _capacity)
+            {
+                _capacity = _size + range;
+                reserve(_capacity);
+            }
+            
+            iterator it_end = end();
+            _size+=range;
+            while ((position) != (it_end))
+            {
+                _array[it_end - begin() + range - 1] = *(it_end - 1);
+                it_end--;
+            }
+            for (size_t i = 0; i < pos; i++)
+            {
+                _array[i] = *(begin() + i);
+            }
+            for (size_t i = 0; i < range; i++)
+            {
+                _array[pos + i] = *first;
+                first++; 
+            }
+        }
     
     public :
-
-        typedef typename allocator_type::reference reference;
-        typedef typename allocator_type::const_reference const_reference;
-        typedef typename allocator_type::pointer pointer;
-        typedef typename allocator_type::const_pointer const_pointer;
-        typedef random_access_iterator<value_type> iterator;
-        typedef random_access_iterator<value_type> const_iterator;
-        typedef std::ptrdiff_t difference_type;
 
         explicit vector ()
         {
@@ -223,51 +285,58 @@ class vector
 
         iterator insert (iterator position, const value_type& val)
         {
-            size_t pos;
+            size_t temp_pos;
             iterator temp = position;
+            temp_pos = position - begin(); // == 0
             if (_size == _capacity)
             {
-                std::cout << "REALLOC" << std::endl;
                 reserve(_capacity * 2);
             }
-            pos = position - begin();
-
-            while (position != end())
-            {
-                std::cerr << position - begin() << std::endl;
-                _array[position - begin()] = *position;
-                position++;
-            }
-            _array[pos] = val;
             _size++;
+            iterator it_end = end() - 1;
+            while (position  != it_end)
+            {
+                _array[it_end - begin() + 1] = *it_end;
+                it_end--;
+            }
+            _array[temp_pos] = val;
+            
+
             return (temp);
         }
 
-        // void insert (iterator position, size_type n, const value_type& val)
-        // {
-        //     size_t pos;
-        //     //iterator temp = position;
-        //     if ((_size + n) > _capacity)
-        //     {
-        //         while ((_size + n) > _capacity)
-        //         {
-        //             _capacity *=2;
-        //         }
-        //         reserve(_capacity);
-        //     }
-        //     pos = position - begin();
+        void insert (iterator position, size_type n, const value_type& val)
+        {
+            size_t pos;
+            pos = position - begin();
+            if ((_size + n) > _capacity)
+            {
+                _capacity = _size + n;
+                reserve(_capacity);
+            }
+            
+            iterator it_end = end();
+            _size+=n;
+            while ((position) != (it_end))
+            {
+                _array[it_end - begin() + n - 1] = *(it_end - 1);
+                it_end--;
+            }
+            for (size_t i = 0; i < pos; i++)
+            {
+                _array[i] = *(begin() + i);
+            }
+            for (size_t i = 0; i < n; i++)
+            {
+                _array[pos + i] = val; 
+            }
+        }
 
-        //     while (position != end())
-        //     {
-        //         _array[end() - position + n] = *position;
-        //         position++;
-        //     }
-        //     for (size_t i = 0; i < n; i++)
-        //     {
-        //         _array[pos + i] = val; 
-        //     }
-        //     _size += n;
-        // }
+        template <class InputIterator>
+        void insert (iterator position, InputIterator first, InputIterator last)
+        {
+            insert(position, first, last, ft::is_integral<InputIterator>());
+        }
 
 
         void resize (size_type n, value_type val = value_type())
