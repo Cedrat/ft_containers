@@ -312,11 +312,11 @@ void test_insert()
     myvector.insert (myvector.begin(), myarray, myarray+3);
 
     print_all_vectors_elements(anothervector);
+    myvector.insert(myvector.begin(), tyvector.begin(), tyvector.end());
     std::cout << "myvector contains:";
     for (it=myvector.begin(); it<myvector.end(); it++)
     std::cout << ' ' << *it;
     std::cout << '\n';
-
 }
 
 
@@ -375,6 +375,29 @@ void test_erase()
 //     std::cout << ' ' << myvector[i];
 //   std::cout << '\n';
 }
+void test_swap()
+{
+    NAMESPACE::vector<int> foo (3,100);   // three ints with a value of 100
+    NAMESPACE::vector<int> bar (5,200);   // five ints with a value of 200
+
+    foo.swap(bar);
+    print_all_vectors_elements(foo);
+    print_all_vectors_elements(bar);
+
+}
+
+void test_equal()
+{
+    NAMESPACE::vector<int> foo (3,0);
+    NAMESPACE::vector<int> bar (5,0);
+
+    // print_all_vectors_elements(bar);
+    bar = foo;
+    // foo = NAMESPACE::vector<int>();
+    // print_all_vectors_elements(foo);
+    print_all_vectors_elements(bar);
+}
+
 int main()
 {
 
@@ -391,8 +414,10 @@ int main()
     // iterator_vector_test();
     // assign_vector_test();
     // test_insert();
-    test_erase();
+    // test_erase();
+    // test_equal();
+    test_swap();
 
 }
 
-//  std::vector<int>
+//  NAMESPACE::vector<int>

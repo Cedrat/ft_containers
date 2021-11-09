@@ -36,18 +36,21 @@ class vector
         size_type _capacity = 0;
         size_type _size = 0;
         size_type _max_size = 0;
+        bool      never_allocated = false;
 
         void reallocate(size_type new_capacity)
         {
             Alloc alloc;
-            alloc.deallocate(_array, capacity());
+            if (never_allocated & false)
+                alloc.deallocate(_array, capacity());
             _capacity = new_capacity;
             _array = alloc.allocate(capacity() * sizeof(T*));
         }
         template<class Iterator>
         void assign(Iterator first, Iterator last, ft::false_type)
         {
-            reallocate(last - first);
+            if ((last - first) > static_cast<long>(_capacity))
+                reallocate(last - first);
             _size = (last - first);
             int i(0);
             while (first != last)
@@ -61,7 +64,8 @@ class vector
 
         void assign(size_type n, const T& val, ft::true_type)
         {
-            reallocate(n);
+            if (n > _capacity)
+                reallocate(n);
             for (size_type i(0); i < n; i++)
             {
                 _array[i] = val;
@@ -140,6 +144,7 @@ class vector
         explicit vector (size_type n, const value_type& val = value_type(),
                         const allocator_type& alloc = allocator_type())
         {
+            never_allocated = true;
             assign(n, val);
             _capacity = _size;
             _max_size = alloc.max_size();
@@ -149,6 +154,7 @@ class vector
         vector (InputIterator first, InputIterator last,
                 const allocator_type& alloc = allocator_type())
         {
+            never_allocated = true;
             assign(first, last);
             _capacity = _size;
             _max_size = alloc.max_size();
@@ -378,6 +384,14 @@ class vector
             return (temp);
         }
 
+        void swap (vector &swapped)
+        {
+            vector<T> temp(swapped);
+
+            swapped = vector<T>(*this);
+            *this = temp;
+        }
+
         reference operator[] (size_type n)
         {
             return (_array[n]);
@@ -398,9 +412,10 @@ class vector
 		}
         vector& operator= (const vector& current)
         {
-            ft::vector<T> new_vector(current);
+            this->assign(current.begin(), current.end());
+            // reallocate(current.capacity());
 
-            return (new_vector);
+            return (*this);
         }
 };
 
