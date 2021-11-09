@@ -311,6 +311,7 @@ void test_insert()
     int myarray [] = { 501,502,503 };
     myvector.insert (myvector.begin(), myarray, myarray+3);
 
+    print_all_vectors_elements(anothervector);
     std::cout << "myvector contains:";
     for (it=myvector.begin(); it<myvector.end(); it++)
     std::cout << ' ' << *it;
@@ -339,6 +340,41 @@ void test_constructor()
     std::cout << ' ' << *it;
   std::cout << '\n';
 }
+
+void test_erase()
+{
+
+    NAMESPACE::vector<int> myvector;
+
+    // set some values (from 1 to 10)
+    for (int i=1; i<=20; i++) 
+        myvector.push_back(i);
+
+    // erase the 6th element
+    std::cout << *myvector.erase (myvector.begin()+5) << std::endl;
+    print_all_vectors_elements(myvector);
+    std::cout << *myvector.erase (myvector.begin()) << std::endl;
+    print_all_vectors_elements(myvector);
+    std::cout << *myvector.erase (myvector.end() - 1) << std::endl;
+    print_all_vectors_elements(myvector);
+
+
+
+  // erase the first 3 elements:
+    std::cout <<  *myvector.erase (myvector.begin(),myvector.begin()+3) << std::endl;
+     print_all_vectors_elements(myvector);
+    //erase the two last
+     std::cout <<  *myvector.erase (myvector.end() - 2,myvector.end()) << std::endl;
+     print_all_vectors_elements(myvector);
+
+    std::cout << * myvector.erase (myvector.begin() + 3, myvector.end() - 3) << std::endl;
+     print_all_vectors_elements(myvector);
+
+//   std::cout << "myvector contains:";
+//   for (unsigned i=0; i<myvector.size(); ++i)
+//     std::cout << ' ' << myvector[i];
+//   std::cout << '\n';
+}
 int main()
 {
 
@@ -354,7 +390,9 @@ int main()
     // at_vector_test();
     // iterator_vector_test();
     // assign_vector_test();
-    test_insert();
+    // test_insert();
+    test_erase();
+
 }
 
 //  std::vector<int>

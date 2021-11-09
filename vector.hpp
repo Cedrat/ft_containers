@@ -31,10 +31,6 @@ class vector
 
     private :
         
-
-
-
-        
         T*  _array;
         
         size_type _capacity = 0;
@@ -44,8 +40,7 @@ class vector
         void reallocate(size_type new_capacity)
         {
             Alloc alloc;
-            if (capacity() != 0)
-                alloc.deallocate(_array, capacity());
+            alloc.deallocate(_array, capacity());
             _capacity = new_capacity;
             _array = alloc.allocate(capacity() * sizeof(T*));
         }
@@ -351,6 +346,36 @@ class vector
 				while (n > size())
 					push_back(val);
             }
+        }
+
+        iterator erase (iterator position)
+        {
+            iterator it_end = end();
+            iterator temp = position;
+
+            while (temp != (it_end - 1))
+            {
+                _array[temp - begin()] = *(temp + 1); 
+                temp++;
+            }
+            _size--;
+            return (position);
+        }
+
+        iterator erase (iterator first, iterator last)
+        {
+            iterator temp = first;
+            size_t range = last - first;
+            iterator it_end = end();
+            _size -= range;
+            if (last == it_end)
+                return (end());
+            while (first != (it_end))
+            {
+                _array[first - begin()] = *(first + range);
+                first++;
+            }
+            return (temp);
         }
 
         reference operator[] (size_type n)
