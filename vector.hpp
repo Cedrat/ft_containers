@@ -29,9 +29,9 @@ class vector
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
         typedef random_access_iterator<value_type> iterator;
-        typedef const random_access_iterator<value_type> const_iterator;
+        typedef random_access_iterator<const value_type> const_iterator;
         typedef reverse_iterator<iterator> reverse_iterator;
-        // typedef const reverse_iterator<const_iterator> const_reverse_iterator;
+        // typedef reverse_iterator<const_iterator> const_reverse_iterator;
         typedef std::ptrdiff_t difference_type;
 
     private :
@@ -188,7 +188,7 @@ class vector
 
         const_iterator begin() const
         {
-            return (iterator(_array));
+            return (const_iterator(_array));
         }
 
         reverse_iterator rbegin()
@@ -208,7 +208,7 @@ class vector
 
         const_iterator end() const
         {
-             return (iterator(_array + size()));
+             return (const_iterator(_array + size()));
         }
 
         reverse_iterator rend()
@@ -257,7 +257,7 @@ class vector
 
         const_reference front() const
         {
-            return front();
+            return (_array[0]);
         }
 
         reference back()
@@ -267,7 +267,7 @@ class vector
 
         const_reference back() const
         {
-            return back();
+            return (_array[size() - 1]);
         }
 
 

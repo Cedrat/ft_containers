@@ -19,10 +19,16 @@ namespace ft
             random_access_iterator()
             {
             }
+
             random_access_iterator(pointer ptr) : _ptr(ptr)
             {
             }
-
+            
+            // random_access_iterator& operator=(random_access_iterator &rhs)
+            // {
+            //     this->_ptr = rhs._ptr;
+            //     return (*this);
+            // }
             reference operator*() const
             {
                 return (*_ptr);
@@ -38,12 +44,12 @@ namespace ft
                 return (_ptr);
             }
 
-            value_type operator[](int n) 
-            {
-                return (_ptr[n]);
-            }
+            // value_type operator[](int n) 
+            // {
+            //     return (_ptr[n]);
+            // }
 
-            const value_type operator[](int n) const
+            reference operator[](int n) const
             {
                 return (_ptr[n]);
             }
@@ -80,13 +86,13 @@ namespace ft
                 return (*this); 
             }
 
-            random_access_iterator operator +(int increment)
+            random_access_iterator operator +(int increment) const
             {
                 random_access_iterator temp = _ptr + increment;
                 return (temp); 
             }
 
-            random_access_iterator operator -(int decrement)
+            random_access_iterator operator -(int decrement) const 
             {
                 random_access_iterator temp = _ptr - decrement;
                 return (temp); 
@@ -114,6 +120,7 @@ namespace ft
             // {
             //     return (lhs._ptr + rhs._ptr);
             // }
+
 
             friend bool operator!=(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
             {

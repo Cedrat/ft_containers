@@ -37,13 +37,13 @@ unsigned long int	stamp_time(unsigned long int start_time)
 }
 
 template<class T>
-void print_element_i_vector(NAMESPACE::vector<T> the_vector, size_t index)
+void print_element_i_vector(NAMESPACE::vector<T> const & the_vector, size_t index)
 {
     std::cout << "value for index " << index << " : " << the_vector[index] << std::endl;
 }
 
 template<class T>
-void print_vector(NAMESPACE::vector<T> &the_vector)
+void print_vector(NAMESPACE::vector<T> const &the_vector)
 {
     std::cout << "size : " << the_vector.size() << std::endl;
     std::cout << "max_size : " << the_vector.max_size() << std::endl;
@@ -58,7 +58,7 @@ void print_vector(NAMESPACE::vector<T> &the_vector)
 };
 
 template<class T>
-void print_all_vectors_elements(NAMESPACE::vector<T> &the_vector)
+void print_all_vectors_elements(NAMESPACE::vector<T>  const &the_vector)
 {
     for (size_t i = 0 ; i < the_vector.size(); i++)
     {
@@ -237,6 +237,58 @@ void iterator_vector_test()
 
 }
 
+// void const_iterator_vector_test()
+// {
+    // std::cout << "iterator_test" << std::endl;
+    // NAMESPACE::vector<int> myvector;
+    // for (int i = 1 ; i < NB_OF_ELEMENTS ; i++) 
+    //     myvector.push_back(i);
+
+    // NAMESPACE::vector<int>::const_iterator it_begin;
+    // NAMESPACE::vector<int>::const_iterator it_end;
+
+    // it_begin = myvector.begin();
+    // it_end = myvector.end();
+
+
+    // std::cout << "increment test and while (it_begin != it_end)" << std::endl;
+    // std::cout << *it_begin << std::endl;
+    // while (it_begin != myvector.end())
+    // {
+    //     // *it_begin = 5;
+    //     std::cout << *it_begin << std::endl;
+    //     it_begin++;
+    // }
+    // it_begin = myvector.begin();
+    // it_end--;
+    // std::cout << "decrement test and while (it_begin != it_end)" << std::endl;
+    // while (it_begin != it_end)
+    // {
+    //     // *it_begin = 5;
+    //     std::cout << *--it_end << std::endl;
+    // }
+
+    // it_end = myvector.end();
+
+    // it_begin += 2;
+    // std::cout << *(it_begin) << std::endl;
+    // it_begin += 5;
+    // std::cout << *(it_begin) << std::endl;
+    // it_begin -= 3;
+//     std::cout << *(it_begin) << std::endl;
+//     std::cout << *(it_begin + 3) << std::endl;
+//     std::cout << *(it_begin - 3) << std::endl;
+//     std::cout << it_begin[1] << std::endl;
+//     std::cout << (it_begin[1] > it_begin[0]) << std::endl;
+//     std::cout << (it_begin[1] < it_begin[0]) << std::endl;
+//     std::cout << (it_begin[1] >= it_begin[0]) << std::endl;
+//     std::cout << (it_begin[0] >= it_begin[0]) << std::endl;
+//     std::cout << (it_begin[1] <= it_begin[0]) << std::endl;
+//     std::cout << (it_begin[0] <= it_begin[0]) << std::endl;
+
+
+// }
+
 void copy_constructor_time()
 {
     NAMESPACE::vector<int> my_vector;
@@ -328,6 +380,27 @@ void test_constructor()
   NAMESPACE::vector<int> second (4,100);                       // four ints with value 100
   NAMESPACE::vector<int> third (second.begin(),second.end());  // iterating through second
   NAMESPACE::vector<int> fourth (third);                       // a copy of third
+
+  // the iterator constructor can also be used to construct from arrays:
+  int myints[] = {16,2,77,29};
+  print_all_vectors_elements(second);
+  print_all_vectors_elements(third);
+  NAMESPACE::vector<int> fifth (myints, myints + sizeof(myints) / sizeof(int) );
+
+  std::cout << "The contents of fifth are:";
+  for (NAMESPACE::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+}
+
+void test_const_constructor()
+{
+    
+  // constructors used in the same order as described above:
+    const NAMESPACE::vector<int> first;                                // empty vector of ints
+    const NAMESPACE::vector<int> second (4,100);                       // four ints with value 100
+    const NAMESPACE::vector<int> third (second.begin(),second.end());  // iterating through second
+    const NAMESPACE::vector<int> fourth (third);                       // a copy of third
 
   // the iterator constructor can also be used to construct from arrays:
   int myints[] = {16,2,77,29};
@@ -558,6 +631,7 @@ void test_reverse_iterator()
     //     rit_end -= 1;
     //     std::cout << rit_end[0] << std::endl;
     // }
+    // rit_end = myvector.rend();
     // for (size_t i = 0; i < myvector.size(); i++)
     // {
     //     std::cout << rit_begin[i] << std::endl;
@@ -575,28 +649,30 @@ int main()
 
     NAMESPACE::vector<int> myvector;
 
-    // test_constructor();
-    // copy_constructor_time();
-    // push_back_test<int>(myvector);
-    // pop_back_test<int>(myvector);
-    // test_insert();
-    // resize_vector_test();
-    // reserve_vector_test();
-    // at_vector_test();
-    // iterator_vector_test();
-    // assign_vector_test();
-    // test_insert();
-    // test_erase();
-    // test_assign();
-    // test_swap();
-    // test_clear();
+    test_constructor();
+    test_const_constructor();
+    copy_constructor_time();
+    push_back_test<int>(myvector);
+    pop_back_test<int>(myvector);
+    test_insert();
+    resize_vector_test();
+    reserve_vector_test();
+    at_vector_test();
+    iterator_vector_test();
+    // const_iterator_vector_test();
+    assign_vector_test();
+    test_insert();
+    test_erase();
+    test_assign();
+    test_swap();
+    test_clear();
 
-    // test_get_alloc();
-    // test_comparison();
-    // test_swap_external();
-    // test_reverse_iterator();
-    // test_comparison_iterator();
+    test_get_alloc();
+    test_comparison();
+    test_swap_external();
+    test_reverse_iterator();
+    test_comparison_iterator();
 
 }
 
-//  NAMESPACE::vector<int>
+//  std::vector<int>
