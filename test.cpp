@@ -386,7 +386,7 @@ void test_swap()
 
 }
 
-void test_equal()
+void test_assign()
 {
     NAMESPACE::vector<int> foo (3,0);
     NAMESPACE::vector<int> bar (5,0);
@@ -398,10 +398,73 @@ void test_equal()
     print_all_vectors_elements(bar);
 }
 
+void test_clear()
+{
+    NAMESPACE::vector<int> myvector;
+    myvector.push_back (100);
+    myvector.push_back (200);
+    myvector.push_back (300);
+
+    std::cout << "myvector contains:";
+    print_all_vectors_elements(myvector);
+
+
+    myvector.clear();
+    myvector.push_back (1101);
+    myvector.push_back (2202);
+
+    std::cout << "myvector contains:";
+    print_all_vectors_elements(myvector);
+}
+
+void test_get_alloc()
+{
+    std::vector<int> myvector;
+    int * p;
+    unsigned int i;
+
+    // allocate an array with space for 5 elements using vector's allocator:
+    p = myvector.get_allocator().allocate(5);
+
+    // construct values in-place on the array:
+    for (i=0; i<5; i++) myvector.get_allocator().construct(&p[i],i);
+
+    std::cout << "The allocated array contains:";
+    for (i=0; i<5; i++) std::cout << ' ' << p[i];
+    std::cout << '\n';
+
+    // destroy and deallocate:
+    for (i=0; i<5; i++) myvector.get_allocator().destroy(&p[i]);
+    myvector.get_allocator().deallocate(p,5);
+}
+
+void test_comparison()
+{
+    NAMESPACE::vector<int> foo (3,100); 
+    NAMESPACE::vector<int> bar (2,200);
+    NAMESPACE::vector<int> truite(2, 100);
+    NAMESPACE::vector<int> saumon(2, 100);
+
+    std::cout << (foo == bar) << std::endl;
+    std::cout << (foo == truite) << std::endl;
+    std::cout << (foo == saumon) << std::endl;
+    std::cout << (bar == truite) << std::endl;
+    std::cout << (bar == saumon) << std::endl;
+    std::cout << (truite == saumon) << std::endl;
+
+    std::cout << (foo != bar) << std::endl;
+    std::cout << (foo != truite) << std::endl;
+    std::cout << (foo != saumon) << std::endl;
+    std::cout << (bar != truite) << std::endl;
+    std::cout << (bar != saumon) << std::endl;
+    std::cout << (truite != saumon) << std::endl;
+}
+
+
 int main()
 {
 
-    NAMESPACE::vector<int> myvector;
+    // NAMESPACE::vector<int> myvector;
 
     // test_constructor();
     // copy_constructor_time();
@@ -415,8 +478,12 @@ int main()
     // assign_vector_test();
     // test_insert();
     // test_erase();
-    // test_equal();
-    test_swap();
+    // test_assign();
+    // test_swap();
+    // test_clear();
+
+    // test_get_alloc();
+    test_comparison();
 
 }
 

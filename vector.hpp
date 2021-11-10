@@ -41,7 +41,7 @@ class vector
         void reallocate(size_type new_capacity)
         {
             Alloc alloc;
-            if (never_allocated & false)
+            if (never_allocated == false)
                 alloc.deallocate(_array, capacity());
             _capacity = new_capacity;
             _array = alloc.allocate(capacity() * sizeof(T*));
@@ -146,6 +146,7 @@ class vector
         {
             never_allocated = true;
             assign(n, val);
+            never_allocated = false;
             _capacity = _size;
             _max_size = alloc.max_size();
         }
@@ -156,6 +157,7 @@ class vector
         {
             never_allocated = true;
             assign(first, last);
+            never_allocated = false;
             _capacity = _size;
             _max_size = alloc.max_size();
         }
@@ -392,6 +394,16 @@ class vector
             *this = temp;
         }
 
+        void clear()
+        {
+            while(_size)
+            {
+                Alloc alloc;
+                alloc.destroy(&_array[_size - 1]);
+                _size--;
+            }
+        }
+
         reference operator[] (size_type n)
         {
             return (_array[n]);
@@ -417,7 +429,32 @@ class vector
 
             return (*this);
         }
+
+        allocator_type get_allocator() const
+        {
+            return (Alloc());
+        }
 };
+    template <class T, class Alloc>
+    bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        if (lhs.size() == rhs.size())
+        {
+            for (size_t i = 0; i < lhs.size() ; i++)
+            {
+                if (lhs[i] != rhs[i])
+                    return (false);
+            }
+        }
+        else
+            return (false);
+        return (true);
+    }
+    template <class T, class Alloc>
+    bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (!(lhs == rhs));
+    }
 
 };
 
