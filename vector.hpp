@@ -6,6 +6,9 @@
 #include "random_access_iterator.hpp"
 #include "is_integral.hpp"
 #include "enable_if.hpp"
+#include "lexicographical_compare.hpp"
+#include "reverse_iterator.hpp"
+
 
 #define FALSE 0
 #define TRUE 1
@@ -26,7 +29,9 @@ class vector
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
         typedef random_access_iterator<value_type> iterator;
-        typedef random_access_iterator<value_type> const_iterator;
+        typedef const random_access_iterator<value_type> const_iterator;
+        typedef reverse_iterator<iterator> reverse_iterator;
+        // typedef const reverse_iterator<const_iterator> const_reverse_iterator;
         typedef std::ptrdiff_t difference_type;
 
     private :
@@ -93,7 +98,7 @@ class vector
             for (size_t i = 0; i < pos; i++)
             {
                 _array[i] = *(begin() + i);
-            }
+            }   
             for (size_t i = 0; i < n; i++)
             {
                 _array[pos + i] = val; 
@@ -186,6 +191,16 @@ class vector
             return (iterator(_array));
         }
 
+        reverse_iterator rbegin()
+        {
+            return (reverse_iterator(_array + size() - 1));
+        }
+
+        // const_reverse_iterator rbegin() const
+        // {
+        //     return (iterator(_array));
+        // }
+
         iterator end()
         {
             return (iterator(_array + size()));
@@ -194,6 +209,11 @@ class vector
         const_iterator end() const
         {
              return (iterator(_array + size()));
+        }
+
+        reverse_iterator rend()
+        {
+            return (reverse_iterator(_array - 1));
         }
 
         size_type capacity() const
@@ -390,7 +410,9 @@ class vector
         {
             vector<T> temp(swapped);
 
+            swapped.reallocate(this->capacity());
             swapped = vector<T>(*this);
+            this->reallocate(temp.capacity());
             *this = temp;
         }
 
@@ -424,8 +446,8 @@ class vector
 		}
         vector& operator= (const vector& current)
         {
-            this->assign(current.begin(), current.end());
             // reallocate(current.capacity());
+            this->assign(current.begin(), current.end());
 
             return (*this);
         }
@@ -454,6 +476,35 @@ class vector
     bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
     {
         return (!(lhs == rhs));
+    }
+    template <class T, class Alloc>
+    bool operator < (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+    }
+    
+    template <class T, class Alloc>
+    bool operator > (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (rhs < lhs);
+    }
+
+    template <class T, class Alloc>
+    bool operator <= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (!(rhs < lhs));
+    }
+
+    template <class T, class Alloc>
+    bool operator >= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+    {
+        return (!(rhs > lhs));
+    }
+    
+    template <class T, class Alloc>
+    void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+    {
+        x.swap(y);
     }
 
 };

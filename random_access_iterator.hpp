@@ -74,6 +74,12 @@ namespace ft
                 return (*this); 
             }
 
+            random_access_iterator & operator -=(int decrement)
+            {
+                _ptr = _ptr - decrement;
+                return (*this); 
+            }
+
             random_access_iterator operator +(int increment)
             {
                 random_access_iterator temp = _ptr + increment;
@@ -90,12 +96,6 @@ namespace ft
             // {
             //     return (_ptr - second._ptr); 
             // }
-
-            random_access_iterator & operator -=(int decrement)
-            {
-                _ptr = _ptr - decrement;
-                return (*this); 
-            }
 
             random_access_iterator operator--(int)
             {

@@ -13,7 +13,7 @@
 #endif
 
 
-#define NB_OF_ELEMENTS 6
+#define NB_OF_ELEMENTS 100
 #define FALSE 0
 
 unsigned long int	chrono_init(void)
@@ -458,13 +458,122 @@ void test_comparison()
     std::cout << (bar != truite) << std::endl;
     std::cout << (bar != saumon) << std::endl;
     std::cout << (truite != saumon) << std::endl;
+
+    std::cout << (foo < bar) << std::endl;
+    std::cout << (foo < truite) << std::endl;
+    std::cout << (foo < saumon) << std::endl;
+    std::cout << (bar < truite) << std::endl;
+    std::cout << (bar < saumon) << std::endl;
+    std::cout << (truite < saumon) << std::endl;
+
+    std::cout << (foo > bar) << std::endl;
+    std::cout << (foo > truite) << std::endl;
+    std::cout << (foo > saumon) << std::endl;
+    std::cout << (bar > truite) << std::endl;
+    std::cout << (bar > saumon) << std::endl;
+    std::cout << (truite > saumon) << std::endl;
+
+    std::cout << (foo >= bar) << std::endl;
+    std::cout << (foo >= truite) << std::endl;
+    std::cout << (foo >= saumon) << std::endl;
+    std::cout << (bar >= truite) << std::endl;
+    std::cout << (bar >= saumon) << std::endl;
+    std::cout << (truite >= saumon) << std::endl;
+
+    std::cout << (foo <= bar) << std::endl;
+    std::cout << (foo <= truite) << std::endl;
+    std::cout << (foo <= saumon) << std::endl;
+    std::cout << (bar <= truite) << std::endl;
+    std::cout << (bar <= saumon) << std::endl;
+    std::cout << (truite <= saumon) << std::endl;
 }
 
+void test_swap_external()
+{
+    NAMESPACE::vector<int> foo (5,100);   // three ints with a value of 100
+    NAMESPACE::vector<int> bar (3,200);   // five ints with a value of 200
+
+    foo.swap(bar);
+
+    std::cout << "foo contains:";
+    print_all_vectors_elements(foo);
+
+    std::cout << "bar contains:";
+    print_all_vectors_elements(bar);
+
+}
+
+
+void test_reverse_iterator()
+{
+    NAMESPACE::vector<int> myvector;
+
+    for (int i = 0; i < 20; i++)
+    {
+        myvector.push_back(i);
+    }
+
+    NAMESPACE::vector<int>::reverse_iterator rit_begin = myvector.rbegin();
+    NAMESPACE::vector<int>::reverse_iterator rit_end = myvector.rend();
+
+    while (rit_begin != rit_end)
+    {
+        std::cout << *rit_begin << std::endl;
+        rit_begin++;
+    }
+    rit_begin = myvector.rbegin();
+    // while (rit_begin != rit_end)
+    // {
+    //     std::cout << *rit_begin << std::endl;
+    //     rit_begin++;
+    // }
+    while (rit_begin != rit_end)
+    {
+        rit_end--;
+        std::cout << *rit_end << std::endl;
+    }
+    rit_end = myvector.rend();
+    while (rit_begin != rit_end)
+    {
+        rit_begin = rit_begin + 1;
+        std::cout << *rit_begin << std::endl;
+    }
+    rit_begin = myvector.rbegin();
+    while (rit_begin != rit_end)
+    {
+        rit_end = rit_end - 1;
+        std::cout << *rit_end << std::endl;
+    }
+
+    rit_end = myvector.rend();
+    while (rit_begin != rit_end)
+    {
+        rit_begin +=1;
+        std::cout << *rit_begin << std::endl;
+    }
+
+    // rit_begin = myvector.rbegin();
+    // while (rit_begin != rit_end)
+    // {
+    //     rit_end -= 1;
+    //     std::cout << rit_end[0] << std::endl;
+    // }
+    // for (size_t i = 0; i < myvector.size(); i++)
+    // {
+    //     std::cout << rit_begin[i] << std::endl;
+    // }
+
+}
+
+void test_comparison_iterator()
+{
+
+}
 
 int main()
 {
 
-    // NAMESPACE::vector<int> myvector;
+    NAMESPACE::vector<int> myvector;
 
     // test_constructor();
     // copy_constructor_time();
@@ -483,7 +592,10 @@ int main()
     // test_clear();
 
     // test_get_alloc();
-    test_comparison();
+    // test_comparison();
+    // test_swap_external();
+    // test_reverse_iterator();
+    // test_comparison_iterator();
 
 }
 
