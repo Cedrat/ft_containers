@@ -16,7 +16,7 @@
 namespace ft
 {
 
-template <class T, class Alloc = std::allocator<T>> 
+template <class T, class Alloc = std::allocator<T> > 
 class vector
 {
       public :
@@ -30,18 +30,18 @@ class vector
         typedef typename allocator_type::const_pointer const_pointer;
         typedef random_access_iterator<value_type> iterator;
         typedef const_random_access_iterator<value_type> const_iterator;
+        typedef reverse_iterator<const_iterator> const_reverse_iterator;
         typedef reverse_iterator<iterator> reverse_iterator;
-        // typedef reverse_iterator<const_iterator> const_reverse_iterator;
         typedef std::ptrdiff_t difference_type;
 
     private :
         
         T*  _array;
         
-        size_type _capacity = 0;
-        size_type _size = 0;
-        size_type _max_size = 0;
-        bool      never_allocated = false;
+        size_type _capacity ;
+        size_type _size ;
+        size_type _max_size ;
+        bool      never_allocated;
 
         void reallocate(size_type new_capacity)
         {
@@ -137,10 +137,19 @@ class vector
             }
         }
     
+        void initialize()
+        {
+            _capacity = 0;
+            _size = 0;
+            _max_size = 0;
+            never_allocated = false;
+        }
+
     public :
 
         explicit vector ()
         {
+            initialize();
              Alloc alloc;
             _array = alloc.allocate(sizeof(T*) * 0);
             _max_size = alloc.max_size();
@@ -149,6 +158,7 @@ class vector
         explicit vector (size_type n, const value_type& val = value_type(),
                         const allocator_type& alloc = allocator_type())
         {
+            initialize();
             never_allocated = true;
             assign(n, val);
             never_allocated = false;
@@ -160,6 +170,7 @@ class vector
         vector (InputIterator first, InputIterator last,
                 const allocator_type& alloc = allocator_type())
         {
+            initialize();
             never_allocated = true;
             assign(first, last);
             never_allocated = false;
@@ -168,6 +179,7 @@ class vector
         }
         vector (const vector& x)
         {
+            initialize();
             Alloc alloc;
             _array = alloc.allocate(x.size());
             _capacity = x.size();
@@ -442,7 +454,9 @@ class vector
 		}
 		const_reference at (size_type n) const
 		{
-			return at(n);
+			if (n < 0 || n >= size())
+				throw (std::out_of_range("ft::vector at out_of_range"));
+			return (_array[n]);
 		}
         vector& operator= (const vector& current)
         {

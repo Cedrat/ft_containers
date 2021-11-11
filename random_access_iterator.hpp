@@ -11,7 +11,7 @@ namespace ft
 
         public :
             typedef random_access_iterator_tag iterator_category;
-            typedef ptrdiff_t difference_type;
+            typedef long difference_type;
             typedef T value_type;
             typedef T* pointer;
             typedef T& reference;
@@ -116,10 +116,10 @@ namespace ft
                 return (lhs._ptr - rhs._ptr);
             }
 
-            // friend difference_type operator+(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
-            // {
-            //     return (lhs._ptr + rhs._ptr);
-            // }
+            friend random_access_iterator operator+(const random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
+            {
+                return (rhs + lhs._ptr);
+            }
 
 
             friend bool operator!=(const random_access_iterator<T> &lhs, const random_access_iterator<T> &rhs)
@@ -162,7 +162,7 @@ namespace ft
 
         public :
             typedef random_access_iterator_tag iterator_category;
-            typedef ptrdiff_t difference_type;
+            typedef long difference_type;
             typedef const T value_type;
             typedef const T* pointer;
             typedef const T& reference;

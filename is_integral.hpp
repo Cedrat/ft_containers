@@ -8,12 +8,12 @@ namespace ft
     template <class T, T v>
     struct integral_constant
     {
-        static constexpr    T value = v;
+        static const    T value = v;
         
         typedef T value_type;
         typedef integral_constant<T,v> type;
         
-        constexpr operator T() const
+        const T operator()() const
         {
             return value; 
         }
@@ -38,13 +38,13 @@ namespace ft
     struct is_integral_no_cv<char> : public true_type
     {};
 
-    template<>
-    struct is_integral_no_cv<char16_t> : public true_type
-    {};
+    // template<>
+    // struct is_integral_no_cv<char16_t> : public true_type
+    // {};
 
-    template<>
-    struct is_integral_no_cv<char32_t> : public true_type
-    {};
+    // template<>
+    // struct is_integral_no_cv<char32_t> : public true_type
+    // {};
 
     template<>
     struct is_integral_no_cv<wchar_t> : public true_type
