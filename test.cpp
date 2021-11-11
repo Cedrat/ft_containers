@@ -237,18 +237,18 @@ void iterator_vector_test()
 
 }
 
-// void const_iterator_vector_test()
-// {
-    // std::cout << "iterator_test" << std::endl;
-    // NAMESPACE::vector<int> myvector;
-    // for (int i = 1 ; i < NB_OF_ELEMENTS ; i++) 
-    //     myvector.push_back(i);
+void const_iterator_vector_test()
+{
+    std::cout << "iterator_test" << std::endl;
+    NAMESPACE::vector<int> myvector;
+    for (int i = 1 ; i < NB_OF_ELEMENTS ; i++) 
+        myvector.push_back(i);
 
-    // NAMESPACE::vector<int>::const_iterator it_begin;
-    // NAMESPACE::vector<int>::const_iterator it_end;
+    NAMESPACE::vector<int>::const_iterator it_begin;
+    NAMESPACE::vector<int>::const_iterator it_end;
 
-    // it_begin = myvector.begin();
-    // it_end = myvector.end();
+    it_begin = myvector.begin();
+    it_end = myvector.end();
 
 
     // std::cout << "increment test and while (it_begin != it_end)" << std::endl;
@@ -275,19 +275,19 @@ void iterator_vector_test()
     // it_begin += 5;
     // std::cout << *(it_begin) << std::endl;
     // it_begin -= 3;
-//     std::cout << *(it_begin) << std::endl;
-//     std::cout << *(it_begin + 3) << std::endl;
-//     std::cout << *(it_begin - 3) << std::endl;
-//     std::cout << it_begin[1] << std::endl;
-//     std::cout << (it_begin[1] > it_begin[0]) << std::endl;
-//     std::cout << (it_begin[1] < it_begin[0]) << std::endl;
-//     std::cout << (it_begin[1] >= it_begin[0]) << std::endl;
-//     std::cout << (it_begin[0] >= it_begin[0]) << std::endl;
-//     std::cout << (it_begin[1] <= it_begin[0]) << std::endl;
-//     std::cout << (it_begin[0] <= it_begin[0]) << std::endl;
+    // std::cout << *(it_begin) << std::endl;
+    // std::cout << *(it_begin + 3) << std::endl;
+    // std::cout << *(it_begin - 3) << std::endl;
+    // std::cout << it_begin[1] << std::endl;
+    // std::cout << (it_begin[1] > it_begin[0]) << std::endl;
+    // std::cout << (it_begin[1] < it_begin[0]) << std::endl;
+    // std::cout << (it_begin[1] >= it_begin[0]) << std::endl;
+    // std::cout << (it_begin[0] >= it_begin[0]) << std::endl;
+    // std::cout << (it_begin[1] <= it_begin[0]) << std::endl;
+    // std::cout << (it_begin[0] <= it_begin[0]) << std::endl;
 
 
-// }
+}
 
 void copy_constructor_time()
 {
@@ -649,29 +649,29 @@ int main()
 
     NAMESPACE::vector<int> myvector;
 
-    test_constructor();
-    test_const_constructor();
-    copy_constructor_time();
-    push_back_test<int>(myvector);
-    pop_back_test<int>(myvector);
-    test_insert();
-    resize_vector_test();
-    reserve_vector_test();
-    at_vector_test();
-    iterator_vector_test();
-    // const_iterator_vector_test();
-    assign_vector_test();
-    test_insert();
-    test_erase();
-    test_assign();
-    test_swap();
-    test_clear();
+    // test_constructor();
+    // test_const_constructor();
+    // copy_constructor_time();
+    // push_back_test<int>(myvector);
+    // pop_back_test<int>(myvector);
+    // test_insert();
+    // resize_vector_test();
+    // reserve_vector_test();
+    // at_vector_test();
+    // iterator_vector_test();
+    const_iterator_vector_test();
+    // assign_vector_test();
+    // test_insert();
+    // test_erase();
+    // test_assign();
+    // test_swap();
+    // test_clear();
 
-    test_get_alloc();
-    test_comparison();
-    test_swap_external();
-    test_reverse_iterator();
-    test_comparison_iterator();
+    // test_get_alloc();
+    // test_comparison();
+    // test_swap_external();
+    // test_reverse_iterator();
+    // test_comparison_iterator();
 
 }
 

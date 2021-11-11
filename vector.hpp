@@ -29,7 +29,7 @@ class vector
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
         typedef random_access_iterator<value_type> iterator;
-        typedef random_access_iterator<const value_type> const_iterator;
+        typedef const_random_access_iterator<value_type> const_iterator;
         typedef reverse_iterator<iterator> reverse_iterator;
         // typedef reverse_iterator<const_iterator> const_reverse_iterator;
         typedef std::ptrdiff_t difference_type;
@@ -181,15 +181,6 @@ class vector
             alloc.deallocate(_array, capacity());
         }
 
-        iterator begin()
-        {
-            return (iterator(_array));
-        }
-
-        const_iterator begin() const
-        {
-            return (const_iterator(_array));
-        }
 
         reverse_iterator rbegin()
         {
@@ -200,6 +191,15 @@ class vector
         // {
         //     return (iterator(_array));
         // }
+        iterator begin()
+        {
+            return (iterator(_array));
+        }
+
+        const_iterator begin() const
+        {
+            return (const_iterator(_array));
+        }
 
         iterator end()
         {
