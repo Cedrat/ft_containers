@@ -8,6 +8,7 @@
 #include "enable_if.hpp"
 #include "lexicographical_compare.hpp"
 #include "reverse_iterator.hpp"
+#include "ft_distance.hpp"
 
 
 #define FALSE 0
@@ -54,9 +55,9 @@ class vector
         template<class Iterator>
         void assign(Iterator first, Iterator last, ft::false_type)
         {
-            if ((last - first) > static_cast<long>(_capacity))
-                reallocate(last - first);
-            _size = (last - first);
+            _size = ft::distance(first, last);
+            if (_size > _capacity)
+                reallocate(_size);
             int i(0);
             while (first != last)
             {
@@ -111,7 +112,7 @@ class vector
             size_t pos;
             size_t range;
 
-            range = last - first;
+            range = ft::distance(first, last);
             pos = position - begin();
             if ((_size + range) > _capacity)
             {

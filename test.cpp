@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #include <ctime>
 #include <poll.h>
+#include <list>
 
 
 #ifndef NAMESPACE
@@ -185,6 +186,27 @@ void at_vector_test()
     }
 }
 
+
+void bidirect_it()
+{
+    std::list<int> lst;
+	std::list<int>::iterator lst_it;
+	for (int i = 1; i < 5; ++i)
+		lst.push_back(i * 3);
+
+	NAMESPACE::vector<int> vct(lst.begin(), lst.end());
+	//printSize(vct);
+
+	lst_it = lst.begin();
+	for (int i = 1; lst_it != lst.end(); ++i)
+		*lst_it++ = i * 5;
+	vct.assign(lst.begin(), lst.end());
+	//printSize(vct);
+
+	vct.insert(vct.end(), lst.rbegin(), lst.rend());
+	//printSize(vct);
+	//return (0);
+}
 void iterator_vector_test()
 {
     std::cout << "iterator_test" << std::endl;
@@ -649,18 +671,18 @@ int main()
 
     NAMESPACE::vector<int> myvector;
 
-    // test_constructor();
-    // test_const_constructor();
-    // copy_constructor_time();
-    // push_back_test<int>(myvector);
-    // pop_back_test<int>(myvector);
-    // test_insert();
-    // resize_vector_test();
-    // reserve_vector_test();
-    // at_vector_test();
-    // iterator_vector_test();
+    test_constructor();
+    test_const_constructor();
+    copy_constructor_time();
+    push_back_test<int>(myvector);
+    pop_back_test<int>(myvector);
+    test_insert();
+    resize_vector_test();
+    reserve_vector_test();
+    at_vector_test();
+    iterator_vector_test();
     const_iterator_vector_test();
-    // assign_vector_test();
+    assign_vector_test();
     // test_insert();
     // test_erase();
     // test_assign();
@@ -672,6 +694,7 @@ int main()
     // test_swap_external();
     // test_reverse_iterator();
     // test_comparison_iterator();
+    // bidirect_it();
 
 }
 
