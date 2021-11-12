@@ -186,6 +186,72 @@ void at_vector_test()
     }
 }
 
+void	prepost_incdec(NAMESPACE::vector<int> &my_vector)
+{
+	NAMESPACE::vector<int>::iterator it = my_vector.begin();
+	NAMESPACE::vector<int>::iterator it_tmp;
+
+	std::cout << "Pre inc" << std::endl;
+	it_tmp = ++it;
+	std::cout << *it_tmp << " | " << *it << std::endl;
+
+	std::cout << "Pre dec" << std::endl;
+	it_tmp = --it;
+	std::cout << *it_tmp << " | " << *it << std::endl;
+
+	std::cout << "Post inc" << std::endl;
+	it_tmp = it++;
+	std::cout << *it_tmp << " | " << *it << std::endl;
+
+	std::cout << "Post dec" << std::endl;
+	it_tmp = it--;
+	std::cout << *it_tmp << " | " << *it << std::endl;
+	std::cout << "###############################################" << std::endl;
+}
+
+void		ite()
+{
+	const int size = 5;
+	NAMESPACE::vector<int> my_vector(size);
+	NAMESPACE::vector<int>::iterator it = my_vector.begin();
+	NAMESPACE::vector<int>::const_iterator ite = my_vector.begin();
+
+	for (int i = 0; i < size; ++i)
+		it[i] = (size - i) * 5;
+	prepost_incdec(my_vector);
+
+	it = it + 5;
+	it = 1 + it;
+	it = it - 4;
+	std::cout << *(it += 2) << std::endl;
+	std::cout << *(it -= 1) << std::endl;
+
+	*(it -= 2) = 42;
+	*(it += 2) = 21;
+
+	std::cout << "const_ite +=: " << *(ite += 2) << std::endl;
+	std::cout << "const_ite -=: " << *(ite -= 2) << std::endl;
+
+	std::cout << "(it == const_it): " << (ite == it) << std::endl;
+	std::cout << "(const_ite - it): " << (ite - it) << std::endl;
+	std::cout << "(ite + 3 == it): " << (ite + 3 == it) << std::endl;
+
+	print_all_vectors_elements(my_vector);
+}
+
+void rev_ite_construct()
+{
+    NAMESPACE::vector<int> my_vector;
+	NAMESPACE::vector<int>::iterator it = my_vector.begin();
+	NAMESPACE::vector<int>::const_iterator cit = my_vector.begin();
+
+	NAMESPACE::vector<int>::reverse_iterator rit(it);
+
+	NAMESPACE::vector<int>::const_reverse_iterator crit(rit);
+	NAMESPACE::vector<int>::const_reverse_iterator crit_(it);
+	NAMESPACE::vector<int>::const_reverse_iterator crit_2(cit);
+
+}
 
 void bidirect_it()
 {
@@ -194,17 +260,17 @@ void bidirect_it()
 	for (int i = 1; i < 5; ++i)
 		lst.push_back(i * 3);
 
-	NAMESPACE::vector<int> vct(lst.begin(), lst.end());
-	//printSize(vct);
+	NAMESPACE::vector<int> my_vector(lst.begin(), lst.end());
+	//printSize(my_vector);
 
 	lst_it = lst.begin();
 	for (int i = 1; lst_it != lst.end(); ++i)
 		*lst_it++ = i * 5;
-	vct.assign(lst.begin(), lst.end());
-	//printSize(vct);
+	my_vector.assign(lst.begin(), lst.end());
+	//printSize(my_vector);
 
-	vct.insert(vct.end(), lst.rbegin(), lst.rend());
-	//printSize(vct);
+	my_vector.insert(my_vector.end(), lst.rbegin(), lst.rend());
+	//printSize(my_vector);
 	//return (0);
 }
 void iterator_vector_test()
@@ -669,20 +735,20 @@ void test_comparison_iterator()
 int main()
 {
 
-    NAMESPACE::vector<int> myvector;
+    // NAMESPACE::vector<int> myvector;
 
-    test_constructor();
-    test_const_constructor();
-    copy_constructor_time();
-    push_back_test<int>(myvector);
-    pop_back_test<int>(myvector);
-    test_insert();
-    resize_vector_test();
-    reserve_vector_test();
-    at_vector_test();
-    iterator_vector_test();
-    const_iterator_vector_test();
-    assign_vector_test();
+    // test_constructor();
+    // test_const_constructor();
+    // copy_constructor_time();
+    // push_back_test<int>(myvector);
+    // pop_back_test<int>(myvector);
+    // test_insert();
+    // resize_vector_test();
+    // reserve_vector_test();
+    // at_vector_test();
+    // iterator_vector_test();
+    // const_iterator_vector_test();
+    // assign_vector_test();
     // test_insert();
     // test_erase();
     // test_assign();
@@ -695,6 +761,8 @@ int main()
     // test_reverse_iterator();
     // test_comparison_iterator();
     // bidirect_it();
+    // ite();
+    rev_ite_construct();
 
 }
 
