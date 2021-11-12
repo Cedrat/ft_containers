@@ -123,7 +123,7 @@ namespace ft
 
             friend random_access_iterator operator+(const random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
             {
-                return (rhs + lhs._ptr);
+                return (rhs._ptr + lhs);
             }
 
 
