@@ -32,7 +32,7 @@ class reverse_iterator
 
         };
         template<class Iter>
-        reverse_iterator(const reverse_iterator<Iter>& reverse_it) : _current(reverse_it)
+        reverse_iterator(const reverse_iterator<Iter>& reverse_it) : _current(reverse_it.base())
         {
 
         };

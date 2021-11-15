@@ -176,9 +176,10 @@ namespace ft
             {
             }
 
-            const_random_access_iterator(random_access_iterator<T> const & iterator) : _ptr(iterator._ptr)
+            const_random_access_iterator(random_access_iterator<T> const  & iterator) : _ptr(iterator._ptr)
             {
             }
+      
             
             const_random_access_iterator(pointer ptr) : _ptr(ptr)
             {
