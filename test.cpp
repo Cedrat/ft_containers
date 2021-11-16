@@ -253,6 +253,33 @@ void rev_ite_construct()
 
 }
 
+// void reverse_iterator()
+// {
+//     const int size = 5;
+//     NAMESPACE::vector<int> myvector(size);
+//     NAMESPACE::vector<int>::reverse_iterator rev_it = myvector.rbegin();
+//     NAMESPACE::vector<int>::const_reverse_iterator const_rev_it = myvector.rbegin();
+
+//     for (int i = 0; i < size; ++i)
+//         rev_it[i] = (size - i) * 5;
+
+//     rev_it = rev_it + 5;
+//     rev_it = 1 + rev_it;
+//     rev_it = rev_it - 4;
+//     std::cout << *(rev_it += 2) << std::endl;
+//     std::cout << *(rev_it -= 1) << std::endl;
+
+//     *(rev_it -= 2) = 42;
+//     *(rev_it += 2) = 21;
+
+//     std::cout << "const_ite +=/-=: " << *(const_rev_it += 2) << " | " << *(const_rev_it -= 2) << std::endl;
+
+//     std::cout << "(rev_it == const_it): " << (const_rev_it == rev_it) << std::endl;
+//     std::cout << "(const_ite - rev_it): " << (const_rev_it - rev_it) << std::endl;
+//     std::cout << "(const_rev_it + 3 == rev_it): " << (const_rev_it + 3 == rev_it) << std::endl;
+// }
+
+
 void bidirect_it()
 {
     std::list<int> lst;
@@ -512,29 +539,58 @@ void test_erase()
         myvector.push_back(i);
 
     // erase the 6th element
-    std::cout << *myvector.erase (myvector.begin()+5) << std::endl;
-    print_all_vectors_elements(myvector);
+    std::cout << *(myvector.erase (myvector.begin()+5)) << std::endl;
+    // print_all_vectors_elements(myvector);
     std::cout << *myvector.erase (myvector.begin()) << std::endl;
-    print_all_vectors_elements(myvector);
-    std::cout << *myvector.erase (myvector.end() - 1) << std::endl;
-    print_all_vectors_elements(myvector);
+    // print_all_vectors_elements(myvector);
+
+    std::cout << myvector.erase (myvector.end() - 1) - myvector.begin() << std::endl;
+    // print_all_vectors_elements(myvector);
 
 
 
   // erase the first 3 elements:
     std::cout <<  *myvector.erase (myvector.begin(),myvector.begin()+3) << std::endl;
-     print_all_vectors_elements(myvector);
+    //  print_all_vectors_elements(myvector);
     //erase the two last
      std::cout <<  *myvector.erase (myvector.end() - 2,myvector.end()) << std::endl;
-     print_all_vectors_elements(myvector);
+    //  print_all_vectors_elements(myvector);
 
     std::cout << * myvector.erase (myvector.begin() + 3, myvector.end() - 3) << std::endl;
-     print_all_vectors_elements(myvector);
+    //  print_all_vectors_elements(myvector);
 
-//   std::cout << "myvector contains:";
-//   for (unsigned i=0; i<myvector.size(); ++i)
-//     std::cout << ' ' << myvector[i];
-//   std::cout << '\n';
+
+    NAMESPACE::vector<std::string> myvector_string;
+    std::string  test = "TEST";
+
+    // set some values (from 1 to 10)
+//     for (int i=1; i<=20; i++) 
+//         myvector_string.push_back(test);
+
+//     // erase the 6th element
+//     std::cout << *myvector_string.erase(myvector_string.begin()+5) << std::endl;
+//     // print_all_vectors_elements(myvector_string);
+//     std::cout << *myvector_string.erase(myvector_string.begin()) << std::endl;
+//     // print_all_vectors_elements(myvector_string);
+    
+//     std::cout << myvector_string.erase(myvector_string.end() - 1) - myvector_string.begin() << std::endl;
+//     // print_all_vectors_elements(myvector_string);
+
+
+
+//   // erase the first 3 elements:
+//     std::cout <<  *myvector_string.erase(myvector_string.begin(),myvector_string.begin()+3) << std::endl;
+//     //  print_all_vectors_elements(myvector_string);
+//     //erase the two last
+//      std::cout <<  *myvector_string.erase(myvector_string.end() - 2,myvector_string.end()) << std::endl;
+//     //  print_all_vectors_elements(myvector_string);
+
+//     std::cout << * myvector_string.erase(myvector_string.begin() + 3, myvector_string.end() - 3) << std::endl;
+//     //  print_all_vectors_elements(myvector);
+// //   std::cout << "myvector contains:";
+// //   for (unsigned i=0; i<myvector.size(); ++i)
+// //     std::cout << ' ' << myvector[i];
+// //   std::cout << '\n';
 }
 void test_swap()
 {
@@ -732,6 +788,31 @@ void test_comparison_iterator()
 
 }
 
+
+void test_char()
+{
+    NAMESPACE::vector<std::vector<int>> my_vector(1, std::vector<int>());
+    // std::string test = "test";
+
+    // for (int i = 0; i < 1; i++)
+    // {
+    //     my_vector.push_back(test);
+    // }
+    // print_all_vectors_elements(my_vector);
+}
+
+void test_string()
+{
+    NAMESPACE::vector<std::string> my_vector(1, "test");
+    std::string test = "test";
+
+    for (int i = 0; i < 1; i++)
+    {
+        my_vector.push_back(test);
+    }
+    // print_all_vectors_elements(my_vector);
+}
+
 int main()
 {
 
@@ -751,6 +832,8 @@ int main()
     // assign_vector_test();
     // test_insert();
     // test_erase();
+    // test_char();
+    test_string();
     // test_assign();
     // test_swap();
     // test_clear();
@@ -762,7 +845,7 @@ int main()
     // test_comparison_iterator();
     // bidirect_it();
     // ite();
-    rev_ite_construct();
+    // rev_ite_construct();
 
 }
 

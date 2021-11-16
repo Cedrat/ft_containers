@@ -115,11 +115,12 @@ namespace ft
             {
                 return (lhs._ptr - rhs._ptr);
             }
-            template<class Iterator>
-            friend difference_type operator-(const Iterator &lhs, const Iterator &rhs)
-            {
-                return (lhs - rhs);
-            }
+            
+            // template<class Iterator>
+            // friend difference_type operator-(const Iterator &lhs, const Iterator &rhs)
+            // {
+            //     return (lhs - rhs);
+            // }
 
             friend random_access_iterator operator+(const random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
             {

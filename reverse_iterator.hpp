@@ -27,15 +27,18 @@ class reverse_iterator
         {
 
         };
-        explicit reverse_iterator(iterator_type it) : _current(it)
+
+        reverse_iterator(iterator_type it) : _current(it)
         {
 
         };
+    
         template<class Iter>
         reverse_iterator(const reverse_iterator<Iter>& reverse_it) : _current(reverse_it.base())
         {
 
         };
+
 
         iterator_type base() const
         {
@@ -118,6 +121,7 @@ class reverse_iterator
         {
             return (lhs.base() == rhs.base());
         }
+
 
         friend bool operator<(const reverse_iterator<Iterator> &lhs, const reverse_iterator<Iterator> &rhs)
         {

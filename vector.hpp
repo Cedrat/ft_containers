@@ -50,18 +50,20 @@ class vector
             if (never_allocated == false)
                 alloc.deallocate(_array, capacity());
             _capacity = new_capacity;
-            _array = alloc.allocate(capacity() * sizeof(T*));
+            _array = alloc.allocate(capacity());
+
         }
         template<class Iterator>
         void assign(Iterator first, Iterator last, ft::false_type)
         {
+            Alloc alloc;
             _size = ft::distance(first, last);
             if (_size > _capacity)
                 reallocate(_size);
             int i(0);
             while (first != last)
             {
-                _array[i] = *first;
+                alloc.construct(&_array[i], *first);
                 first++;
                 i++;
             }
@@ -70,11 +72,12 @@ class vector
 
         void assign(size_type n, const T& val, ft::true_type)
         {
+             Alloc alloc;
             if (n > _capacity)
                 reallocate(n);
             for (size_type i(0); i < n; i++)
             {
-                _array[i] = val;
+                alloc.construct(&_array[i], val);
             }
             _size = n;
         }
@@ -144,19 +147,20 @@ class vector
             _size = 0;
             _max_size = 0;
             never_allocated = false;
+            _array = NULL;
         }
 
     public :
 
-        explicit vector ()
+        vector ()
         {
             initialize();
              Alloc alloc;
-            _array = alloc.allocate(sizeof(T*) * 0);
+            _array = alloc.allocate(0);
             _max_size = alloc.max_size();
         }
 
-        explicit vector (size_type n, const value_type& val = value_type(),
+        vector (size_type n, const value_type& val = value_type(),
                         const allocator_type& alloc = allocator_type())
         {
             initialize();
@@ -251,6 +255,7 @@ class vector
 
 		void reserve (size_type n)
 		{
+            Alloc alloc;
 			if (n > max_size())
 				throw(std::length_error("ft::vector reserve max size exceeded"));
 			if (n > capacity())
@@ -259,7 +264,9 @@ class vector
 
                 reallocate(n);
                 for (size_t i = 0; i < temp.size(); i++) // in the future, use range of iterator 
-                    _array[i] = temp[i];
+                {
+                    alloc.construct(&_array[i], temp[i]);
+                }
 			}
 		}
 
@@ -299,6 +306,7 @@ class vector
 
         void push_back(const value_type& val)
         {
+            Alloc alloc;
             if ((size() + 1) > (capacity()))
             {
                 if (capacity() == 0)
@@ -310,7 +318,7 @@ class vector
 					reserve(capacity() * 2);
                 }
             }
-            _array[_size] = val;
+            alloc.construct(&_array[_size], val);
             _size++;
         }
         void pop_back()
@@ -393,12 +401,14 @@ class vector
         {
             iterator it_end = end();
             iterator temp = position;
+            Alloc alloc;
 
             while (temp != (it_end - 1))
             {
                 _array[temp - begin()] = *(temp + 1); 
                 temp++;
             }
+            alloc.destroy(&_array[temp - begin()]);
             _size--;
             return (position);
         }

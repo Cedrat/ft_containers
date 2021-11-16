@@ -15,5 +15,5 @@ echo "  STD" > file2
 ./$TEST_FT >> file1
 ./$TEST_STD >> file2
 
-diff file1 file2
+diff -y file1 file2
 rm file1 file2
