@@ -453,21 +453,23 @@ void test_insert()
     NAMESPACE::vector<int>::iterator it;
 
     myvector.push_back(5);
-    // it = myvector.begin();
-    // it = myvector.insert ( it , 200 );
-
+    it = myvector.begin();
+    it = myvector.insert ( it , 200 );
+    std::cout << *it << std::endl;
     // std::cout << myvector.end() - it << std::endl;
-    // myvector.clear();
+    myvector.clear();
     for (int i = 0; i < 8; i++)
     {
         tyvector.push_back(i);
+        myvector.push_back(i);
     }
     it = tyvector.end();
-    //print_all_vectors_elements(tyvector);
+     std::cout << *it << std::endl;
     // print_all_vectors_elements(tyvector);
+    // // print_all_vectors_elements(tyvector);
 
-    tyvector.insert (it,11,300);
-    print_all_vectors_elements(tyvector);
+    // // std::cout << *tyvector.insert (it,11,300) << std::endl;;
+    // print_all_vectors_elements(tyvector);
 
     // "it" no longer valid, get a new one:
     it = myvector.begin();
@@ -476,13 +478,18 @@ void test_insert()
     myvector.insert (it+2,anothervector.begin(),anothervector.end());
 
     int myarray [] = { 501,502,503 };
+    print_all_vectors_elements(myvector);
+    std::cout << "\n\n\n\n";
     myvector.insert (myvector.begin(), myarray, myarray+3);
 
-    print_all_vectors_elements(anothervector);
+    print_all_vectors_elements(myvector);
+        std::cout << "\n\n\n\n";
+        std::cout << tyvector.begin() -  tyvector.end() << std::endl;
     myvector.insert(myvector.begin(), tyvector.begin(), tyvector.end());
+    print_all_vectors_elements(myvector);
     std::cout << "myvector contains:";
     for (it=myvector.begin(); it<myvector.end(); it++)
-    std::cout << ' ' << *it;
+        std::cout << ' ' << *it;
     std::cout << '\n';
 }
 
@@ -830,10 +837,10 @@ int main()
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
-    // test_insert();
+    test_insert();
     // test_erase();
     // test_char();
-    test_string();
+    // test_string();
     // test_assign();
     // test_swap();
     // test_clear();

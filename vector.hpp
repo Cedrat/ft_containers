@@ -85,18 +85,18 @@ class vector
         void insert (iterator position, size_type n, const value_type& val,  ft::true_type)
         {
             size_t pos;
+            Alloc alloc;
             pos = position - begin();
             if ((_size + n) > _capacity)
             {
-                _capacity = _size + n;
-                reserve(_capacity);
+                reserve(_size + n);
             }
             
             iterator it_end = end();
             _size+=n;
-            while ((position) != (it_end))
+            while (it_end != begin())
             {
-                _array[it_end - begin() + n - 1] = *(it_end - 1);
+                _array[it_end - begin() + n - 1] =  *(it_end -1);
                 it_end--;
             }
             for (size_t i = 0; i < pos; i++)
@@ -105,7 +105,7 @@ class vector
             }   
             for (size_t i = 0; i < n; i++)
             {
-                _array[pos + i] = val; 
+                _array[pos + i] =  val; 
             }
         }
 
@@ -114,20 +114,21 @@ class vector
         {
             size_t pos;
             size_t range;
+            Alloc alloc;
 
             range = ft::distance(first, last);
+            std::cerr << "distance " << range << std::endl;
             pos = position - begin();
             if ((_size + range) > _capacity)
             {
-                _capacity = _size + range;
-                reserve(_capacity);
+                reserve(_size + range);
             }
             
             iterator it_end = end();
             _size+=range;
-            while ((position) != (it_end))
+            while (it_end != begin())
             {
-                _array[it_end - begin() + range - 1] = *(it_end - 1);
+                _array[it_end - begin() + range - 1] =  *(it_end - 1);
                 it_end--;
             }
             for (size_t i = 0; i < pos; i++)
