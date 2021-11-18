@@ -458,7 +458,8 @@ void test_insert()
     it = myvector.begin();
     it = myvector.insert ( it , 200 );
     std::cout << *it << std::endl;
-    // std::cout << myvector.end() - it << std::endl;
+    it = myvector.insert ( myvector.begin() + 5 , 300 );
+    std::cout << *it<< std::endl;
     myvector.clear();
     for (int i = 0; i < 8; i++)
     {
@@ -478,11 +479,15 @@ void test_insert()
 
     NAMESPACE::vector<int> anothervector (2,400);
     myvector.insert (it+2,anothervector.begin(),anothervector.end());
+    myvector.insert (myvector.begin(),1 , 5);
 
     int myarray [] = { 501,502,503 };
     print_all_vectors_elements(myvector);
     std::cout << "\n\n\n\n";
+    std::cout << *myvector.insert (myvector.end(), 1) << std::endl;
+    std::cout << *myvector.insert (myvector.end() - 5, 1) << std::endl;
     myvector.insert (myvector.begin(), myarray, myarray+3);
+    myvector.insert (myvector.begin() + 2, anothervector.begin(), anothervector.end());
 
     print_all_vectors_elements(myvector);
         std::cout << "\n\n\n\n";
@@ -881,8 +886,8 @@ int main()
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
-    // test_insert();
-    test_str_insert();
+    test_insert();
+    // test_str_insert();
     // test_erase();
     // test_char();
     // test_string();

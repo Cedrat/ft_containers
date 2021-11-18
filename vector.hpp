@@ -86,12 +86,12 @@ class vector
         {
             size_t pos;
             Alloc alloc;
-            int new_alloc = _size;
+            size_t new_alloc = _size;
 
             pos = position - begin();
             if ((_size + n) > _capacity)
             {
-                while (new_alloc < _capacity)
+                while (new_alloc <  (_size + n))
                     new_alloc *= 2;
                 reserve(new_alloc);
             }
@@ -100,7 +100,7 @@ class vector
             _size+=n;
             while (it_end != begin())
             {
-                _array[it_end - begin() + n - 1] =  *(it_end -1);
+                alloc.construct(&_array[it_end - begin() + n - 1] ,*(it_end -1));
                 it_end--;
             }
             for (size_t i = 0; i < pos; i++)
@@ -334,25 +334,26 @@ class vector
 
         iterator insert (iterator position, const value_type& val)
         {
-            size_t temp_pos;
+            long temp_pos;
             Alloc alloc;
-            iterator temp = position;
-            temp_pos = position - begin(); // == 0
+            
+            temp_pos = position - begin();
             if (_size == _capacity)
             {
                 reserve(_capacity * 2);
             }
-            iterator it_end = end() - 1;
-            while (position  != it_end)
+            
+
+            iterator it_end = end();
+            while ((it_end - begin()) != temp_pos)
             {
-                std::cerr << it_end - begin()<< std::endl;
-                alloc.construct(&_array[it_end - begin() + 1],*it_end);
+                alloc.construct(&_array[it_end - begin()],*(it_end - 1));
                 it_end--;
             }
-            _array[temp_pos] = val;
-            
+            alloc.construct(&_array[temp_pos], val);
             _size++;
-            return (temp);
+            
+            return (temp_pos+ begin());
         }
 
         void insert (iterator position, size_type n, const value_type& val)
