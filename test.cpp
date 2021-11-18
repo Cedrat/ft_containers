@@ -516,7 +516,7 @@ void test_str_insert()
      std::cout << *--it<< std::endl;
     print_all_vectors_elements(tyvector);
     // // print_all_vectors_elements(tyvector);
-
+    std::cout << "\n\n\n\n";
     // // std::cout << *tyvector.insert (it,11,300) << std::endl;;
     // print_all_vectors_elements(tyvector);
 
@@ -526,10 +526,10 @@ void test_str_insert()
     NAMESPACE::vector<std::string> anothervector (2,"bllaaaaa");
     myvector.insert (it+2,anothervector.begin(),anothervector.end());
 
-    std::string myarray [] = { "one","two","three" };
+    // std::string myarray [] = { "one","two","three" };
     print_all_vectors_elements(myvector);
     std::cout << "\n\n\n\n";
-    myvector.insert (myvector.begin(), myarray, myarray+3);
+    // myvector.insert (myvector.begin(), myarray, myarray+3);
 
     print_all_vectors_elements(myvector);
         std::cout << "\n\n\n\n";
@@ -881,7 +881,7 @@ int main()
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
-    test_insert();
+    // test_insert();
     test_str_insert();
     // test_erase();
     // test_char();

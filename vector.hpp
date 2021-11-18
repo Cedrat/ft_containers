@@ -86,10 +86,14 @@ class vector
         {
             size_t pos;
             Alloc alloc;
+            int new_alloc = _size;
+
             pos = position - begin();
             if ((_size + n) > _capacity)
             {
-                reserve(_size + n);
+                while (new_alloc < _capacity)
+                    new_alloc *= 2;
+                reserve(new_alloc);
             }
             
             iterator it_end = end();
@@ -117,7 +121,6 @@ class vector
             Alloc alloc;
 
             range = ft::distance(first, last);
-            std::cerr << "distance " << range << std::endl;
             pos = position - begin();
             if ((_size + range) > _capacity)
             {
@@ -354,29 +357,30 @@ class vector
 
         void insert (iterator position, size_type n, const value_type& val)
         {
-            size_t pos;
-            pos = position - begin();
-            if ((_size + n) > _capacity)
-            {
-                _capacity = _size + n;
-                reserve(_capacity);
-            }
+            insert(position, n, val, ft::true_type());
+            // size_t pos;
+            // pos = position - begin();
+            // if ((_size + n) > _capacity)
+            // {
+            //     _capacity = _size + n;
+            //     reserve(_capacity);
+            // }
             
-            iterator it_end = end();
-            _size+=n;
-            while ((position) != (it_end))
-            {
-                _array[it_end - begin() + n - 1] = *(it_end - 1);
-                it_end--;
-            }
-            for (size_t i = 0; i < pos; i++)
-            {
-                _array[i] = *(begin() + i);
-            }
-            for (size_t i = 0; i < n; i++)
-            {
-                _array[pos + i] = val; 
-            }
+            // iterator it_end = end();
+            // _size+=n;
+            // while ((position) != (it_end))
+            // {
+            //     _array[it_end - begin() + n - 1] = *(it_end - 1);
+            //     it_end--;
+            // }
+            // for (size_t i = 0; i < pos; i++)
+            // {
+            //     _array[i] = *(begin() + i);
+            // }
+            // for (size_t i = 0; i < n; i++)
+            // {
+            //     _array[pos + i] = val; 
+            // }
         }
 
         template <class InputIterator>
