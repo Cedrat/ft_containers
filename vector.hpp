@@ -128,7 +128,7 @@ class vector
             _size+=range;
             while (it_end != begin())
             {
-                _array[it_end - begin() + range - 1] =  *(it_end - 1);
+                alloc.construct(&_array[it_end - begin() + range - 1], *(it_end - 1));
                 it_end--;
             }
             for (size_t i = 0; i < pos; i++)
@@ -324,29 +324,31 @@ class vector
         }
         void pop_back()
         {
-            _array[_size] = T();
+            Alloc alloc;
+            alloc.destroy(&_array[_size]);
             _size--;
         }
 
         iterator insert (iterator position, const value_type& val)
         {
             size_t temp_pos;
+            Alloc alloc;
             iterator temp = position;
             temp_pos = position - begin(); // == 0
             if (_size == _capacity)
             {
                 reserve(_capacity * 2);
             }
-            _size++;
             iterator it_end = end() - 1;
             while (position  != it_end)
             {
-                _array[it_end - begin() + 1] = *it_end;
+                std::cerr << it_end - begin()<< std::endl;
+                alloc.construct(&_array[it_end - begin() + 1],*it_end);
                 it_end--;
             }
             _array[temp_pos] = val;
             
-
+            _size++;
             return (temp);
         }
 

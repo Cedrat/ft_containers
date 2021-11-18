@@ -277,6 +277,8 @@ void reverse_iterator()
     std::cout << "(rev_it == const_it): " << (const_rev_it == rev_it) << std::endl;
     std::cout << "(const_ite - rev_it): " << (const_rev_it - rev_it) << std::endl;
     std::cout << "(const_rev_it + 3 == rev_it): " << (const_rev_it + 3 == rev_it) << std::endl;
+    std::cout << *const_rev_it << std::endl;
+    std::cout << *rev_it << std::endl;
 }
 
 
@@ -385,21 +387,21 @@ void const_iterator_vector_test()
 
     // it_end = myvector.end();
 
-    // it_begin += 2;
-    // std::cout << *(it_begin) << std::endl;
-    // it_begin += 5;
-    // std::cout << *(it_begin) << std::endl;
-    // it_begin -= 3;
-    // std::cout << *(it_begin) << std::endl;
-    // std::cout << *(it_begin + 3) << std::endl;
-    // std::cout << *(it_begin - 3) << std::endl;
-    // std::cout << it_begin[1] << std::endl;
-    // std::cout << (it_begin[1] > it_begin[0]) << std::endl;
-    // std::cout << (it_begin[1] < it_begin[0]) << std::endl;
-    // std::cout << (it_begin[1] >= it_begin[0]) << std::endl;
-    // std::cout << (it_begin[0] >= it_begin[0]) << std::endl;
-    // std::cout << (it_begin[1] <= it_begin[0]) << std::endl;
-    // std::cout << (it_begin[0] <= it_begin[0]) << std::endl;
+    it_begin += 2;
+    std::cout << *(it_begin) << std::endl;
+    it_begin += 5;
+    std::cout << *(it_begin) << std::endl;
+    it_begin -= 3;
+    std::cout << *(it_begin) << std::endl;
+    std::cout << *(it_begin + 3) << std::endl;
+    std::cout << *(it_begin - 3) << std::endl;
+    std::cout << it_begin[1] << std::endl;
+    std::cout << (it_begin[1] > it_begin[0]) << std::endl;
+    std::cout << (it_begin[1] < it_begin[0]) << std::endl;
+    std::cout << (it_begin[1] >= it_begin[0]) << std::endl;
+    std::cout << (it_begin[0] >= it_begin[0]) << std::endl;
+    std::cout << (it_begin[1] <= it_begin[0]) << std::endl;
+    std::cout << (it_begin[0] <= it_begin[0]) << std::endl;
 
 
 }
@@ -464,7 +466,7 @@ void test_insert()
         myvector.push_back(i);
     }
     it = tyvector.end();
-     std::cout << *it << std::endl;
+     std::cout << *--it<< std::endl;
     // print_all_vectors_elements(tyvector);
     // // print_all_vectors_elements(tyvector);
 
@@ -491,6 +493,48 @@ void test_insert()
     for (it=myvector.begin(); it<myvector.end(); it++)
         std::cout << ' ' << *it;
     std::cout << '\n';
+}
+
+void test_str_insert()
+{
+    NAMESPACE::vector<std::string> myvector (5,"fiveeee");
+    NAMESPACE::vector<std::string> tyvector;
+    NAMESPACE::vector<std::string>::iterator it;
+
+    myvector.push_back("five");
+    it = myvector.begin();
+    it = myvector.insert ( it , "deux cents" );
+    std::cout << *it << std::endl;
+    // std::cout << myvector.end() - it << std::endl;
+    myvector.clear();
+    for (int i = 0; i < 8; i++)
+    {
+        tyvector.push_back("boyyha");
+        myvector.push_back("boyyha2");
+    }
+    it = tyvector.end();
+     std::cout << *--it<< std::endl;
+    print_all_vectors_elements(tyvector);
+    // // print_all_vectors_elements(tyvector);
+
+    // // std::cout << *tyvector.insert (it,11,300) << std::endl;;
+    // print_all_vectors_elements(tyvector);
+
+    // "it" no longer valid, get a new one:
+    it = myvector.begin();
+
+    NAMESPACE::vector<std::string> anothervector (2,"bllaaaaa");
+    myvector.insert (it+2,anothervector.begin(),anothervector.end());
+
+    std::string myarray [] = { "one","two","three" };
+    print_all_vectors_elements(myvector);
+    std::cout << "\n\n\n\n";
+    myvector.insert (myvector.begin(), myarray, myarray+3);
+
+    print_all_vectors_elements(myvector);
+        std::cout << "\n\n\n\n";
+    myvector.insert(myvector.begin(), tyvector.begin(), tyvector.end());
+    print_all_vectors_elements(myvector);
 }
 
 
@@ -760,7 +804,7 @@ void test_reverse_iterator()
     while (rit_begin != rit_end)
     {
         rit_begin = rit_begin + 1;
-        std::cout << *rit_begin << std::endl;
+        // std::cout << *rit_begin << std::endl;
     }
     rit_begin = myvector.rbegin();
     while (rit_begin != rit_end)
@@ -823,7 +867,7 @@ void test_string()
 int main()
 {
 
-    // NAMESPACE::vector<int> myvector;
+    NAMESPACE::vector<int> myvector;
 
     // test_constructor();
     // test_const_constructor();
@@ -837,7 +881,8 @@ int main()
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
-    // test_insert();
+    test_insert();
+    test_str_insert();
     // test_erase();
     // test_char();
     // test_string();
@@ -853,7 +898,7 @@ int main()
     // bidirect_it();
     // ite();
     // rev_ite_construct();
-    test_reverse_iterator();
+    // test_reverse_iterator();
 
 }
 
