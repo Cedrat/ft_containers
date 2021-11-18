@@ -253,31 +253,31 @@ void rev_ite_construct()
 
 }
 
-// void reverse_iterator()
-// {
-//     const int size = 5;
-//     NAMESPACE::vector<int> myvector(size);
-//     NAMESPACE::vector<int>::reverse_iterator rev_it = myvector.rbegin();
-//     NAMESPACE::vector<int>::const_reverse_iterator const_rev_it = myvector.rbegin();
+void reverse_iterator()
+{
+    const int size = 5;
+    NAMESPACE::vector<int> myvector(size);
+    NAMESPACE::vector<int>::reverse_iterator rev_it = myvector.rbegin();
+    NAMESPACE::vector<int>::const_reverse_iterator const_rev_it = myvector.rbegin();
 
-//     for (int i = 0; i < size; ++i)
-//         rev_it[i] = (size - i) * 5;
+    for (int i = 0; i < size; ++i)
+        rev_it[i] = (size - i) * 5;
 
-//     rev_it = rev_it + 5;
-//     rev_it = 1 + rev_it;
-//     rev_it = rev_it - 4;
-//     std::cout << *(rev_it += 2) << std::endl;
-//     std::cout << *(rev_it -= 1) << std::endl;
+    rev_it = rev_it + 5;
+    rev_it = 1 + rev_it;
+    rev_it = rev_it - 4;
+    std::cout << *(rev_it += 2) << std::endl;
+    std::cout << *(rev_it -= 1) << std::endl;
 
-//     *(rev_it -= 2) = 42;
-//     *(rev_it += 2) = 21;
+    *(rev_it -= 2) = 42;
+    *(rev_it += 2) = 21;
 
-//     std::cout << "const_ite +=/-=: " << *(const_rev_it += 2) << " | " << *(const_rev_it -= 2) << std::endl;
+    std::cout << "const_ite +=/-=: " << *(const_rev_it += 2) << " | " << *(const_rev_it -= 2) << std::endl;
 
-//     std::cout << "(rev_it == const_it): " << (const_rev_it == rev_it) << std::endl;
-//     std::cout << "(const_ite - rev_it): " << (const_rev_it - rev_it) << std::endl;
-//     std::cout << "(const_rev_it + 3 == rev_it): " << (const_rev_it + 3 == rev_it) << std::endl;
-// }
+    std::cout << "(rev_it == const_it): " << (const_rev_it == rev_it) << std::endl;
+    std::cout << "(const_ite - rev_it): " << (const_rev_it - rev_it) << std::endl;
+    std::cout << "(const_rev_it + 3 == rev_it): " << (const_rev_it + 3 == rev_it) << std::endl;
+}
 
 
 void bidirect_it()
@@ -837,7 +837,7 @@ int main()
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
-    test_insert();
+    // test_insert();
     // test_erase();
     // test_char();
     // test_string();
@@ -853,6 +853,7 @@ int main()
     // bidirect_it();
     // ite();
     // rev_ite_construct();
+    test_reverse_iterator();
 
 }
 
