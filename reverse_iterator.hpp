@@ -51,7 +51,7 @@ class reverse_iterator
         reference operator*() const
         {
             // iterator_type temp = base();
-            return (*(_current));
+            return (*(_current - 1));
         }
 
         const pointer operator->() const
@@ -62,7 +62,7 @@ class reverse_iterator
 
         reference operator[] (difference_type n) const
         {
-            return (_current[-n]);
+            return (_current[-n - 1]);
         }
 
         reverse_iterator operator+ (int n) const

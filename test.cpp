@@ -784,6 +784,7 @@ void test_reverse_iterator()
     {
         rit_begin[i] = i;
     }
+    // std::cout << *rit_begin.base() << std::endl;
     print_all_vectors_elements(myvector);
 
 
