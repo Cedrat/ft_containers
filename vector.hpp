@@ -47,6 +47,8 @@ class vector
         void reallocate(size_type new_capacity)
         {
             Alloc alloc;
+            if (new_capacity == 0)
+                new_capacity = 1;
             if (never_allocated == false)
                 alloc.deallocate(_array, capacity());
             _capacity = new_capacity;
@@ -91,6 +93,8 @@ class vector
             pos = position - begin();
             if ((_size + n) > _capacity)
             {
+                if (new_alloc == 0)
+                    new_alloc = 1;
                 while (new_alloc <  (_size + n))
                     new_alloc *= 2;
                 reserve(new_alloc);
@@ -126,10 +130,9 @@ class vector
             {
                 reserve(_size + range);
             }
-            
             iterator it_end = end();
             _size+=range;
-            while (it_end != begin())
+            while ((it_end - begin()) != (long)pos)
             {
                 alloc.construct(&_array[it_end - begin() + range - 1], *(it_end - 1));
                 it_end--;
@@ -262,6 +265,8 @@ class vector
             Alloc alloc;
 			if (n > max_size())
 				throw(std::length_error("ft::vector reserve max size exceeded"));
+            if (n == 0)
+                n = 1;
 			if (n > capacity())
 			{
 				ft::vector<T> temp(*this);

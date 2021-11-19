@@ -500,6 +500,7 @@ void test_insert()
     std::cout << '\n';
 }
 
+
 void test_str_insert()
 {
     NAMESPACE::vector<std::string> myvector (5,"fiveeee");
@@ -604,8 +605,6 @@ void test_erase()
     // print_all_vectors_elements(myvector);
 
 
-
-  // erase the first 3 elements:
     std::cout <<  *myvector.erase (myvector.begin(),myvector.begin()+3) << std::endl;
     //  print_all_vectors_elements(myvector);
     //erase the two last
@@ -886,7 +885,8 @@ int main()
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
-    test_insert();
+    // test_insert();
+    // test_insert2();
     // test_str_insert();
     // test_erase();
     // test_char();
