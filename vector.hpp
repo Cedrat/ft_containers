@@ -208,13 +208,13 @@ class vector
 
         reverse_iterator rbegin()
         {
-            return (reverse_iterator(_array + size() - 1));
+            return (reverse_iterator(end()));
         }
 
-        // const_reverse_iterator rbegin() const
-        // {
-        //     return (iterator(_array));
-        // }
+        const reverse_iterator rbegin() const
+        {
+            return (reverse_iterator(end()));
+        }
         iterator begin()
         {
             return (iterator(_array));
@@ -237,7 +237,12 @@ class vector
 
         reverse_iterator rend()
         {
-            return (reverse_iterator(_array - 1));
+            return (reverse_iterator(begin()));
+        }
+
+        const reverse_iterator rend() const
+        {
+            return (reverse_iterator(begin()));
         }
 
         size_type capacity() const

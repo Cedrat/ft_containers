@@ -778,14 +778,15 @@ void test_swap_external()
 
 void test_reverse_iterator()
 {
-    NAMESPACE::vector<int> myvector;
-
+    NAMESPACE::vector<int> myvector(20);
+    NAMESPACE::vector<int>::reverse_iterator rit_begin = myvector.rbegin();
     for (int i = 0; i < 20; i++)
     {
-        myvector.push_back(i);
+        rit_begin[i] = i;
     }
+    print_all_vectors_elements(myvector);
 
-    NAMESPACE::vector<int>::reverse_iterator rit_begin = myvector.rbegin();
+
     NAMESPACE::vector<int>::reverse_iterator rit_end = myvector.rend();
 
     while (rit_begin != rit_end)
@@ -805,10 +806,11 @@ void test_reverse_iterator()
         std::cout << *rit_end << std::endl;
     }
     rit_end = myvector.rend();
+
     while (rit_begin != rit_end)
     {
+        std::cout << *rit_begin << std::endl;
         rit_begin = rit_begin + 1;
-        // std::cout << *rit_begin << std::endl;
     }
     rit_begin = myvector.rbegin();
     while (rit_begin != rit_end)
@@ -820,21 +822,33 @@ void test_reverse_iterator()
     rit_end = myvector.rend();
     while (rit_begin != rit_end)
     {
-        rit_begin +=1;
-        std::cout << *rit_begin << std::endl;
+        rit_begin = rit_begin + 1;
+        std::cout << *rit_begin.base() << std::endl;
     }
 
-    // rit_begin = myvector.rbegin();
-    // while (rit_begin != rit_end)
-    // {
-    //     rit_end -= 1;
-    //     std::cout << rit_end[0] << std::endl;
-    // }
-    // rit_end = myvector.rend();
-    // for (size_t i = 0; i < myvector.size(); i++)
-    // {
-    //     std::cout << rit_begin[i] << std::endl;
-    // }
+    rit_begin = myvector.rbegin();
+    *(rit_begin += 2) = 4545;
+    *(rit_end -= 2) = 777;
+    while (rit_begin != rit_end)
+    {
+        rit_end = rit_end - 1;
+        std::cout << rit_end[1] << std::endl;
+    }
+    rit_end = myvector.rend();
+    std::cout << rit_end - rit_begin << std::endl;
+    std::cout << *(rit_begin + 5) << std::endl;
+    std::cout << *(5 + rit_begin) << std::endl;
+    std::cout << *(rit_end - 5) << std::endl;
+     std::cout << *(--rit_end) << std::endl;
+    std::cout << *(--rit_end) << std::endl;
+    std::cout << *(rit_end -= 2) << std::endl;
+    std::cout << *(rit_end += 2) << std::endl;
+    std::cout << *rit_end << std::endl;
+    std::cout << *rit_begin << std::endl;
+    std::cout << (rit_begin == rit_end) << std::endl;
+    std::cout << (rit_end - rit_begin) << std::endl;
+    std::cout << (rit_end - 14 == rit_begin) << std::endl;
+
 
 }
 
@@ -871,7 +885,7 @@ void test_string()
 int main()
 {
 
-    NAMESPACE::vector<int> myvector;
+    // NAMESPACE::vector<int> myvector;
 
     // test_constructor();
     // test_const_constructor();
@@ -903,7 +917,7 @@ int main()
     // bidirect_it();
     // ite();
     // rev_ite_construct();
-    // test_reverse_iterator();
+    test_reverse_iterator();
 
 }
 

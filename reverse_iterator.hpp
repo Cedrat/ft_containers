@@ -2,6 +2,7 @@
 # define REVERSE_ITERATOR_HPP
 
 #include "iterator_traits.hpp"
+#include "ft_distance.hpp"
 
 namespace ft
 {
@@ -17,7 +18,7 @@ class reverse_iterator
         Iterator _current;
     public : 
         typedef          Iterator                                             iterator_type;
-        typedef typename ft::reverse_iterator<const Iterator>                 const_reverse_iterator;
+        // typedef typename ft::reverse_iterator<const Iterator>                 const_reverse_iterator;
         typedef typename ft::iterator_traits<Iterator>::difference_type       difference_type;
         typedef typename ft::iterator_traits<Iterator>::value_type            value_type;
         typedef typename ft::iterator_traits<Iterator>::pointer               pointer;             
@@ -44,14 +45,13 @@ class reverse_iterator
 
         iterator_type base() const
         {
-            iterator_type temp = _current;
-            return (temp);
+            return (_current) ;
         }
 
         reference operator*() const
         {
-            Iterator temp = _current;
-            return (*temp);
+            // iterator_type temp = base();
+            return (*(_current));
         }
 
         const pointer operator->() const
@@ -62,18 +62,20 @@ class reverse_iterator
 
         reference operator[] (difference_type n) const
         {
-            return (base()[-n-1]);
+            return (_current[-n]);
         }
 
         reverse_iterator operator+ (int n) const
         {
-            reverse_iterator temp(base() - n);
+            reverse_iterator temp = _current - n;
             return (temp);
         };
 
+
         reverse_iterator operator- (int n) const
         {
-            reverse_iterator temp(base() + n);
+
+            reverse_iterator temp =  _current + n;
             return (temp);
         };
 
@@ -92,13 +94,13 @@ class reverse_iterator
         };
         reverse_iterator & operator +=(int increment)
         {
-            _current = _current - increment;
+            _current -= increment;
             return (*this); 
         }
 
         reverse_iterator &operator -=( int decrement)
         {
-            _current = _current + decrement;
+            _current += decrement;
             return (*this); 
         }
 
@@ -113,16 +115,7 @@ class reverse_iterator
             reverse_iterator temp = (*this);
             ++_current;
             return (temp);
-        };
-        
-        friend bool operator<(const reverse_iterator<Iterator> &lhs, const reverse_iterator<Iterator> &rhs)
-        {
-            return (lhs.base() > rhs.base());
-        }
-        friend bool operator>(const reverse_iterator<Iterator> &lhs, const reverse_iterator<Iterator> &rhs)
-        {
-            return (lhs.base() < rhs.base());
-        }    
+        };  
 };
 
 template <class Iterator>
@@ -138,8 +131,9 @@ typename reverse_iterator<Iterator1>::difference_type operator- (
     const reverse_iterator<Iterator1>& lhs,
     const reverse_iterator<Iterator2>& rhs)
     {
-            return (rhs.base() - lhs.base());
+        return (rhs.base() - lhs.base());
     }
+
 
 template <class Iterator1, class Iterator2 >
 bool operator!= (const reverse_iterator<Iterator1>& lhs,
@@ -182,6 +176,8 @@ bool operator< (const reverse_iterator<Iterator1>& lhs,
 {
     return (lhs.base() < rhs.base());
 }
+
+
 
 
 
