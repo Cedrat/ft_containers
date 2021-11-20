@@ -5,8 +5,8 @@ TEST_STD='std_test'
 TEST_FT='ft_test'
 
 
-clang++  -DNAMESPACE=std -o $TEST_STD  -Wall -Werror -Wextra test.cpp
-clang++ -DNAMESPACE=ft -o $TEST_FT  -Wall -Werror -g -Wextra test.cpp 
+clang++  -DNAMESPACE=std -o $TEST_STD  -Wall -Werror -Wextra test_stack.cpp
+clang++ -DNAMESPACE=ft -o $TEST_FT  -Wall -Werror -g -Wextra test_stack.cpp 
 
 
 echo "  FT" > file1
