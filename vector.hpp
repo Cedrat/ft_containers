@@ -369,29 +369,6 @@ class vector
         void insert (iterator position, size_type n, const value_type& val)
         {
             insert(position, n, val, ft::true_type());
-            // size_t pos;
-            // pos = position - begin();
-            // if ((_size + n) > _capacity)
-            // {
-            //     _capacity = _size + n;
-            //     reserve(_capacity);
-            // }
-            
-            // iterator it_end = end();
-            // _size+=n;
-            // while ((position) != (it_end))
-            // {
-            //     _array[it_end - begin() + n - 1] = *(it_end - 1);
-            //     it_end--;
-            // }
-            // for (size_t i = 0; i < pos; i++)
-            // {
-            //     _array[i] = *(begin() + i);
-            // }
-            // for (size_t i = 0; i < n; i++)
-            // {
-            //     _array[pos + i] = val; 
-            // }
         }
 
         template <class InputIterator>
@@ -449,12 +426,30 @@ class vector
 
         void swap (vector &swapped)
         {
-            vector<T> temp(swapped);
+            T* temp_array;
+            Alloc alloc;
+            size_t temp_size;
+            bool temp_never_alloc;
 
-            swapped.reallocate(this->capacity());
-            swapped = vector<T>(*this);
-            this->reallocate(temp.capacity());
-            *this = temp;
+            temp_array = swapped._array;
+            swapped._array = _array;
+            _array = temp_array;
+
+            temp_size = swapped._size;
+            swapped._size = _size;
+            _size = temp_size;
+
+            temp_size = swapped._capacity;
+            swapped._capacity = _capacity;
+            _capacity = temp_size;
+
+            temp_never_alloc = swapped.never_allocated;
+            swapped.never_allocated = never_allocated;
+            never_allocated = temp_never_alloc;
+
+            temp_size = swapped._max_size;
+            swapped._max_size = _max_size;
+            _max_size = temp_size;
         }
 
         void clear()

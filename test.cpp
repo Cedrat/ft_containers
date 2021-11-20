@@ -652,7 +652,17 @@ void test_swap()
     NAMESPACE::vector<int> foo (3,100);   // three ints with a value of 100
     NAMESPACE::vector<int> bar (5,200);   // five ints with a value of 200
 
+    std::cout << "foo size " << foo.size() << std::endl;
+
     foo.swap(bar);
+    std::cout << "BAR" << std::endl;
+    std::cout << "foo size " << foo.size() << std::endl;
+    print_all_vectors_elements(foo);
+    print_all_vectors_elements(bar);
+
+
+    foo.swap(bar);
+    std::cout << "foo" << std::endl;
     print_all_vectors_elements(foo);
     print_all_vectors_elements(bar);
 
@@ -907,7 +917,7 @@ int main()
     // test_char();
     // test_string();
     // test_assign();
-    // test_swap();
+    test_swap();
     // test_clear();
 
     // test_get_alloc();
@@ -918,7 +928,7 @@ int main()
     // bidirect_it();
     // ite();
     // rev_ite_construct();
-    test_reverse_iterator();
+    // test_reverse_iterator();
 
 }
 
