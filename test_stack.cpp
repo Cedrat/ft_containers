@@ -120,10 +120,10 @@ void test_comparison()
     NAMESPACE::vector<int> v_truite(2, 100);
     NAMESPACE::vector<int> v_saumon(2, 100);
 
-    NAMESPACE::stack<int> foo (v_foo); 
-    NAMESPACE::stack<int> bar (v_bar);
-    NAMESPACE::stack<int> truite(v_truite);
-    NAMESPACE::stack<int> saumon(v_saumon);
+    NAMESPACE::stack<int , NAMESPACE::vector<int> > foo (v_foo); 
+    NAMESPACE::stack<int , NAMESPACE::vector<int> > bar (v_bar);
+    NAMESPACE::stack<int , NAMESPACE::vector<int> > truite(v_truite);
+    const NAMESPACE::stack<int , NAMESPACE::vector<int> > saumon(v_saumon);
 
     std::cout << (foo == bar) << std::endl;
     std::cout << (foo == truite) << std::endl;
@@ -191,4 +191,4 @@ int main()
     test_comparison();
 }
 
-//  std::vector<int> 
+// std::stack<int> 
