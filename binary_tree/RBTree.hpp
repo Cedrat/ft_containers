@@ -10,6 +10,7 @@
 #define RED 1
 #define BLACK 0
 #define LEAF NULL
+#define SPACE_FIT 6 // min 5
 
 template<class T>
 struct Node
@@ -65,18 +66,29 @@ ft::vector<std::string> split_string(std::string str, std::string splitter)
 }
 
 template<class T>
-Node<T> *add_new_node(Node<T> *head, Node<T> *to_insert)
+Node<T> *search_head(Node<T> *node)
 {
 
-    /*
-        search the last parent who is'nt NULL
-    */
-    head = to_insert;
-    while(to_insert->_parent != NULL)
+    while(node->_parent != NULL)
     {
-        head = parent(head);
+        node = parent(node);
     }
-   return (head);
+   return (node);
+}
+
+template<class T>
+Node<T> *insert_new_node(Node<T> *head, T value_to_insert)
+{
+    // if (head == NULL)
+    // {
+    //     std::cerr << "here" << std::endl;
+    //     head = init_new_node(value_to_insert);
+    //     return (head);
+    // }
+    Node<T> *new_node;
+    new_node = init_new_node(value_to_insert);
+    insertion(head, new_node);
+    return (search_head(new_node));
 }
 
 template<class T>
@@ -138,11 +150,11 @@ struct for_print {
 
 ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
 {
-    ft::vector<std::string> tilted_tree(depth * 2 - 1, std::string(split_rbt.size() * 10,' '));
+    ft::vector<std::string> tilted_tree(depth * 2 - 1, std::string(split_rbt.size() * SPACE_FIT,' '));
 
     for (int i = 0; i < split_rbt.size() ; i++)
     {
-        tilted_tree[split_rbt[i].find('[')/10 * 2].insert(i * 10, split_rbt[i].substr(split_rbt[i].find('['), split_rbt[i].find(']') + 3));
+        tilted_tree[split_rbt[i].find('[')/SPACE_FIT * 2].insert(i * SPACE_FIT, split_rbt[i].substr(split_rbt[i].find('['), split_rbt[i].find(']') + 3));
     }
 
     for (int i = tilted_tree.size() - 1; i > 0 ; i = i-2)
@@ -207,6 +219,8 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
 template<class T>
 void print_tree(Node<T> *head)
 {
+    if (head == NULL)
+        return ;
     std::string RBT = print_tree_str(head);
 
     ft::vector<std::string> split_rbt = split_string(RBT, "\n");
@@ -230,13 +244,13 @@ std::string print_tree_str(Node<T> *head,  int current_depth = 0 , std::string b
     {
         binary_str += print_tree_str(head->_left, current_depth + 1);
     }
-    ss << std::string(current_depth * 10, ' ') << "[" << head->_key << "," << bool_color(head->_color) << "]" << child(head->_left) << child(head->_right) << "\n";
+    ss << std::string(current_depth * SPACE_FIT, ' ') << "[" << head->_key << "," << bool_color(head->_color) << "]" << child(head->_left) << child(head->_right) << "\n";
     binary_str += ss.str();
     if (head->_right)
     {
         binary_str += print_tree_str(head->_right, current_depth + 1);
     }
-    return (binary_str);
+    return (binary_str);    
 }
 
 int max(int one, int two)
