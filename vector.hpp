@@ -50,7 +50,13 @@ class vector
             if (new_capacity == 0)
                 new_capacity = 1;
             if (never_allocated == false)
+            {
+                for (size_t i = 0; i < _size; i++)
+                {
+                    alloc.destroy(&_array[i]);
+                }
                 alloc.deallocate(_array, capacity());
+            }
             _capacity = new_capacity;
             _array = alloc.allocate(capacity());
 
@@ -202,7 +208,7 @@ class vector
         ~vector()
         {
             Alloc alloc;
-            for (int i = 0; i < _size ; i++)
+            for (size_t i = 0; i < _size ; i++)
             {
                 alloc.destroy(&_array[i]);
             }

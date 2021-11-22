@@ -31,18 +31,15 @@ int main()
 	int nb;
 	while (true)
 	{
-		std::cout << "ENTER COMMAND A(DD), D(ELETE), E(XIT)" << std::endl;
+		std::cout << "ENTER COMMAND A(DD), D(ELETE), E(XIT) FOLLOWED BY NUMBER (0 <= NB <= 99)" << std::endl;
 		std::getline(std::cin, command);
-		if (command == "A")
+		if (command[0] == 'A')
 		{
-			std::cout << "ENTER NUMBER BETWEEN 0 AND 100" << std::endl;
-			std::getline(std::cin, command);
-			if (str_is_number(command))
+			if (str_is_number(&command[1]))
 			{
-				nb = atoi(command.c_str());
+				nb = atoi(&command[1]);
 				if (nb >= NB_MIN && nb <= NB_MAX)
 				{
-					std::cerr << "nb" << std::endl;
 					tree = insert_new_node(tree, nb);
 				}
 				else 
@@ -55,7 +52,7 @@ int main()
 				std::cout << "BAD INPUT" << std::endl;
 			}
 		}
-		else if (command == "D")
+		else if (command[0] == 'D')
 		{
 			std::cout << "not implemented" << std::endl;
 		}
@@ -68,4 +65,5 @@ int main()
 		system("clear");
 		print_tree(tree);
 	}
+	delete_tree(tree);
 }

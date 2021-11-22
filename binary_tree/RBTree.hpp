@@ -6,6 +6,7 @@
 #include "../vector.hpp"
 #include <string>
 #include <sstream>
+#include <vector>
 
 #define RED 1
 #define BLACK 0
@@ -147,6 +148,10 @@ struct for_print {
     bool color;
 };
 
+std::string s_substr(std::string str)
+{
+    return (str.substr(str.find('['), str.find(']') + 3));
+}
 
 ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
 {
@@ -154,7 +159,7 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
 
     for (int i = 0; i < split_rbt.size() ; i++)
     {
-        tilted_tree[split_rbt[i].find('[')/SPACE_FIT * 2].insert(i * SPACE_FIT, split_rbt[i].substr(split_rbt[i].find('['), split_rbt[i].find(']') + 3));
+        tilted_tree[(split_rbt[i].find('[')/SPACE_FIT) * 2].insert(i * SPACE_FIT, s_substr(split_rbt[i]));
     }
 
     for (int i = tilted_tree.size() - 1; i > 0 ; i = i-2)
@@ -165,7 +170,7 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
                 tilted_tree[i - 1][letter] = '|';
         }
     }
-
+    
     char left_child;
     char right_child;
     int previous_pipe = 0;
@@ -224,8 +229,7 @@ void print_tree(Node<T> *head)
     std::string RBT = print_tree_str(head);
 
     ft::vector<std::string> split_rbt = split_string(RBT, "\n");
-
-    split_rbt = tilt_tree(split_rbt, depth_tree(head));
+    tilt_tree(split_rbt, depth_tree(head));
 }
 
 template<class T>
@@ -279,6 +283,21 @@ int depth_tree(Node<T> *head, int depth = 1)
         }
     }
     return (depth);
+}
+template<class T>
+void delete_tree(Node<T> *head)
+{
+    if (head == NULL)
+        return ;
+    if (head->_left)
+    {
+        delete_tree(head->_left);
+    }
+    if (head->_right)
+    {
+        delete_tree(head->_right);
+    }
+    delete (head);
 }
 
 

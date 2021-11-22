@@ -670,11 +670,24 @@ void test_swap()
 
 void test_assign()
 {
-    NAMESPACE::vector<int> foo (3,0);
-    NAMESPACE::vector<int> bar (5,0);
+    NAMESPACE::vector<int> foo (3,5);
+    NAMESPACE::vector<int> bar (5,5);
 
     // print_all_vectors_elements(bar);
-    bar = foo;
+    bar[1] = foo[2];
+    // foo = NAMESPACE::vector<int>();
+    // print_all_vectors_elements(foo);
+    print_all_vectors_elements(bar);
+}
+
+void test_assign_str()
+{
+    NAMESPACE::vector<std::string> foo (102,"54959495");
+    NAMESPACE::vector<std::string> bar (100,"5439459394");
+
+    // print_all_vectors_elements(bar);
+    foo[5] = foo[1].insert(0, "voila");
+    foo = bar;
     // foo = NAMESPACE::vector<int>();
     // print_all_vectors_elements(foo);
     print_all_vectors_elements(bar);
@@ -916,8 +929,8 @@ int main()
     // test_erase();
     // test_char();
     // test_string();
-    // test_assign();
-    test_swap();
+    test_assign_str();
+    // test_swap();
     // test_clear();
 
     // test_get_alloc();
