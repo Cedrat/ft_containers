@@ -74,7 +74,7 @@ class vector
 
         void assign(size_type n, const T& val, ft::true_type)
         {
-             Alloc alloc;
+            Alloc alloc;
             if (n > _capacity)
                 reallocate(n);
             for (size_type i(0); i < n; i++)
@@ -202,6 +202,10 @@ class vector
         ~vector()
         {
             Alloc alloc;
+            for (int i = 0; i < _size ; i++)
+            {
+                alloc.destroy(&_array[i]);
+            }
             alloc.deallocate(_array, capacity());
         }
 
