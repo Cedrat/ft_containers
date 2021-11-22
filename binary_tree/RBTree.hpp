@@ -29,6 +29,36 @@ Node<T>* parent(Node<T> *current)
 }
 
 template<class T>
+Node<T>* grand_parent(Node<T> *current)
+{
+    if (parent(current))
+    {
+        return (current->_parent->_parent);
+    }
+    return (NULL);
+}
+
+template<class T>
+Node<T>* brother(Node<T> *current)
+{
+    if (parent(current))
+    {
+        if (current->key >= current->_parent->_key)
+            return (current->_parent->_left);
+        else
+            return (current->_parent->_right);
+    }
+    return (NULL);
+}
+
+template<class T>
+Node<T>* uncle(Node<T> *current)
+{
+    return (brother(parent(current)));
+}
+
+
+template<class T>
 Node<T> * init_new_node(T key)
 {
     Node<T>* new_node = new Node<T>;
@@ -92,6 +122,13 @@ Node<T> *insert_new_node(Node<T> *head, T value_to_insert)
     return (search_head(new_node));
 }
 
+
+template<class T>
+void delete_node(Node<T> *head, T value)
+{
+
+}
+
 template<class T>
 void insertion(Node<T> *head, Node<T> *to_insert)
 {
@@ -139,14 +176,6 @@ static std::string bool_color(bool color)
     }
     return ("ERROR");
 }
-template<class T>
-struct for_print {
-    bool son_left;
-    bool son_right;
-    int  depth;
-    T    key;
-    bool color;
-};
 
 std::string s_substr(std::string str)
 {
