@@ -119,13 +119,24 @@ void left_rotate(Node<T> *relegate)
 template<class T>
 void right_rotate(Node<T> *relegate)
 {
-    Node<T> *promote = relegate->_left;
+    // std::cout << "relegate key = " << relegate->_key << std::endl;
+    Node<T> *promote = relegate->_left; //1
+    // std::cout << "promote key = " << promote->_key << std::endl;
 
-    relegate->_left = promote->_right;
+    relegate->_left = promote->_right; //2
 
-    promote->_right = relegate;
+    if (relegate->_left != NULL)
+        relegate->_left->_parent = relegate; // 3
 
-    promote->_parent = relegate->_parent;
+    promote->_parent = relegate->_parent; // 4
+    
+    relegate->_parent = promote; // 5
+
+    promote->_right = relegate; //
+    if (promote->_parent != NULL)
+    {
+        promote->_parent->_left = promote;
+    }
 }
 
 
@@ -159,7 +170,7 @@ void re_balance(Node<T> *son)
         left_rotate(parent(son));
         son = son->_left;
     }
-    else if (son == grand_p->_right->_left)
+    else if (grand_p->_right != LEAF && son == grand_p->_right->_left)
     {
         right_rotate(parent(son));
         son = son->_right;
