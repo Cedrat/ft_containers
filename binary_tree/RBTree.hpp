@@ -22,6 +22,8 @@ struct Node
     bool    _color;
     T     _key;
 };
+
+
 template<class T>
 Node<T>* parent(Node<T> *current)
 {
@@ -43,7 +45,7 @@ Node<T>* brother(Node<T> *current)
 {
     if (parent(current))
     {
-        if (current->key >= current->_parent->_key)
+        if (current->_key >= current->_parent->_key)
             return (current->_parent->_left);
         else
             return (current->_parent->_right);
@@ -72,30 +74,6 @@ Node<T> * init_new_node(T key)
     return (new_node);
 };
 
-ft::vector<std::string> split_string(std::string str, std::string splitter)
-{
-    ft::vector<std::string> split_str;
-
-    while (str.find(splitter) == 0)
-        str.erase(0, splitter.size());
-    while (str.size() > 0)
-    {
-        if (str.find(splitter) != std::string::npos)
-        {
-            split_str.push_back(str.substr(0, str.find(splitter)));
-            str.erase(0, str.find(splitter) + splitter.size());
-        }
-        else
-        {
-            split_str.push_back(str.substr(0, str.size()));
-            str.erase(0, str.size());
-        }
-        while (str.find(splitter) == 0)
-            str.erase(0, splitter.size());        
-    }
-    return (split_str);
-}
-
 template<class T>
 Node<T> *search_head(Node<T> *node)
 {
@@ -108,20 +86,124 @@ Node<T> *search_head(Node<T> *node)
 }
 
 template<class T>
+bool is_black(Node<T> *node)
+{
+    if (node == LEAF || node->_color == BLACK)
+        return (true);
+    return false;
+}
+
+template<class T>
+void left_rotate(Node<T> *relegate)
+{
+    // std::cout << "relegate key = " << relegate->_key << std::endl;
+    Node<T> *promote = relegate->_right; //1
+    // std::cout << "promote key = " << promote->_key << std::endl;
+
+    relegate->_right = promote->_left; //2
+
+    if (relegate->_right != NULL)
+        relegate->_right->_parent = relegate; // 3
+
+    promote->_parent = relegate->_parent; // 4
+    
+    relegate->_parent = promote; // 5
+
+    promote->_left = relegate; //
+    if (promote->_parent != NULL)
+    {
+        promote->_parent->_right = promote;
+    }
+}
+
+template<class T>
+void right_rotate(Node<T> *relegate)
+{
+    Node<T> *promote = relegate->_left;
+
+    relegate->_left = promote->_right;
+
+    promote->_right = relegate;
+
+    promote->_parent = relegate->_parent;
+}
+
+
+template<class T>
 Node<T> *insert_new_node(Node<T> *head, T value_to_insert)
 {
-    // if (head == NULL)
-    // {
-    //     std::cerr << "here" << std::endl;
-    //     head = init_new_node(value_to_insert);
-    //     return (head);
-    // }
     Node<T> *new_node;
     new_node = init_new_node(value_to_insert);
     insertion(head, new_node);
+    balance(new_node);
+
     return (search_head(new_node));
 }
 
+template<class T>
+void color_elder_family(Node<T> *son)
+{
+    parent(son)->_color = BLACK;
+    uncle(son)->_color = BLACK;
+    grand_parent(son)->_color = RED;
+    balance(grand_parent(son));
+}
+
+template<class T>
+void re_balance(Node<T> *son)
+{
+    Node<T> *grand_p = grand_parent(son);
+
+    if (grand_p->_left != LEAF && son == grand_p->_left->_right)
+    {
+        left_rotate(parent(son));
+        son = son->_left;
+    }
+    else if (son == grand_p->_right->_left)
+    {
+        right_rotate(parent(son));
+        son = son->_right;
+    }
+    rotate_for_respect_balance(son);
+}
+
+template<class T>
+void rotate_for_respect_balance(Node<T> *son)
+{
+    if (son == parent(son)->_left)
+    {
+        right_rotate(grand_parent(son));
+    }
+    else
+    {
+        left_rotate(grand_parent(son));
+    }
+    parent(son)->_color = BLACK;
+    brother(son)->_color = RED;
+}
+
+template<class T>
+void balance(Node<T> *current_node)
+{
+    if (current_node->_parent == NULL)
+    {
+        current_node->_color = BLACK;
+    }
+    else if (parent(current_node)->_color == BLACK) 
+    {
+        // tree well bicolored
+    }
+    else if (uncle(current_node) && uncle(current_node)->_color == RED)
+    {
+        color_elder_family(current_node);
+    }
+    else
+    {
+        re_balance(current_node);
+    }   
+}
+
+// void 
 
 template<class T>
 void delete_node(Node<T> *head, T value)
@@ -163,103 +245,6 @@ void insertion(Node<T> *head, Node<T> *to_insert)
     to_insert->_parent = head;
 }
 
-static std::string bool_color(bool color)
-{
-    if (color == RED)
-    {
-        return ("R");
-    }
-
-    if (color == BLACK)
-    {
-        return ("B");
-    }
-    return ("ERROR");
-}
-
-std::string s_substr(std::string str)
-{
-    return (str.substr(str.find('['), str.find(']') + 3));
-}
-
-ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
-{
-    ft::vector<std::string> tilted_tree(depth * 2 - 1, std::string(split_rbt.size() * SPACE_FIT,' '));
-
-    for (int i = 0; i < split_rbt.size() ; i++)
-    {
-        tilted_tree[(split_rbt[i].find('[')/SPACE_FIT) * 2].insert(i * SPACE_FIT, s_substr(split_rbt[i]));
-    }
-
-    for (int i = tilted_tree.size() - 1; i > 0 ; i = i-2)
-    {
-        for (int letter = 0; letter < tilted_tree[i].size(); letter++)
-        {
-            if (tilted_tree[i][letter] == ',')
-                tilted_tree[i - 1][letter] = '|';
-        }
-    }
-    
-    char left_child;
-    char right_child;
-    int previous_pipe = 0;
-    int pos_coma;
-    for (int i = 0; i < tilted_tree.size() ; i++)
-    {
-        for (int letter = 0; letter < tilted_tree[i].size();letter++)
-        {
-            previous_pipe = 0;
-            pos_coma = 0;
-            if (tilted_tree[i][letter] == ']')
-            {
-                left_child = tilted_tree[i][letter+1];
-                right_child = tilted_tree[i][letter+2];
-                tilted_tree[i][letter+1] = ' ';
-                tilted_tree[i][letter+2] = ' ';
-                int p = letter;
-                while (tilted_tree[i][p] != ',')
-                    p--;
-                pos_coma = p;
-                p--;
-                if (left_child == '1')
-                {
-                    
-                    while(tilted_tree[i+1][p] != '|')
-                    {
-                        tilted_tree[i+1][p] = '-';
-                        p--;
-                    }
-                }
-                if (right_child == '1')
-                {
-                    p+= 2;
-                    while(tilted_tree[i+1][p] != '|')
-                    {
-                        tilted_tree[i+1][p] = '-';
-                        p++;
-                    }
-                }
-                if (left_child == '1' || right_child == '1')
-                {
-                    tilted_tree[i + 1][pos_coma] = '+';
-                }
-            }
-        }
-                std::cout << tilted_tree[i] << std::endl;
-    }
-    return (tilted_tree);
-}
-
-template<class T>
-void print_tree(Node<T> *head)
-{
-    if (head == NULL)
-        return ;
-    std::string RBT = print_tree_str(head);
-
-    ft::vector<std::string> split_rbt = split_string(RBT, "\n");
-    tilt_tree(split_rbt, depth_tree(head));
-}
 
 template<class T>
 std::string child(Node<T> *head)
@@ -269,50 +254,6 @@ std::string child(Node<T> *head)
     return ("0");
 }
 
-template<class T>
-std::string print_tree_str(Node<T> *head,  int current_depth = 0 , std::string binary_str = std::string())
-{   
-    std::stringstream ss;
-    if (head->_left)
-    {
-        binary_str += print_tree_str(head->_left, current_depth + 1);
-    }
-    ss << std::string(current_depth * SPACE_FIT, ' ') << "[" << head->_key << "," << bool_color(head->_color) << "]" << child(head->_left) << child(head->_right) << "\n";
-    binary_str += ss.str();
-    if (head->_right)
-    {
-        binary_str += print_tree_str(head->_right, current_depth + 1);
-    }
-    return (binary_str);    
-}
-
-int max(int one, int two)
-{
-    if (one > two)
-        return (one);
-    return (two);
-}
-
-template<class T>
-int depth_tree(Node<T> *head, int depth = 1)
-{
-    if (head)
-    {
-        if (head->_left && head->_right)
-        {
-            return (max(depth_tree(head->_left , depth + 1), depth_tree(head->_right , depth + 1)));
-        }
-        else if (head->_left)
-        {
-            return (depth_tree(head->_left, depth + 1));
-        }
-        else if (head->_right)
-        {
-            return (depth_tree(head->_right, depth + 1));
-        }
-    }
-    return (depth);
-}
 template<class T>
 void delete_tree(Node<T> *head)
 {

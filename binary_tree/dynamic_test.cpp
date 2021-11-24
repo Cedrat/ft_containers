@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <csignal>
+#include "print_tree.hpp"
 
 #define TRUE 1
 #define FALSE 0
@@ -33,7 +34,11 @@ int main()
 	{
 		std::cout << "ENTER COMMAND A(DD), D(ELETE), E(XIT) FOLLOWED BY NUMBER (0 <= NB <= 99)" << std::endl;
 		std::getline(std::cin, command);
-		if (command[0] == 'A')
+		if (command.size() <= 0){
+			std::cin.clear();
+			fflush(stdin);
+			}                                        
+		else if (command[0] == 'A')
 		{
 			if (str_is_number(&command[1]))
 			{
@@ -62,7 +67,7 @@ int main()
 			std::cout << "Exit" << std::endl;
 			break;
 		}
-		system("clear");
+		// system("clear");
 		print_tree(tree);
 	}
 	delete_tree(tree);

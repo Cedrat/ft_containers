@@ -1,6 +1,7 @@
 #include "RBTree.hpp"
 #include <iostream>
 #include <cstdlib>
+#include "print_tree.hpp"
 
 int main()
 {
