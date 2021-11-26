@@ -35,7 +35,9 @@ int main()
 		std::cout << "ENTER COMMAND A(DD), D(ELETE), E(XIT) FOLLOWED BY NUMBER (0 <= NB <= 99)" << std::endl;
 		std::getline(std::cin, command);
 		if (command.size() <= 0){
+			std::cin.get();
 			std::cin.clear();
+			break;
 			fflush(stdin);
 			}                                        
 		else if (command[0] == 'A')
