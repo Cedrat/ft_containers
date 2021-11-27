@@ -282,9 +282,49 @@ class Tree
             grand_p->_color = RED;
     }
 
-    void transplante()
+    void transplante(Node<T> *old, Node<T> *newcomer)
     {
-        
+        if (old == _sentry)
+        {
+            _root = newcomer;
+        }
+        else if (old == old->_parent->_left)
+        {
+            old->_parent->_left = newcomer;
+        }
+        else
+        {
+            old->_parent->_right = newcomer;
+        }
+        newcomer->_parent = old->_parent;
+    }
+
+    Node<T> * find_node(T key)
+    {
+        Node<T> *temp = _root;
+
+        while (temp != _sentry)
+        {
+            if (key == temp->_key)
+            {
+                std::cout << "Value Find" << std::endl;
+                return (temp);
+            }
+            else if (key >= temp->_key)
+            {
+                temp = temp->_right;
+            }
+            else
+            {
+                temp = temp->_left;
+            }
+        }
+        return (NULL);
+    }
+
+    void delete_node(Node<T> *node_to_delete)
+    {
+
     }
 };
 
