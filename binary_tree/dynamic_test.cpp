@@ -27,7 +27,8 @@ bool str_is_number(std::string str)
 
 int main()
 {
-	Node<int> *tree = NULL;
+	Tree<int> RB_tree;
+	Node<int> * head;
 	std::string command;
 	int nb;
 	while (true)
@@ -47,7 +48,7 @@ int main()
 				nb = atoi(&command[1]);
 				if (nb >= NB_MIN && nb <= NB_MAX)
 				{
-					tree = insert_new_node(tree, nb);
+					head = RB_tree.insert_new_node(nb);
 				}
 				else 
 				{
@@ -70,7 +71,6 @@ int main()
 			break;
 		}
 		// system("clear");
-		print_tree(tree);
+		print_tree(head);
 	}
-	delete_tree(tree);
 }

@@ -2,6 +2,7 @@
 
 test(){
 
+echo A11
 echo A10
 echo A9
 echo A8
@@ -12,7 +13,6 @@ echo A4
 echo A3
 echo A2
 echo A1
-echo A0
 
 }
 test3()
@@ -29,7 +29,7 @@ test3()
 }
 
 test2(){
-    test | valgrind ./a.out
+    test3 | valgrind ./a.out
 }
 
 test2
