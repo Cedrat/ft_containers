@@ -62,7 +62,22 @@ int main()
 		}
 		else if (command[0] == 'D')
 		{
-			std::cout << "not implemented" << std::endl;
+			if (str_is_number(&command[1]))
+			{
+				nb = atoi(&command[1]);
+				if (nb >= NB_MIN && nb <= NB_MAX)
+				{
+					RB_tree.delete_node(RB_tree.find_node(nb));;
+				}
+				else 
+				{
+					std::cout << "BAD VALUE" << std::endl;
+				}
+			}
+			else
+			{
+				std::cout << "BAD INPUT" << std::endl;
+			}
 		}
 
 		else if (command == "E")
@@ -71,6 +86,6 @@ int main()
 			break;
 		}
 		// system("clear");
-		print_tree(head);
+		print_tree(RB_tree.getRoot());
 	}
 }

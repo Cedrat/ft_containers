@@ -66,6 +66,10 @@ class Tree
             delete _sentry;
         };
 
+        Node<T> * getRoot()
+        {
+            return (_root);
+        }
 
         void delete_tree(Node<T> *head)
         {
@@ -321,9 +325,36 @@ class Tree
         }
         return (NULL);
     }
+    Node<T> *val_min(node<T> *current_node)
+    {
+        Node<T> *temp;
 
+        temp = current_node;
+
+        while (temp->_left != _sentry)
+        {
+            temp = temp->_left;
+        }
+        return (temp);
+
+    }
     void delete_node(Node<T> *node_to_delete)
     {
+        Node<T>* temp;
+        bool original_color = node_to_delete->_color;
+
+        temp = node_to_delete;
+        if (node_to_delete->_left == _sentry)
+        {
+
+        }
+        else if (node_to_delete->_right == _sentry)
+        {
+
+        }
+        else
+        {
+        }
 
     }
 };
