@@ -83,7 +83,8 @@ class Tree
         }
         ~Tree()
         {
-            delete_tree(_root);
+            if (_root != _sentry)
+                delete_tree(_root);
             delete _sentry;
         };
 
@@ -145,7 +146,7 @@ class Tree
         void insertion(Node<T> *head ,Node<T> *to_insert)
         {
 
-            if (head != NULL)
+            if (head != NULL && head != _sentry)
             {
                 if (head->_key > to_insert->_key)
                 {
@@ -173,7 +174,7 @@ class Tree
                 }
             to_insert->_parent = head;
             }
-            if (head == NULL)
+            if (head == NULL || head == _sentry)
             {
                 _root = to_insert;
             }
@@ -380,8 +381,8 @@ class Tree
                 }
                 else if (brother->_right->_color == BLACK)
                 {
-                    brother->_left->_color = BLACK;
                     brother->_color = RED;
+                    brother->_left->_color = BLACK;
                     right_rotate(brother);
                     brother = current_node->_parent->_right;
                 }
@@ -406,8 +407,8 @@ class Tree
                 }
                 else if (brother->_left->_color == BLACK)
                 {
-                    brother->_right->_color = BLACK;
                     brother->_color = RED;
+                    brother->_right->_color = BLACK;
                     right_rotate(brother);
                     brother = current_node->_parent->_left;
                 }
@@ -424,9 +425,13 @@ class Tree
 
     void delete_node(Node<T> *node_to_delete)
     {
+
+        if (node_to_delete == NULL)
+            return ;
         Node<T>* temp;
         bool original_color = node_to_delete->_color;
         Node<T>* node_begin_correction;
+
 
         temp = node_to_delete;
         if (node_to_delete->_left == _sentry)
