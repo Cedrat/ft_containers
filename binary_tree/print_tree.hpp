@@ -125,8 +125,8 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
     return (tilted_tree);
 }
 
-template<class T>
-void print_tree(Node<T> *head)
+template<class T, class V>
+void print_tree(Node<T,V> *head)
 {
     if (head == NULL || head->isSentry())
         return ;
@@ -136,8 +136,8 @@ void print_tree(Node<T> *head)
     tilt_tree(split_rbt, depth_tree(head));
 }
 
-template<class T>
-std::string print_tree_str(Node<T> *head,  int current_depth = 0 , std::string binary_str = std::string())
+template<class T, class V>
+std::string print_tree_str(Node<T,V> *head,  int current_depth = 0 , std::string binary_str = std::string())
 {   
     std::stringstream ss;
     if (head->_left)
@@ -160,8 +160,8 @@ int max(int one, int two)
     return (two);
 }
 
-template<class T>
-int depth_tree(Node<T> *head, int depth = 1)
+template<class T, class V>
+int depth_tree(Node<T,V> *head, int depth = 1)
 {
     if (head)
     {

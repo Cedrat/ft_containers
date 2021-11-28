@@ -14,7 +14,7 @@
 #define LEAF NULL
 #define SPACE_FIT 6 // min 5
 
-template<class T>
+template<class T, class V>
 struct Node
 {
     Node *_left;
@@ -22,24 +22,26 @@ struct Node
     Node *_parent;
     bool    _color;
     T     _key;
+    V     _value;
 
-    bool operator==(const Node<T> &rhs)
+    bool operator==(const Node<T,V> &rhs)
     {
         if (_right == rhs._right 
             && _left == rhs._left
             && _key == rhs._key
+            && _value == rhs._value
             && _parent == rhs._parent
             && _color == rhs._color)
             return (TRUE);  
         return (FALSE);        
     }
 
-        bool operator!=(const Node<T> &rhs)
+        bool operator!=(const Node<T,V> &rhs)
     {
         return (!(*this == rhs));
     }
 
-    // bool operator=(const Node<T> &rhs)
+    // bool operator=(const Node<T,V> &rhs)
     // {
     //     _right = rhs._right; 
     //     _left = rhs._left;
@@ -61,23 +63,24 @@ struct Node
     }
 };
 
-template<class T>
+template<class T, class V>
 class Tree
 {
     private :
-        Node<T> *_sentry;
-        Node<T> *_root;
+        Node<T,V> *_sentry;
+        Node<T,V> *_root;
 
     public :
         Tree()
         {
-            _sentry = new Node<T>;
+            _sentry = new Node<T,V>;
 
             _sentry->_right = LEAF;
             _sentry->_left = LEAF;
             _sentry->_parent = LEAF;
             _sentry->_color = BLACK;
             _sentry->_key = T();
+            _sentry->_value = T();
             
             _root = NULL;
         }
@@ -88,12 +91,12 @@ class Tree
             delete _sentry;
         };
 
-        Node<T> * getRoot()
+        Node<T,V> * getRoot()
         {
             return (_root);
         }
 
-        void delete_tree(Node<T> *head)
+        void delete_tree(Node<T,V> *head)
         {
             if (head == NULL)
                 return ;
@@ -108,7 +111,7 @@ class Tree
             delete (head);
         }
 
-        bool is_sentry(Node<T> * node) const
+        bool is_sentry(Node<T,V> * node) const
         {
             if (node->_right == LEAF &&
             node->_left == LEAF &&
@@ -120,30 +123,32 @@ class Tree
             return (FALSE);
         }
 
-        Node<T> *insert_new_node(T value_to_insert)
+        Node<T,V> *insert_new_node(T value_to_insert, V value)
         {
-            Node<T> *new_node;
-            new_node = init_new_node(value_to_insert);
+            Node<T,V> *new_node;
+            new_node = init_new_node(value_to_insert, value);
             insertion(_root, new_node);
             balance(new_node);
             std::cout << "root key " << _root->_key << std::endl;
+            std::cout << "root value " << _root->_value << std::endl;
             return (_root);
         }
 
-        Node<T> * init_new_node(T key)
+        Node<T,V> * init_new_node(T key, V value = V())
         {
-            Node<T>* new_node = new Node<T>;
+            Node<T,V>* new_node = new Node<T,V>;
 
             new_node->_left = _sentry;
             new_node->_right = _sentry;
             new_node->_parent = _sentry;
             new_node->_color = RED;
             new_node->_key = key;
+            new_node->_value = value;
 
             return (new_node);
         }
 
-        void insertion(Node<T> *head ,Node<T> *to_insert)
+        void insertion(Node<T,V> *head ,Node<T,V> *to_insert)
         {
 
             if (head != NULL && head != _sentry)
@@ -179,7 +184,7 @@ class Tree
                 _root = to_insert;
             }
         }
-    void balance(Node<T> *current_node)
+    void balance(Node<T,V> *current_node)
     {
         std::cout << "balance = " << current_node->_key << std::endl;
         if (current_node->_parent == _sentry)
@@ -200,10 +205,10 @@ class Tree
         }   
     }
 
-    void left_rotate(Node<T> *relegate)
+    void left_rotate(Node<T,V> *relegate)
     {
         std::cout << "left_rotate : \nrelegate key = " << relegate->_key << std::endl;
-        Node<T> *promote = relegate->_right; //1
+        Node<T,V> *promote = relegate->_right; //1
         std::cout << "promote key = " << promote->_key << std::endl;
 
         relegate->_right = promote->_left;
@@ -229,10 +234,10 @@ class Tree
         // std::cerr << promote->_parent->_key << std::endl;
     }
 
-    void right_rotate(Node<T> *relegate)
+    void right_rotate(Node<T,V> *relegate)
     {
         std::cout << "rigth rotate = \nrelegate key = " << relegate->_key << std::endl;
-        Node<T> *promote = relegate->_left; //1
+        Node<T,V> *promote = relegate->_left; //1
         std::cout << "promote key = " << promote->_key << std::endl;
 
             relegate->_left = promote->_right;
@@ -259,21 +264,21 @@ class Tree
 
 
 
-    void color_elder_family(Node<T> *son)
+    void color_elder_family(Node<T,V> *son)
     {
         parent(son)->_color = BLACK;
         uncle(son)->_color = BLACK;
-        Node<T> *grand_p = grand_parent(son);
+        Node<T,V> *grand_p = grand_parent(son);
         
         grand_p->_color = RED;
         balance(grand_p);
     }
 
 
-    void re_balance(Node<T> *son)
+    void re_balance(Node<T,V> *son)
     {
-        Node<T> *grand_p = grand_parent(son);
-        Node<T> *parent_ = parent(son);
+        Node<T,V> *grand_p = grand_parent(son);
+        Node<T,V> *parent_ = parent(son);
 
         if (grand_p)
         {    
@@ -292,10 +297,10 @@ class Tree
     }
 
 
-    void rotate_for_respect_balance(Node<T> *son)
+    void rotate_for_respect_balance(Node<T,V> *son)
     {
-        Node<T> *grand_p = grand_parent(son);
-        Node<T> *parent_ = parent(son);
+        Node<T,V> *grand_p = grand_parent(son);
+        Node<T,V> *parent_ = parent(son);
             if (son == parent(son)->_left)
             {
                 right_rotate(grand_parent(son));
@@ -308,7 +313,7 @@ class Tree
             grand_p->_color = RED;
     }
 
-    void transplante(Node<T> *old, Node<T> *newcomer)
+    void transplante(Node<T,V> *old, Node<T,V> *newcomer)
     {
         if (old->_parent == _sentry)
         {
@@ -325,9 +330,9 @@ class Tree
         newcomer->_parent = old->_parent;
     }
 
-    Node<T> * find_node(T key)
+    Node<T,V> * find_node(T key)
     {
-        Node<T> *temp = _root;
+        Node<T,V> *temp = _root;
 
         while (temp != _sentry)
         {
@@ -347,9 +352,9 @@ class Tree
         }
         return (NULL);
     }
-    Node<T> *val_min(Node<T> *current_node)
+    Node<T,V> *val_min(Node<T,V> *current_node)
     {
-        Node<T> *temp;
+        Node<T,V> *temp;
 
         temp = current_node;
 
@@ -360,9 +365,9 @@ class Tree
         return (temp);
 
     }
-    void balance_after_delete(Node<T> *current_node)
+    void balance_after_delete(Node<T,V> *current_node)
     {
-        Node<T> *brother = getBrother(current_node);
+        Node<T,V> *brother = getBrother(current_node);
         while (current_node != _root && current_node->_color != BLACK)
         {
             if (current_node == current_node->_parent->_left)
@@ -423,14 +428,14 @@ class Tree
         }   
     }
 
-    void delete_node(Node<T> *node_to_delete)
+    void delete_node(Node<T,V> *node_to_delete)
     {
 
         if (node_to_delete == NULL)
             return ;
-        Node<T>* temp;
+        Node<T,V>* temp;
         bool original_color = node_to_delete->_color;
-        Node<T>* node_begin_correction;
+        Node<T,V>* node_begin_correction;
 
 
         temp = node_to_delete;
@@ -474,14 +479,14 @@ class Tree
 };
 
 
-template<class T>
-Node<T>* parent(Node<T> *current)
+template<class T, class V>
+Node<T,V>* parent(Node<T,V> *current)
 {
     return (current->_parent);
 }
 
-template<class T>
-Node<T>* grand_parent(Node<T> *current)
+template<class T, class V>
+Node<T,V>* grand_parent(Node<T,V> *current)
 {
     if (parent(current))
     {
@@ -490,8 +495,8 @@ Node<T>* grand_parent(Node<T> *current)
     return (NULL);
 }
 
-template<class T>
-Node<T>* getBrother(Node<T> *current)
+template<class T, class V>
+Node<T,V>* getBrother(Node<T,V> *current)
 {
     if (parent(current))
     {
@@ -503,15 +508,15 @@ Node<T>* getBrother(Node<T> *current)
     return (NULL);
 }
 
-template<class T>
-Node<T>* uncle(Node<T> *current)
+template<class T, class V>
+Node<T,V>* uncle(Node<T,V> *current)
 {
     return (getBrother(parent(current)));
 }
 
 
-template<class T>
-Node<T> *search_head(Node<T> *node)
+template<class T, class V>
+Node<T,V> *search_head(Node<T,V> *node)
 {
     if (node->_parent && node->_parent->_parent)
         std::cerr << node << "|" << node->_parent  << "|" << node->_parent->_parent << "|" << node->_parent->_parent->_parent << std::endl;
@@ -523,8 +528,8 @@ Node<T> *search_head(Node<T> *node)
    return (node);
 }
 
-template<class T>
-bool is_black(Node<T> *node)
+template<class T, class V>
+bool is_black(Node<T,V> *node)
 {
     if (node == LEAF || node->_color == BLACK)
         return (true);
@@ -538,8 +543,8 @@ bool is_black(Node<T> *node)
 
 // void 
 
-template<class T>
-void delete_node(Node<T> *head, T value)
+template<class T, class V>
+void delete_node(Node<T,V> *head, T value)
 {
 
 }
@@ -547,8 +552,8 @@ void delete_node(Node<T> *head, T value)
 
 
 
-template<class T>
-std::string child(Node<T> *head)
+template<class T, class V>
+std::string child(Node<T,V> *head)
 {
     if (head != NULL)
         return ("1");
