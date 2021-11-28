@@ -38,6 +38,27 @@ struct Node
     {
         return (!(*this == rhs));
     }
+
+    // bool operator=(const Node<T> &rhs)
+    // {
+    //     _right = rhs._right; 
+    //     _left = rhs._left;
+    //     _key = rhs._key;
+    //     _parent = rhs._parent;
+    //     _color = rhs._color;
+    // }
+
+    bool isSentry()
+    {
+        if (_right == LEAF &&
+            _left == LEAF &&
+            _parent == LEAF &&
+            _color == BLACK)
+        {
+            return (TRUE);
+        }
+        return (FALSE);
+    }
 };
 
 template<class T>
@@ -288,7 +309,7 @@ class Tree
 
     void transplante(Node<T> *old, Node<T> *newcomer)
     {
-        if (old == _sentry)
+        if (old->_parent == _sentry)
         {
             _root = newcomer;
         }
@@ -325,7 +346,7 @@ class Tree
         }
         return (NULL);
     }
-    Node<T> *val_min(node<T> *current_node)
+    Node<T> *val_min(Node<T> *current_node)
     {
         Node<T> *temp;
 
@@ -338,24 +359,112 @@ class Tree
         return (temp);
 
     }
+    void balance_after_delete(Node<T> *current_node)
+    {
+        Node<T> *brother = getBrother(current_node);
+        while (current_node != _root && current_node->_color != BLACK)
+        {
+            if (current_node == current_node->_parent->_left)
+            {
+                if (brother->_color == RED)
+                {
+                    brother->_color = BLACK;
+                    brother->_parent->_color = RED;
+                    left_rotate(brother->_parent);
+                    brother = brother->_parent->_right;
+                }
+                if (brother->_left->_color == BLACK && brother->_right->_color == BLACK) 
+                {
+                    brother->_color = RED;
+                    current_node = current_node->_parent;
+                }
+                else if (brother->_right->_color == BLACK)
+                {
+                    brother->_left->_color = BLACK;
+                    brother->_color = RED;
+                    right_rotate(brother);
+                    brother = current_node->_parent->_right;
+                }
+                brother->_color = current_node->_parent->_color;
+                current_node->_right->_color = BLACK;
+                left_rotate(current_node->_parent);
+                current_node = _root;
+            }
+            else
+            {
+                if (brother->_color == RED)
+                {
+                    brother->_color = BLACK;
+                    brother->_parent->_color = RED;
+                    left_rotate(brother->_parent);
+                    brother = brother->_parent->_left;
+                }
+                if (brother->_right->_color == BLACK && brother->_left->_color == BLACK) 
+                {
+                    brother->_color = RED;
+                    current_node = current_node->_parent;
+                }
+                else if (brother->_left->_color == BLACK)
+                {
+                    brother->_right->_color = BLACK;
+                    brother->_color = RED;
+                    right_rotate(brother);
+                    brother = current_node->_parent->_left;
+                }
+                brother->_color = current_node->_parent->_color;
+                current_node->_left->_color = BLACK;
+                left_rotate(current_node->_parent);
+                current_node = _root;
+            }
+            if (current_node->_parent == _sentry)
+                _root = current_node;
+            current_node->_color = BLACK;
+        }   
+    }
+
     void delete_node(Node<T> *node_to_delete)
     {
         Node<T>* temp;
         bool original_color = node_to_delete->_color;
+        Node<T>* node_begin_correction;
 
         temp = node_to_delete;
         if (node_to_delete->_left == _sentry)
         {
-
+            node_begin_correction = node_to_delete->_right;
+            transplante(node_to_delete, node_to_delete->_right);
         }
         else if (node_to_delete->_right == _sentry)
         {
-
+            node_begin_correction = node_to_delete->_left;
+            transplante(node_to_delete, node_to_delete->_left);
         }
         else
         {
+            temp = val_min(node_to_delete->_right);
+            original_color = temp->_color;
+            node_begin_correction = temp->_right;
+            if (temp->_parent == node_to_delete)
+            {
+                node_begin_correction->_parent = temp;
+            }
+            else
+            {
+                transplante(temp, temp->_right);
+                temp->_right = node_to_delete->_right;
+                temp->_right->_parent = temp;
+            }
+            transplante(node_to_delete, temp);
+            temp->_left = node_to_delete->_left;
+            temp->_left->_parent = temp;
+            temp->_color = node_to_delete->_color;
         }
-
+        std::cout << "root-key : " << _root->_key << std::endl;
+        delete(node_to_delete);
+        if (original_color == BLACK)
+        {
+            balance_after_delete(node_begin_correction);
+        }
     }
 };
 
@@ -377,7 +486,7 @@ Node<T>* grand_parent(Node<T> *current)
 }
 
 template<class T>
-Node<T>* brother(Node<T> *current)
+Node<T>* getBrother(Node<T> *current)
 {
     if (parent(current))
     {
@@ -392,7 +501,7 @@ Node<T>* brother(Node<T> *current)
 template<class T>
 Node<T>* uncle(Node<T> *current)
 {
-    return (brother(parent(current)));
+    return (getBrother(parent(current)));
 }
 
 

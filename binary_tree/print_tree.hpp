@@ -1,6 +1,18 @@
 #include "../vector.hpp"
 #include <string>
 #include "RBTree.hpp"
+ 
+
+// #define struct Node<int> * SENTRY {    Node<int> * _left = NULL;    Node<int>  *_right = NULL;    Node<int> * _parent = NULL;    bool    _color = BLACK;    int     _key = int();}
+
+// const struct Node<int> * SENTRY
+// {
+//     Node<SENTRY->_right = LEAF;
+//     SENTRY->_left = LEAF;
+//     SENTRY->_parent = LEAF;
+//     SENTRY->_color = BLACK;
+//     SENTRY->_key = int();
+// };
 
 ft::vector<std::string> split_string(std::string str, std::string splitter)
 {
@@ -87,7 +99,7 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
                 if (left_child == '1')
                 {
                     
-                    while(tilted_tree[i+1][p] != '|')
+                    while(p >= 0 && tilted_tree[i+1][p] != '|')
                     {
                         tilted_tree[i+1][p] = '-';
                         p--;
@@ -116,7 +128,7 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
 template<class T>
 void print_tree(Node<T> *head)
 {
-    if (head == NULL)
+    if (head == NULL || head->isSentry())
         return ;
     std::string RBT = print_tree_str(head);
 

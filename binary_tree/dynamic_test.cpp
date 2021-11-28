@@ -28,7 +28,7 @@ bool str_is_number(std::string str)
 int main()
 {
 	Tree<int> RB_tree;
-	Node<int> * head;
+	Node<int> * head = NULL;
 	std::string command;
 	int nb;
 	while (true)
