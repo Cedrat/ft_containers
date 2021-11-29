@@ -71,7 +71,6 @@ void print_all_vectors_elements(NAMESPACE::vector<T>  const &the_vector)
     }
 }
 
-template<class T, class V>
 void test_constructor()
 {
     NAMESPACE::map<int, int> first;
@@ -81,29 +80,93 @@ void test_insert()
 {
     NAMESPACE::map<int, std::string> first;
 
-    first.insert(std::pair<int, std::string>(5, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(5, "coucou"));
 
 }
 
-void test_count()
+// void test_count()
+// {
+//     NAMESPACE::map<int, std::string> first;
+
+//     first.insert(ft::pair<int, std::string>(5, "coucou"));
+
+//     std::cout << first.count(5) << std::endl;
+//     std::cout << first.count(3) << std::endl;
+
+// }
+
+void travel_in_tree()
+{
+    // NAMESPACE::map<int, std::string> first;
+
+    // first.insert(ft::pair<int, std::string>(50, "coucou"));
+    // first.insert(ft::pair<int, std::string>(49, "coucou"));
+    // first.insert(ft::pair<int, std::string>(51, "coucou"));
+    // first.insert(ft::pair<int, std::string>(48, "coucou"));
+    // first.insert(ft::pair<int, std::string>(40, "coucou"));
+    // first.insert(ft::pair<int, std::string>(43, "coucou"));
+    // first.insert(ft::pair<int, std::string>(42, "coucou"));
+    // first.insert(ft::pair<int, std::string>(45, "coucou"));
+
+    // NAMESPACE::map<int, std::string>::iterator it = first.begin();
+    // NAMESPACE::map<int, std::string>::iterator it_end = first.end();
+    // int i = 0;
+    // while (it != it_end)
+    // {
+    //     std::cout << "ELEMENT["<<i<<"] = " << it->first << std::endl;
+    //     it++;
+    //     i++;
+    // }
+
+
+
+}
+
+void test_begin()
 {
     NAMESPACE::map<int, std::string> first;
 
-    first.insert(std::pair<int, std::string>(5, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(50, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(49, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(51, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(48, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(40, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(43, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(42, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(45, "coucou"));
 
-    std::cout << first.count(5) << std::endl;
-    std::cout << first.count(3) << std::endl;
+    NAMESPACE::map<int, std::string>::iterator it = first.begin();
+    NAMESPACE::map<int, std::string>::iterator it_end = first.end();
 
+    std::cout << "it->value->first = " << it->first << std::endl;
+    std::cout << "it->value->first = " << (++it)->first << std::endl;
+    std::cout << "it->value->first = " << (it++)->first << std::endl;
+
+    while (it != it_end)
+    {
+        std::cout << "it->value->first = " << it->first << std::endl;
+        ++it;
+    }
+    it = first.begin();
+    it_end--;
+    // while (it != it_end)
+    // {
+    //     std::cout << "it->value->first = " << it_end->first << std::endl;
+    //     --it_end;
+    // }
 }
+
 
 int main()
 {
 
     // NAMESPACE::vector<int> myvector;
 
-    // test_constructor();
+    test_constructor();
     // test_const_constructor();
     // copy_constructor_time();
+    // travel_in_tree();
+    test_begin();
     // push_back_test<int>(myvector);
     // pop_back_test<int>(myvector);
     // test_insert();
@@ -118,7 +181,7 @@ int main()
     // test_str_insert();
     // test_erase();
     // test_char();
-    test_count();
+    // test_count();
     // test_string();
     // test_assign_str();
     // test_swap();
