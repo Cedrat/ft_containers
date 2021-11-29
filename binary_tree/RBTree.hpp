@@ -82,7 +82,7 @@ class Tree
             _sentry->_key = T();
             _sentry->_value = T();
             
-            _root = NULL;
+            _root = _sentry;
         }
         ~Tree()
         {
@@ -280,18 +280,15 @@ class Tree
         Node<T,V> *grand_p = grand_parent(son);
         Node<T,V> *parent_ = parent(son);
 
-        if (grand_p)
-        {    
-            if (grand_p->_left != NULL && son == grand_p->_left->_right)
-            {
-                left_rotate(parent_);
-                son = son->_left;
-            }
-            else if (grand_p->_right != NULL && son == grand_p->_right->_left)
-            {
-                right_rotate(parent_);
-                son = son->_right;
-            }
+        if (grand_p != _sentry && son == grand_p->_left->_right)
+        {
+            left_rotate(parent_);
+            son = son->_left;
+        }
+        else if (grand_p != _sentry && son == grand_p->_right->_left)
+        {
+            right_rotate(parent_);
+            son = son->_right;
         }
         rotate_for_respect_balance(son);
     }
@@ -301,6 +298,7 @@ class Tree
     {
         Node<T,V> *grand_p = grand_parent(son);
         Node<T,V> *parent_ = parent(son);
+        std::cout << "son->key = " << son->_key << std::endl;
             if (son == parent(son)->_left)
             {
                 right_rotate(grand_parent(son));
@@ -352,6 +350,30 @@ class Tree
         }
         return (NULL);
     }
+
+    bool find_if_key_exist(T key) const
+    {
+        Node<T,V> *temp = _root;
+
+        while (temp != _sentry)
+        {
+            if (key == temp->_key)
+            {
+                std::cout << "Value Find" << std::endl;
+                return (TRUE);
+            }
+            else if (key >= temp->_key)
+            {
+                temp = temp->_right;
+            }
+            else
+            {
+                temp = temp->_left;
+            }
+        }
+        return (FALSE);
+    }
+
     Node<T,V> *val_min(Node<T,V> *current_node)
     {
         Node<T,V> *temp;
@@ -425,7 +447,8 @@ class Tree
             if (current_node->_parent == _sentry)
                 _root = current_node;
             current_node->_color = BLACK;
-        }   
+        }
+        _root->_color = BLACK;
     }
 
     void delete_node(Node<T,V> *node_to_delete)
