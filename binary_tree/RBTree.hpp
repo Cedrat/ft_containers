@@ -111,6 +111,14 @@ class Tree
             return (_sentry);
         }
 
+
+        void delete_tree()
+        {
+            delete_tree(_root);
+            _root = _sentry;
+            _size = 0;
+        }
+
         void delete_tree(Node<T,V> *head)
         {
             if (head == NULL)
