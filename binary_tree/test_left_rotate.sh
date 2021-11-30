@@ -28,8 +28,25 @@ test3()
 
 }
 
+test4() #segfault
+{
+    echo A4
+    echo A5
+    echo D4
+    echo A4
+}
+
+test5() #segfault
+{
+    echo A34
+    echo A35
+    echo A56
+    echo A36
+    echo D56
+}
+
 test2(){
-    test3 | valgrind ./a.out
+    test5 | valgrind ./a.out
 }
 
 test2
