@@ -111,6 +111,29 @@ class map
               {
                 _RBT->delete_node(position._ptr);
               }
+
+              size_type erase (const key_type& key)
+              {
+                if (_RBT->find_if_key_exist(key) == FALSE)
+                {
+                  return (0);
+                }
+                _RBT->delete_node(_RBT->find_node(key));
+                return (1);
+              }
+
+              void erase (iterator first, iterator last)
+              {
+                while (first != last)
+                {
+                  _RBT->delete_node(first._ptr);
+                }
+              }
+
+              void clear()
+              {
+                _RBT->delete_tree();
+              }
               //const_iterator begin() const;     
 
 

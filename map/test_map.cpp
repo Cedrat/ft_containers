@@ -221,6 +221,28 @@ void test_erase()
     for (it=mymap.begin(); it!=mymap.end(); ++it)
         std::cout << it->first << " => " << it->second << '\n';
 }
+
+
+void test_clear()
+{
+  NAMESPACE::map<char,int> mymap;
+
+  mymap['x']=100;
+  mymap['y']=200;
+  mymap['z']=300;
+
+  std::cout << "mymap contains:\n";
+  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+
+  mymap.clear();
+  mymap['a']=1101;
+  mymap['b']=2202;
+
+  std::cout << "mymap contains:\n";
+  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+}
 int main()
 {
 
@@ -239,7 +261,8 @@ int main()
     // at_vector_test();
     // test_hook();
     // test_find();
-    test_erase();
+    // test_erase();
+    test_clear();
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
