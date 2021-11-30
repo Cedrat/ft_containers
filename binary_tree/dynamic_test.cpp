@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <csignal>
 #include "print_tree.hpp"
+#include "functions.hpp"
 
 #define TRUE 1
 #define FALSE 0

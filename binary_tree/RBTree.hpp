@@ -65,17 +65,18 @@ struct Node
     }
 };
 
-template<class T, class V>
+template<class T, class V, class Compare = std::less<T>>
 class Tree
 {
     private :
         Node<T,V> *_sentry;
         Node<T,V> *_root;
+        size_t _size;
 
     public :
         typedef T Key;
         typedef V Mapped_value;
-        Tree()
+        Tree() : _size(0)
         {
             _sentry = new Node<T,V>;
 
@@ -94,6 +95,11 @@ class Tree
                 delete_tree(_root);
             delete _sentry;
         };
+
+        size_t size() const
+        {
+            return (_size);
+        }
 
         Node<T,V> * getRoot()
         {
@@ -141,6 +147,7 @@ class Tree
             balance(new_node);
             // std::cout << "root key " << _root->_key << std::endl;
             // std::cout << "root value " << _root->_value << std::endl;
+            _size++;
             return (_root);
         }
 
@@ -167,7 +174,7 @@ class Tree
 
             if (head != NULL && head != _sentry)
             {
-                if (head->_key > to_insert->_key)
+                if (!Compare{}(head->_key,to_insert->_key))
                 {
                     if (head->_left != NULL && head->_left != _sentry)
                     {
@@ -179,7 +186,7 @@ class Tree
                         head->_left = to_insert;
                     }
                 }
-                else if (head->_key <= to_insert->_key)
+                else
                 {
                     if (head->_right != NULL && head->_right != _sentry)
                     {
@@ -342,7 +349,7 @@ class Tree
         newcomer->_parent = old->_parent;
     }
 
-    Node<T,V> * find_node(T key)
+    Node<T,V> * find_node(T const & key)
     {
         Node<T,V> *temp = _root;
 
@@ -350,7 +357,6 @@ class Tree
         {
             if (key == temp->_key)
             {
-                std::cout << "Value Find" << std::endl;
                 return (temp);
             }
             else if (key >= temp->_key)
@@ -365,7 +371,7 @@ class Tree
         return (NULL);
     }
 
-    bool find_if_key_exist(T key) const
+    bool find_if_key_exist(T const & key) const
     {
         Node<T,V> *temp = _root;
 
@@ -373,7 +379,6 @@ class Tree
         {
             if (key == temp->_key)
             {
-                std::cout << "Value Find" << std::endl;
                 return (TRUE);
             }
             else if (key >= temp->_key)
@@ -431,6 +436,7 @@ class Tree
     void balance_after_delete(Node<T,V> *current_node)
     {
         Node<T,V> *brother = getBrother(current_node);
+       
         while (current_node != _root && current_node->_color == BLACK)
         {
             if (current_node == current_node->_parent->_left)
@@ -492,15 +498,12 @@ class Tree
         _root->_color = BLACK;
     }
 
+
     void delete_node(Node<T,V> *node_to_delete)
     {
-
-        if (node_to_delete == NULL)
-            return ;
         Node<T,V>* temp;
         bool original_color = node_to_delete->_color;
         Node<T,V>* node_begin_correction;
-
 
         temp = node_to_delete;
         if (node_to_delete->_left == _sentry)
@@ -516,6 +519,7 @@ class Tree
         else
         {
             temp = val_min(node_to_delete->_right);
+            std::cout << "node_to_delete-key : " << node_to_delete->_key << std::endl;
             original_color = temp->_color;
             node_begin_correction = temp->_right;
             if (temp->_parent == node_to_delete)
@@ -533,14 +537,17 @@ class Tree
             temp->_left->_parent = temp;
             temp->_color = node_to_delete->_color;
         }
-        std::cout << "root-key : " << _root->_key << std::endl;
-        delete(node_to_delete->_pair);
-        delete(node_to_delete);
+        // std::cout << "root-key : " << _root->_key << std::endl;
+
+        _size--;
+        std::cout << "//////////////////////////////" << std::endl;
+        print_tree(_root);
         if (original_color == BLACK)
         {
-            std::cout << "blop" << node_begin_correction->_key << node_begin_correction->_parent->_key << std::endl;
             balance_after_delete(node_begin_correction);
         }
+        delete(node_to_delete->_pair);
+        delete(node_to_delete);
     }
 
 };

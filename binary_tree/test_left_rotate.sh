@@ -1,6 +1,6 @@
 #!/bin/sh
 
-test(){
+test2(){
 
 echo A11
 echo A10
@@ -28,7 +28,7 @@ test3()
 
 }
 
-test4() #segfault
+test4() 
 {
     echo A4
     echo A5
@@ -36,7 +36,7 @@ test4() #segfault
     echo A4
 }
 
-test5() #segfault
+test5() 
 {
     echo A34
     echo A35
@@ -45,8 +45,19 @@ test5() #segfault
     echo D56
 }
 
-test2(){
-    test5 | valgrind ./a.out
+test6() # SIGV
+{
+    echo A1
+    echo A2
+    echo A3
+    echo A4
+    echo A5
+    echo A6
+    echo D2
 }
 
-test2
+test(){
+    test6 | valgrind ./a.out
+}
+
+test
