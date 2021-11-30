@@ -156,7 +156,21 @@ void test_begin()
     // }
 }
 
+void    test_hook()
+{
+  NAMESPACE::map<char,std::string> mymap;
 
+  mymap['a']="an element";
+  mymap['b']="another element";
+  mymap['c']=mymap['b'];
+
+    std::cout << "mymap['a'] is " << mymap['a'] << '\n';
+    std::cout << "mymap['b'] is " << mymap['b'] << '\n';
+    std::cout << "mymap['c'] is " << mymap['c'] << '\n';
+    std::cout << "mymap['d'] is " << mymap['d'] << '\n';
+
+  std::cout << "mymap now contains " << mymap.size() << " elements.\n";
+}
 int main()
 {
 
@@ -173,6 +187,7 @@ int main()
     // resize_vector_test();
     // reserve_vector_test();
     // at_vector_test();
+    test_hook();
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();

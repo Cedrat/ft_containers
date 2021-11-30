@@ -79,7 +79,19 @@ class map
                 return (iterator(_RBT->getSentry(), _RBT));
               }
 
+              mapped_type& operator[] (const key_type& key)
+              {
+                if (_RBT->find_if_key_exist(key) == FALSE)
+                {
+                  _RBT->insert_new_node(key, mapped_type());
+                }
+                return (_RBT->find_node(key)->_pair->second);
+              }
 
+              size_type size() const
+              {
+                return (_RBT->size());
+              }
               //const_iterator begin() const;     
 
 
