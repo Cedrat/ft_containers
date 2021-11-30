@@ -92,6 +92,11 @@ class map
               {
                 return (_RBT->size());
               }
+
+              bool empty() const
+              {
+                return (_RBT->size());
+              }
               //const_iterator begin() const;     
 
 
