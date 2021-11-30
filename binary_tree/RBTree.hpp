@@ -541,7 +541,6 @@ class Tree
 
         _size--;
         std::cout << "//////////////////////////////" << std::endl;
-        print_tree(_root);
         if (original_color == BLACK)
         {
             balance_after_delete(node_begin_correction);

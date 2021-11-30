@@ -48,7 +48,7 @@ class map
             explicit map (const key_compare& comp = key_compare(),
               const allocator_type& alloc = allocator_type())
               {
-                _RBT = new Tree<Key, T>;
+                _RBT = new Tree<Key, T, Compare>;
               }
 
               ft::pair<const iterator,bool> insert (const value_type& val)
@@ -96,6 +96,20 @@ class map
               bool empty() const
               {
                 return (_RBT->size());
+              }
+
+              iterator find (const key_type& k)
+              {
+                return (iterator(_RBT->find_node(k)));
+              }
+
+              // const_iterator find (const key_type& k) const
+              // {
+              //   return (const_iterator(_RBT->find_node(k)));
+              // }
+              void erase (iterator position)
+              {
+                _RBT->delete_node(position._ptr);
               }
               //const_iterator begin() const;     
 

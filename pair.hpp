@@ -15,10 +15,8 @@ struct pair
     second_type second;
     pair()
     {};
-    pair(const pair<first_type, second_type>&pair_)
+    pair(const pair<first_type, second_type>&pair_) : first(first_type()), second(second_type())
     {
-        this->first = pair_.first;
-        this->second = pair_.second;
     }
     pair(first_type first_element, second_type second_element) :
         first(first_element), second(second_element)
@@ -27,9 +25,8 @@ struct pair
     };
 
     template <class U, class V>
-    pair(const pair<U, V> &pr){
-                first = pr.first;
-        second = pr.second;
+    pair(const pair<U, V> &pr) : first(pr.first), second(pr.second)
+    {
     }
 
     pair &operator=(const pair &rhs)

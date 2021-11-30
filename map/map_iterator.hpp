@@ -30,6 +30,11 @@ namespace ft
 
             }
 
+            map_iterator(pointer ptr) : _ptr(ptr)
+            {
+
+            }
+
             // map_iterator(ft::pair<const Key,Mapped> *xd) : _ptr(NULL)
             // {
             // }

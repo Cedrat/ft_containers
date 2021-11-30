@@ -156,6 +156,30 @@ void test_begin()
     // }
 }
 
+void test_find()
+{
+
+    NAMESPACE::map<char,int> mymap;
+    NAMESPACE::map<char,int>::iterator it;
+
+    mymap['a']=50;
+    mymap['b']=100;
+    mymap['c']=150;
+    mymap['d']=200;
+
+    it = mymap.find('b');
+    // if (it != mymap.end())
+    //     mymap.erase (it);
+    std::cout << "value find " << it->second << std::endl;
+
+    // print content:
+    std::cout << "elements in mymap:" << '\n';
+    std::cout << "a => " << mymap.find('a')->second << '\n';
+    std::cout << "c => " << mymap.find('c')->second << '\n';
+    std::cout << "d => " << mymap.find('d')->second << '\n';
+
+}
+
 void    test_hook()
 {
   NAMESPACE::map<char,std::string> mymap;
@@ -171,23 +195,51 @@ void    test_hook()
 
   std::cout << "mymap now contains " << mymap.size() << " elements.\n";
 }
+
+void test_erase()
+{
+    NAMESPACE::map<char,int> mymap;
+    NAMESPACE::map<char,int>::iterator it;
+
+    // insert some values:
+    mymap['a']=10;
+    mymap['b']=20;
+    mymap['c']=30;
+    mymap['d']=40;
+    mymap['e']=50;
+    mymap['f']=60;
+
+    it=mymap.find('b');
+    mymap.erase (it);                   // erasing by iterator
+
+    // mymap.erase ('c');                  // erasing by key
+
+    // it=mymap.find ('e');
+    // mymap.erase ( it, mymap.end() );    // erasing by range
+
+    // show content:
+    for (it=mymap.begin(); it!=mymap.end(); ++it)
+        std::cout << it->first << " => " << it->second << '\n';
+}
 int main()
 {
 
     // NAMESPACE::vector<int> myvector;
 
-    test_constructor();
+    // test_constructor();
     // test_const_constructor();
     // copy_constructor_time();
     // travel_in_tree();
-    test_begin();
+    // test_begin();
     // push_back_test<int>(myvector);
     // pop_back_test<int>(myvector);
     // test_insert();
     // resize_vector_test();
     // reserve_vector_test();
     // at_vector_test();
-    test_hook();
+    // test_hook();
+    // test_find();
+    test_erase();
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
