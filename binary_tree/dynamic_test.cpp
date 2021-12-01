@@ -8,7 +8,7 @@
 #define TRUE 1
 #define FALSE 0
 
-#define NB_MAX 99
+#define NB_MAX 250
 #define NB_MIN 0
 
 bool str_is_number(std::string str)
@@ -28,8 +28,8 @@ bool str_is_number(std::string str)
 
 int main()
 {
-	Tree<int, std::string> RB_tree;
-	Node<int, std::string> * head = NULL;
+	Tree<char, std::string> RB_tree;
+	Node<char, std::string> * head = NULL;
 	std::string command;
 	int nb;
 	while (true)

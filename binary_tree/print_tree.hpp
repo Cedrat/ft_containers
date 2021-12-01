@@ -152,8 +152,8 @@ std::string print_tree_str(Node<T,V> *head,  int current_depth = 0 , std::string
     }
     return (binary_str);    
 }
-
-int max(int one, int two)
+template<class T>
+T max(T one, T two)
 {
     if (one > two)
         return (one);

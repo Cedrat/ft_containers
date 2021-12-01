@@ -45,7 +45,7 @@ test5()
     echo D56
 }
 
-test6() # SIGV
+test6() 
 {
     echo A1
     echo A2
@@ -56,8 +56,19 @@ test6() # SIGV
     echo D2
 }
 
+test7()
+{
+    echo A1
+    echo A2
+    echo A3
+    echo A4
+    echo A5
+    echo A6
+    echo D1
+}
+
 test(){
-    test6 | valgrind ./a.out
+    test7| valgrind ./a.out
 }
 
 test

@@ -9,6 +9,7 @@
 #include <vector>
 #include <unistd.h>
 #include "../pair.hpp"
+#include <memory>
 
 #define RED 1
 #define BLACK 0
@@ -65,7 +66,7 @@ struct Node
     }
 };
 
-template<class T, class V, class Compare = std::less<T>>
+template<class T, class V, class Compare = std::less<T>, class Alloc = std::allocator<ft::pair<const T, V> > >
 class Tree
 {
     private :
@@ -367,13 +368,13 @@ class Tree
             {
                 return (temp);
             }
-            else if (key >= temp->_key)
+            else if (Compare{}(key, temp->_key))
             {
-                temp = temp->_right;
+                temp = temp->_left;
             }
             else
             {
-                temp = temp->_left;
+                temp = temp->_right;
             }
         }
         return (NULL);
@@ -453,8 +454,8 @@ class Tree
                 {
                     brother->_color = BLACK;
                     brother->_parent->_color = RED;
-                    left_rotate(brother->_parent);
-                    brother = brother->_parent->_right;
+                    left_rotate(current_node->_parent);
+                    brother = current_node->_parent->_right;
                 }
                 if (brother->_left->_color == BLACK && brother->_right->_color == BLACK) 
                 {
@@ -481,7 +482,7 @@ class Tree
                     brother->_color = BLACK;
                     brother->_parent->_color = RED;
                     left_rotate(brother->_parent);
-                    brother = brother->_parent->_left;
+                    brother = current_node->_parent->_left;
                 }
                 if (brother->_right->_color == BLACK && brother->_left->_color == BLACK) 
                 {
@@ -526,7 +527,6 @@ class Tree
         else
         {
             temp = val_min(node_to_delete->_right);
-            std::cout << "node_to_delete-key : " << node_to_delete->_key << std::endl;
             original_color = temp->_color;
             node_begin_correction = temp->_right;
             if (temp->_parent == node_to_delete)
@@ -576,9 +576,7 @@ Node<T,V>* grand_parent(Node<T,V> *current)
     Node<T,V> *minimal(Node<T,V> *current_node)
     {
         Node<T,V> *temp;
-
         temp = current_node;
-
         while (temp->_left->isSentry() == FALSE)
         {
             temp = temp->_left;
@@ -692,11 +690,11 @@ bool is_black(Node<T,V> *node)
 
 // void 
 
-template<class T, class V>
-void delete_node(Node<T,V> *head, T value)
-{
+// template<class T, class V>
+// void delete_node(Node<T,V> *head, T value)
+// {
 
-}
+// }
 
 
 
