@@ -85,7 +85,7 @@ class Tree
             _sentry->_parent = LEAF;
             _sentry->_color = BLACK;
             _sentry->_key = T();
-            _sentry->_value = T();
+            _sentry->_value = V();
             
             _root = _sentry;
         }
@@ -180,7 +180,7 @@ class Tree
         void insertion(Node<T,V> *head ,Node<T,V> *to_insert)
         {
 
-            if (head != NULL && head != _sentry)
+            if (head != _sentry)
             {
                 if (!Compare{}(head->_key,to_insert->_key))
                 {
@@ -208,7 +208,7 @@ class Tree
                 }
             to_insert->_parent = head;
             }
-            if (head == NULL || head == _sentry)
+            if (head == _sentry)
             {
                 _root = to_insert;
             }
@@ -469,7 +469,8 @@ class Tree
                     brother = current_node->_parent->_right;
                 }
                 brother->_color = current_node->_parent->_color;
-                current_node->_right->_color = BLACK;
+                current_node->_parent->_color = BLACK;
+                brother->_right->_color = BLACK;
                 left_rotate(current_node->_parent);
                 current_node = _root;
             }
@@ -495,15 +496,13 @@ class Tree
                     brother = current_node->_parent->_left;
                 }
                 brother->_color = current_node->_parent->_color;
-                current_node->_left->_color = BLACK;
+                current_node->_parent->_color = BLACK;
+                brother->_left->_color = BLACK;
                 left_rotate(current_node->_parent);
                 current_node = _root;
             }
-            if (current_node->_parent == _sentry)
-                _root = current_node;
-            current_node->_color = BLACK;
         }
-        _root->_color = BLACK;
+        current_node->_color = BLACK;
     }
 
 
@@ -545,10 +544,7 @@ class Tree
             temp->_left->_parent = temp;
             temp->_color = node_to_delete->_color;
         }
-        // std::cout << "root-key : " << _root->_key << std::endl;
-
         _size--;
-        std::cout << "//////////////////////////////" << std::endl;
         if (original_color == BLACK)
         {
             balance_after_delete(node_begin_correction);
