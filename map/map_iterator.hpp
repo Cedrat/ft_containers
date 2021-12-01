@@ -62,7 +62,7 @@ namespace ft
 
             map_iterator& operator--() //preincrement
             {
-                if (_ptr->isSentry())
+                if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_max(_tree->getRoot());
                 else 
                     _ptr = previous_node(_ptr);
@@ -81,7 +81,7 @@ namespace ft
 
             map_iterator& operator++() //preincrement
             {
-                if (_ptr->isSentry())
+                if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_min(_tree->getRoot());
                 else 
                     _ptr = next_node(_ptr);
