@@ -10,6 +10,7 @@
 #include "../reverse_iterator.hpp"
 #include "../ft_distance.hpp"
 #include "map_iterator.hpp"
+#include "../binary_tree/print_tree.hpp"
 #include <map>
 
 #define FALSE 0
@@ -35,14 +36,14 @@ class map
         typedef typename allocator_type::const_reference const_reference;
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
-        typedef map_iterator<Tree<Key, T> , Key , T> iterator;
+        typedef map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc>> iterator;
         // typedef const_random_access_iterator<value_type> const_iterator;
         // typedef reverse_iterator<const_iterator> const_reverse_iterator;
         // typedef reverse_iterator<iterator> reverse_iterator;
         typedef std::ptrdiff_t difference_type;
 
         private :
-            Tree<Key, T> *_RBT;
+            Tree<Key, T, Compare, Alloc> *_RBT;
         
         public :
             explicit map (const key_compare& comp = key_compare(),
@@ -100,7 +101,7 @@ class map
 
               iterator find (const key_type& k)
               {
-                return (iterator(_RBT->find_node(k)));
+                return (iterator(_RBT->find_node(k), _RBT));
               }
 
               // const_iterator find (const key_type& k) const
@@ -109,7 +110,9 @@ class map
               // }
               void erase (iterator position)
               {
+                std::cout << "ROOT : " << _RBT->getRoot()->_key << std::endl;
                 _RBT->delete_node(position._ptr);
+                std::cout << "ROOT : " << _RBT->getRoot()->_key << std::endl;
               }
 
               size_type erase (const key_type& key)
@@ -124,9 +127,15 @@ class map
 
               void erase (iterator first, iterator last)
               {
+                size_t distance = ft::distance(first, last);
+                iterator temp;
+
                 while (first != last)
                 {
+                  temp = first;
+                  temp++;
                   _RBT->delete_node(first._ptr);
+                  first = temp;
                 }
               }
 
@@ -134,8 +143,21 @@ class map
               {
                 _RBT->delete_tree();
               }
+
+              void swap(map &x)
+              {
+                Tree<Key, T, Compare, Alloc> *temp;
+
+                temp = _RBT;
+                _RBT = x._RBT;
+                x._RBT = temp;
+              }
               //const_iterator begin() const;     
 
+              key_compare key_comp() const
+              {
+                return (Compare());
+              }
 
 };
 };

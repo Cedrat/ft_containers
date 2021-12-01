@@ -97,26 +97,26 @@ void test_insert()
 
 void travel_in_tree()
 {
-    // NAMESPACE::map<int, std::string> first;
+    NAMESPACE::map<int, std::string> first;
 
-    // first.insert(ft::pair<int, std::string>(50, "coucou"));
-    // first.insert(ft::pair<int, std::string>(49, "coucou"));
-    // first.insert(ft::pair<int, std::string>(51, "coucou"));
-    // first.insert(ft::pair<int, std::string>(48, "coucou"));
-    // first.insert(ft::pair<int, std::string>(40, "coucou"));
-    // first.insert(ft::pair<int, std::string>(43, "coucou"));
-    // first.insert(ft::pair<int, std::string>(42, "coucou"));
-    // first.insert(ft::pair<int, std::string>(45, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(50, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(49, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(51, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(48, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(40, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(43, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(42, "coucou"));
+    first.insert(NAMESPACE::pair<int, std::string>(45, "coucou"));
 
-    // NAMESPACE::map<int, std::string>::iterator it = first.begin();
-    // NAMESPACE::map<int, std::string>::iterator it_end = first.end();
-    // int i = 0;
-    // while (it != it_end)
-    // {
-    //     std::cout << "ELEMENT["<<i<<"] = " << it->first << std::endl;
-    //     it++;
-    //     i++;
-    // }
+    NAMESPACE::map<int, std::string>::iterator it = first.begin();
+    NAMESPACE::map<int, std::string>::iterator it_end = first.end();
+    int i = 0;
+    while (it != it_end)
+    {
+        std::cout << "ELEMENT["<<i<<"] = " << it->first << std::endl;
+        it++;
+        i++;
+    }
 
 
 
@@ -179,6 +179,27 @@ void test_find()
     std::cout << "d => " << mymap.find('d')->second << '\n';
 
 }
+void test_swap()
+{
+  NAMESPACE::map<char,int> foo,bar;
+
+  foo['x']=100;
+  foo['y']=200;
+
+  bar['a']=11;
+  bar['b']=22;
+  bar['c']=33;
+
+  foo.swap(bar);
+
+  std::cout << "foo contains:\n";
+  for (NAMESPACE::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+
+  std::cout << "bar contains:\n";
+  for (NAMESPACE::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+}
 
 void    test_hook()
 {
@@ -212,14 +233,18 @@ void test_erase()
     it=mymap.find('b');
     mymap.erase (it);                   // erasing by iterator
 
-    // mymap.erase ('c');                  // erasing by key
+    mymap.erase ('c');                  // erasing by key
 
-    // it=mymap.find ('e');
-    // mymap.erase ( it, mymap.end() );    // erasing by range
+    it=mymap.find ('e');
+    mymap.erase ( it, mymap.end() );    // erasing by range
 
-    // show content:
-    for (it=mymap.begin(); it!=mymap.end(); ++it)
+    //show content:
+
+
+   for (it = mymap.begin(); it!=mymap.end() ; it++)
+   {
         std::cout << it->first << " => " << it->second << '\n';
+   }
 }
 
 
@@ -243,6 +268,29 @@ void test_clear()
   for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
     std::cout << it->first << " => " << it->second << '\n';
 }
+
+// void test_compare ()
+// {
+//   NAMESPACE::map<char,int> mymap;
+
+//   NAMESPACE::map<char,int>::key_compare mycomp = mymap.key_comp();
+
+//   mymap['a']=100;
+//   mymap['b']=200;
+//   mymap['c']=300;
+
+//   std::cout << "mymap contains:\n";
+
+//   char highest = mymap.rbegin()->first;     // key value of last element
+
+//   NAMESPACE::map<char,int>::iterator it = mymap.begin();
+//   do {
+//     std::cout << it->first << " => " << it->second << '\n';
+//   } while ( mycomp((*it++).first, highest) );
+
+//   std::cout << '\n';
+
+// }
 int main()
 {
 
@@ -251,6 +299,7 @@ int main()
     // test_constructor();
     // test_const_constructor();
     // copy_constructor_time();
+    // test_compare();
     // travel_in_tree();
     // test_begin();
     // push_back_test<int>(myvector);
@@ -261,8 +310,10 @@ int main()
     // at_vector_test();
     // test_hook();
     // test_find();
-    // test_erase();
-    test_clear();
+    test_erase();
+    // test_clear();
+    // test_swap();
+    // test_compare():
     // iterator_vector_test();
     // const_iterator_vector_test();
     // assign_vector_test();
