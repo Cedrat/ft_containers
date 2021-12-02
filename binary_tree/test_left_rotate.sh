@@ -67,6 +67,20 @@ test7()
     echo D1
 }
 
+test7()
+{
+    echo A1
+    echo A2
+    echo A3
+    echo A4
+    echo A5
+    echo A6
+    echo D2
+    echo D3
+    echo D5
+    echo D6
+}
+
 test(){
     test7| valgrind ./a.out
 }

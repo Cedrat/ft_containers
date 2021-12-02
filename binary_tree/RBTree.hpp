@@ -29,6 +29,7 @@ struct Node
 
     bool operator==(const Node<T,V> &rhs)
     {
+        std::cout << "golo" << std::endl;
         if (_right == rhs._right 
             && _left == rhs._left
             && _key == rhs._key
@@ -92,6 +93,7 @@ class Tree
         }
         ~Tree()
         {
+            std::cout << "WARNING TREE DESTROYED" << std::endl;
             if (_root != _sentry)
                 delete_tree(_root);
             delete _sentry;
@@ -148,6 +150,17 @@ class Tree
             return (FALSE);
         }
 
+        Node<T,V> *minimal(Node<T,V> *current_node)
+        {
+            Node<T,V> *temp;
+            temp = current_node;
+            while (temp->_left != _sentry)
+            {
+                temp = temp->_left;
+            }
+            return (temp);
+        }
+
         Node<T,V> *insert_new_node(T value_to_insert, V value)
         {
             Node<T,V> *new_node;
@@ -178,6 +191,24 @@ class Tree
 
 
 
+
+        Node<T,V> *next_node(Node<T,V> *current_node)
+        {
+            Node<T,V>  *temp;
+            temp = current_node; 
+
+            if (temp->_right != _sentry)
+            {
+                return (minimal(temp->_right));
+            }
+            while (temp->_parent && temp == temp->_parent->_right)
+            {
+                temp = temp->_parent;
+            }
+            return (temp->_parent);
+        }
+
+
         void insertion(Node<T,V> *head ,Node<T,V> *to_insert)
         {
 
@@ -185,7 +216,7 @@ class Tree
             {
                 if (!Compare{}(head->_key,to_insert->_key))
                 {
-                    if (head->_left != NULL && head->_left != _sentry)
+                    if (head->_left != _sentry)
                     {
                         insertion(head->_left, to_insert);
                         return ;
@@ -197,7 +228,7 @@ class Tree
                 }
                 else
                 {
-                    if (head->_right != NULL && head->_right != _sentry)
+                    if (head->_right != _sentry)
                     {
                         insertion(head->_right, to_insert);
                         return ;
@@ -207,8 +238,8 @@ class Tree
                         head->_right = to_insert;
                     }
                 }
-            to_insert->_parent = head;
             }
+            to_insert->_parent = head;
             if (head == _sentry)
             {
                 _root = to_insert;
@@ -266,9 +297,9 @@ class Tree
 
     void right_rotate(Node<T,V> *relegate)
     {
-        // std::cout << "rigth rotate = \nrelegate key = " << relegate->_key << std::endl;
+        std::cout << "rigth rotate = \nrelegate key = " << relegate->_key << std::endl;
         Node<T,V> *promote = relegate->_left; //1
-        // std::cout << "promote key = " << promote->_key << std::endl;
+        std::cout << "promote key = " << promote->_key << std::endl;
 
             relegate->_left = promote->_right;
             if (promote->_right != _sentry)
@@ -469,11 +500,14 @@ class Tree
                     right_rotate(brother);
                     brother = current_node->_parent->_right;
                 }
-                brother->_color = current_node->_parent->_color;
-                current_node->_parent->_color = BLACK;
-                brother->_right->_color = BLACK;
-                left_rotate(current_node->_parent);
-                current_node = _root;
+                else
+                {
+                    brother->_color = current_node->_parent->_color;
+                    current_node->_parent->_color = BLACK;
+                    brother->_right->_color = BLACK;
+                    left_rotate(current_node->_parent);
+                    current_node = _root;
+                }
             }
             else
             {
@@ -481,7 +515,7 @@ class Tree
                 {
                     brother->_color = BLACK;
                     brother->_parent->_color = RED;
-                    left_rotate(brother->_parent);
+                    right_rotate(current_node->_parent);
                     brother = current_node->_parent->_left;
                 }
                 if (brother->_right->_color == BLACK && brother->_left->_color == BLACK) 
@@ -493,14 +527,17 @@ class Tree
                 {
                     brother->_color = RED;
                     brother->_right->_color = BLACK;
-                    right_rotate(brother);
+                    left_rotate(brother);
                     brother = current_node->_parent->_left;
                 }
-                brother->_color = current_node->_parent->_color;
-                current_node->_parent->_color = BLACK;
-                brother->_left->_color = BLACK;
-                left_rotate(current_node->_parent);
-                current_node = _root;
+                else
+                {
+                    brother->_color = current_node->_parent->_color;
+                    current_node->_parent->_color = BLACK;
+                    brother->_left->_color = BLACK;
+                    right_rotate(current_node->_parent);
+                    current_node = _root;
+                }
             }
         }
         current_node->_color = BLACK;
@@ -572,18 +609,6 @@ Node<T,V>* grand_parent(Node<T,V> *current)
     }
     return (NULL);
 }
-    template<class T, class V>
-    Node<T,V> *minimal(Node<T,V> *current_node)
-    {
-        Node<T,V> *temp;
-        temp = current_node;
-        while (temp->_left->isSentry() == FALSE)
-        {
-            temp = temp->_left;
-        }
-        return (temp);
-    }
-
 // template<class T, class V>
 // ft::pair<const T, V> *next_pair(ft::pair<const T,V> *current_pair)
 // {
@@ -605,19 +630,33 @@ Node<T,V>* grand_parent(Node<T,V> *current)
 //     return (temp->_pair);
 // }
 
+    template<class T, class V>
+    Node<T,V> *minimal(Node<T,V> *current_node)
+    {
+        Node<T,V> *temp;
+        temp = current_node;
+        while (temp->_left->isSentry() == FALSE)
+        {
+            temp = temp->_left;
+        }
+        return (temp);
+    }
+
+
 template<class T, class V>
 Node<T,V> *next_node(Node<T,V> *current_node)
 {
-    Node<T,V>  *temp = current_node; 
+    Node<T,V>  *temp;
+    temp = current_node; 
 
     if (temp->_right->isSentry() == FALSE)
     {
         return (minimal(temp->_right));
     }
-    while (temp->_parent && temp == temp->_parent->_right)
-    {
-        temp = temp->_parent;
-    }
+    // while (temp->_parent && temp == temp->_parent->_right)
+    // {
+    //     temp = temp->_parent;
+    // }
     return (temp->_parent);
 }
 
