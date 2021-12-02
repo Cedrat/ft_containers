@@ -45,6 +45,17 @@ struct Node
         return (!(*this == rhs));
     }
 
+    // Node(const Node<T,V> & rhs)
+    // {
+    //     _left = rhs->_left;
+    //     _right = rhs->_right;
+    //     _parent = rhs->_parent;
+    //     _color = rhs->_color;
+    //     _key = rhs->_key;
+    //     _value = rhs->_value
+    //     _pair = rhs->_pair;
+
+    // }
     // bool operator=(const Node<T,V> &rhs)
     // {
     //     _right = rhs._right; 
@@ -75,12 +86,15 @@ class Tree
         Node<T,V> *_root;
         size_t _size;
 
+
     public :
         typedef T Key;
         typedef V Mapped_value;
         Tree() : _size(0)
         {
-            _sentry = new Node<T,V>;
+             std::allocator<Node<T,V>> alloc;
+            _sentry = alloc.allocate(1);
+            alloc.construct(_sentry, Node<T,V>());
 
             _sentry->_right = LEAF;
             _sentry->_left = LEAF;
@@ -91,9 +105,26 @@ class Tree
             
             _root = _sentry;
         }
+
+         Tree(Tree const &x) : _size(0) 
+        {
+            std::allocator<Node<T,V>> alloc;
+            _sentry = alloc.allocate(1);
+            alloc.construct(_sentry, Node<T,V>());
+
+            _sentry->_right = LEAF;
+            _sentry->_left = LEAF;
+            _sentry->_parent = LEAF;
+            _sentry->_color = BLACK;
+            _sentry->_key = T();
+            _sentry->_value = V();
+            
+            _root = _sentry;
+        }
+
         ~Tree()
         {
-            std::cout << "WARNING TREE DESTROYED" << std::endl;
+            // std::cout << "WARNING TREE DESTROYED" << std::endl;
             if (_root != _sentry)
                 delete_tree(_root);
             delete _sentry;
@@ -124,6 +155,9 @@ class Tree
 
         void delete_tree(Node<T,V> *head)
         {
+            std::allocator<Node<T,V>> alloc;
+            Alloc alloc_pair;
+
             if (head == NULL)
                 return ;
             if (head->_left != _sentry)
@@ -134,8 +168,10 @@ class Tree
             {
                 delete_tree(head->_right);
             }
-            delete (head->_pair);
-            delete (head);
+            alloc_pair.destroy(head->_pair);
+            alloc_pair.deallocate(head->_pair, 1);
+            alloc.destroy(head);
+            alloc.deallocate(head , 1);
         }
 
         bool is_sentry(Node<T,V> * node) const
@@ -175,7 +211,11 @@ class Tree
 
         Node<T,V> * init_new_node(T key, V value = V())
         {
-            Node<T,V>* new_node = new Node<T,V>;
+            Node<T,V>* new_node;
+            std::allocator<Node<T,V>> alloc;
+            
+            new_node = alloc.allocate(1);
+            alloc.construct(new_node, Node<T,V>());
 
             new_node->_left = _sentry;
             new_node->_right = _sentry;

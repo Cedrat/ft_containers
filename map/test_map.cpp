@@ -247,6 +247,27 @@ void test_erase()
    }
 }
 
+void test_lower_upper_bound ()
+{
+  NAMESPACE::map<char,int> mymap;
+  NAMESPACE::map<char,int>::iterator itlow,itup;
+
+//   std::cout << "CRASH" << std::endl;
+  mymap['a']=20;
+  mymap['b']=40;
+  mymap['c']=60;
+  mymap['d']=80;
+  mymap['e']=100;
+  itlow=mymap.lower_bound ('c');  // itlow points to b
+  itup=mymap.upper_bound ('c');   // itup points to e (not d!)
+
+  mymap.erase(itlow,itup);        // erases [itlow,itup)
+
+//   // print content:
+  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
+}
+
 
 void test_clear()
 {
@@ -291,6 +312,24 @@ void test_clear()
 //   std::cout << '\n';
 
 // }
+void test_equal_range ()
+{
+    NAMESPACE::map<char,int> mymap;
+
+    mymap['a']=10;
+    mymap['b']=20;
+    mymap['c']=30;
+
+    NAMESPACE::pair<NAMESPACE::map<char,int>::iterator,NAMESPACE::map<char,int>::iterator> ret;
+    ret = mymap.equal_range('b');
+
+    std::cout << "lower bound points to: ";
+    std::cout << ret.first->first << " => " << ret.first->second << '\n';
+
+    std::cout << "upper bound points to: ";
+    std::cout << ret.second->first << " => " << ret.second->second << '\n';
+}
+
 int main()
 {
 
@@ -310,7 +349,9 @@ int main()
     // at_vector_test();
     // test_hook();
     // test_find();
-    test_erase();
+    // test_erase();
+    // test_lower_upper_bound();
+    test_equal_range();
     // test_clear();
     // test_swap();
     // test_compare():

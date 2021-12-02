@@ -25,6 +25,9 @@ template <class Key,
           class Alloc = std::allocator<ft::pair<const Key,T> > >
 class map
 {
+
+      private :
+        typedef Tree<Key, T, Compare, Alloc> alloc_tree;
       public :
         typedef Key key_type;
         typedef T mapped_type;
@@ -42,6 +45,8 @@ class map
         // typedef reverse_iterator<iterator> reverse_iterator;
         typedef std::ptrdiff_t difference_type;
 
+
+
         private :
             Tree<Key, T, Compare, Alloc> *_RBT;
         
@@ -49,7 +54,11 @@ class map
             explicit map (const key_compare& comp = key_compare(),
               const allocator_type& alloc = allocator_type())
               {
-                _RBT = new Tree<Key, T, Compare>;
+                std::allocator<alloc_tree> tree_alloc;
+                _RBT = tree_alloc.allocate(1);
+                tree_alloc.construct(_RBT, alloc_tree());
+
+                // _RBT = new alloc_tree;
               }
 
               ft::pair<const iterator,bool> insert (const value_type& val)
@@ -61,7 +70,11 @@ class map
 
               ~map()
               {
-                delete _RBT;
+                std::allocator<alloc_tree> tree_alloc;
+                tree_alloc.destroy(_RBT);
+                tree_alloc.deallocate(_RBT, 1);
+                // _RBT->delete_tree();
+                // delete _RBT;
               }
 
               // size_type count (const key_type& k) const
@@ -135,6 +148,7 @@ class map
                   temp = first;
                   temp++;
                   _RBT->delete_node(first._ptr);
+                  // delete(first._ptr);
                   first = temp;
                 }
               }
@@ -157,6 +171,21 @@ class map
               key_compare key_comp() const
               {
                 return (Compare());
+              }
+
+              iterator lower_bound (const key_type& k)
+              {
+                return (iterator(_RBT->find_node(k), _RBT));
+              }
+
+              iterator upper_bound (const key_type& k)
+              {
+                return (iterator(_RBT->next_node(_RBT->find_node(k)), _RBT));
+              }
+
+              pair<iterator,iterator>             equal_range (const key_type& k)
+              {
+                return (ft::make_pair(iterator(_RBT->find_node(k), _RBT), iterator(_RBT->next_node(_RBT->find_node(k)), _RBT)));
               }
 
 };

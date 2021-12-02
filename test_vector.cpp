@@ -909,39 +909,39 @@ void test_string()
 int main()
 {
 
-    // NAMESPACE::vector<int> myvector;
+    NAMESPACE::vector<int> myvector;
 
-    // test_constructor();
-    // test_const_constructor();
-    // copy_constructor_time();
-    // push_back_test<int>(myvector);
-    // pop_back_test<int>(myvector);
-    // test_insert();
-    // resize_vector_test();
-    // reserve_vector_test();
-    // at_vector_test();
-    // iterator_vector_test();
-    // const_iterator_vector_test();
-    // assign_vector_test();
-    // test_insert();
+    test_constructor();
+    test_const_constructor();
+    copy_constructor_time();
+    push_back_test<int>(myvector);
+    pop_back_test<int>(myvector);
+    test_insert();
+    resize_vector_test();
+    reserve_vector_test();
+    at_vector_test();
+    iterator_vector_test();
+    const_iterator_vector_test();
+    assign_vector_test();
+    test_insert();
     // test_insert2();
-    // test_str_insert();
-    // test_erase();
-    // test_char();
-    // test_string();
+    test_str_insert();
+    test_erase();
+    test_char();
+    test_string();
     test_assign_str();
-    // test_swap();
-    // test_clear();
+    test_swap();
+    test_clear();
 
-    // test_get_alloc();
-    // test_comparison();
-    // test_swap_external();
-    // test_reverse_iterator();
-    // test_comparison_iterator();
-    // bidirect_it();
-    // ite();
-    // rev_ite_construct();
-    // test_reverse_iterator();
+    test_get_alloc();
+    test_comparison();
+    test_swap_external();
+    test_reverse_iterator();
+    test_comparison_iterator();
+    bidirect_it();
+    ite();
+    rev_ite_construct();
+    test_reverse_iterator();
 
 }
 

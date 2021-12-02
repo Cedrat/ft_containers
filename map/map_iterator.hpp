@@ -84,7 +84,7 @@ namespace ft
                 if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_min(_tree->getRoot());
                 else 
-                    _ptr = next_node(_ptr);
+                    _ptr = _tree->next_node(_ptr);
                 return (*this);
             }
 
