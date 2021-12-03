@@ -21,7 +21,7 @@ namespace ft
 
 template <class Key,
           class T,
-          class Compare = std::less<Key>, 
+          class Compare = <std::less<Key>>, 
           class Alloc = std::allocator<ft::pair<const Key,T> > >
 class map
 {
@@ -39,7 +39,8 @@ class map
         typedef typename allocator_type::const_reference const_reference;
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
-        typedef map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc>> iterator;
+        typedef map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > iterator;
+        typedef const_map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > const_iterator;
         // typedef const_random_access_iterator<value_type> const_iterator;
         // typedef reverse_iterator<const_iterator> const_reverse_iterator;
         // typedef reverse_iterator<iterator> reverse_iterator;
@@ -54,11 +55,51 @@ class map
             explicit map (const key_compare& comp = key_compare(),
               const allocator_type& alloc = allocator_type())
               {
+                (void) comp;
+                (void) alloc;
                 std::allocator<alloc_tree> tree_alloc;
                 _RBT = tree_alloc.allocate(1);
                 tree_alloc.construct(_RBT, alloc_tree());
 
-                // _RBT = new alloc_tree;
+              }
+
+              map(const map& other)
+              {
+                *this = other;
+              }
+
+
+              template <class InputIterator>
+              map (InputIterator first, InputIterator last,
+                  const key_compare& comp = key_compare(),
+                  const allocator_type& alloc = allocator_type())
+              {
+                (void) comp;
+                (void) alloc;
+                std::allocator<alloc_tree> tree_alloc;
+                _RBT = tree_alloc.allocate(1);
+                tree_alloc.construct(_RBT, alloc_tree());
+                while (first != last)
+                {
+                  insert(*first);
+                  first++;
+                }
+              }
+
+              map& operator= (const map& rhs)
+              {
+                std::allocator<alloc_tree> tree_alloc;
+                _RBT = tree_alloc.allocate(1);
+                tree_alloc.construct(_RBT, alloc_tree());
+                const_iterator it;
+
+                it = rhs.begin();
+                while (it != rhs.end())
+                {
+                  insert(*it);
+                  it++;
+                }
+                return (*this);
               }
 
               ft::pair<const iterator,bool> insert (const value_type& val)
@@ -93,6 +134,16 @@ class map
                 return (iterator(_RBT->getSentry(), _RBT));
               }
 
+              const_iterator begin() const
+              {
+                return (const_iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
+              }
+
+              const_iterator end() const
+              {
+                return (const_iterator(_RBT->getSentry(), _RBT));
+              }
+
               mapped_type& operator[] (const key_type& key)
               {
                 if (_RBT->find_if_key_exist(key) == FALSE)
@@ -105,6 +156,12 @@ class map
               size_type size() const
               {
                 return (_RBT->size());
+              }
+
+              size_type max_size() const
+              {
+                Alloc alloc;
+                return (alloc.max_size() / 4);
               }
 
               bool empty() const
@@ -123,9 +180,7 @@ class map
               // }
               void erase (iterator position)
               {
-                std::cout << "ROOT : " << _RBT->getRoot()->_key << std::endl;
                 _RBT->delete_node(position._ptr);
-                std::cout << "ROOT : " << _RBT->getRoot()->_key << std::endl;
               }
 
               size_type erase (const key_type& key)
@@ -140,7 +195,6 @@ class map
 
               void erase (iterator first, iterator last)
               {
-                size_t distance = ft::distance(first, last);
                 iterator temp;
 
                 while (first != last)
@@ -175,17 +229,63 @@ class map
 
               iterator lower_bound (const key_type& k)
               {
-                return (iterator(_RBT->find_node(k), _RBT));
+
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                {
+                  return (begin());
+                }
+                return (iterator(_RBT->lower_key(k), _RBT));
+              }
+
+              const_iterator lower_bound (const key_type& k) const
+              {
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                {
+                  return (begin());
+                }
+                return (const_iterator(_RBT->lower_key(k), _RBT));
               }
 
               iterator upper_bound (const key_type& k)
               {
-                return (iterator(_RBT->next_node(_RBT->find_node(k)), _RBT));
+                if (Compare()(_RBT->val_max(_RBT->getRoot())->_key, k))
+                {
+                  return (end());
+                }
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                  return (iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
+                return (iterator(_RBT->upper_key(k), _RBT));
+              }
+
+              const_iterator upper_bound (const key_type& k) const 
+              {
+                if (Compare()(_RBT->val_max(_RBT->getRoot())->_key , k))
+                {
+                  return (end());
+                }
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                  return (const_iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
+                return (const_iterator(_RBT->upper_key(k), _RBT));
               }
 
               pair<iterator,iterator>             equal_range (const key_type& k)
               {
-                return (ft::make_pair(iterator(_RBT->find_node(k), _RBT), iterator(_RBT->next_node(_RBT->find_node(k)), _RBT)));
+                return (ft::make_pair(lower_bound(k), upper_bound(k)));
+              }
+
+              pair<const_iterator,const_iterator>             equal_range (const key_type& k) const
+              {
+                return (ft::make_pair(lower_bound(k), upper_bound(k)));
+              }
+
+              value_compare value_comp() const
+              {
+                return 
+              }
+
+              allocator_type get_allocator() const
+              {
+                return (Alloc());
               }
 
 };

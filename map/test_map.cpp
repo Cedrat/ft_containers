@@ -3,7 +3,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
-#include <chrono>
+// #include <chrono>
 #include <iostream>
 #include <sys/time.h>
 #include <ctime>
@@ -16,6 +16,11 @@
 # define NAMESPACE ft
 #endif
 
+template <typename T>
+void	printPair(const T &iterator)
+{
+	std::cout << "key: " << iterator->first << " | value: " << iterator->second;
+}
 
 #define NB_OF_ELEMENTS 100
 #define FALSE 0
@@ -71,9 +76,31 @@ void print_all_vectors_elements(NAMESPACE::vector<T>  const &the_vector)
     }
 }
 
+bool fncomp (char lhs, char rhs) {return lhs<rhs;}
+
+struct classcomp {
+  bool operator() (const char& lhs, const char& rhs) const
+  {return lhs<rhs;}
+};
+
 void test_constructor()
 {
-    NAMESPACE::map<int, int> first;
+  std::map<char,int> first;
+
+  first['a']=10;
+  first['b']=30;
+  first['c']=50;
+  first['d']=70;
+
+  std::map<char,int> second (first.begin(),first.end());
+
+  std::map<char,int> third (second);
+
+  std::map<char,int,classcomp> fourth;                 // class as Compare
+
+  bool(*fn_pt)(char,char) = fncomp;
+  std::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+
 }
 
 void test_insert()
@@ -247,27 +274,74 @@ void test_erase()
    }
 }
 
-void test_lower_upper_bound ()
+void test_lower_upper_bound_string ()
+{
+  NAMESPACE::map<char,std::string> mymap;
+  NAMESPACE::map<char,std::string>::iterator itlow,itup;
+
+//   std::cout << "CRASH" << std::endl;
+  mymap['f']="20";
+  mymap['b']="40";
+  mymap['c']="60";
+  mymap['r']="80";
+  mymap['e']="100";
+  std::cout << mymap.lower_bound ('c')->second << mymap.lower_bound ('c')->first << std::endl;
+  mymap.lower_bound ('c')->second = "14";  // itlow points to b
+  itlow=mymap.upper_bound ('k');   // itup points to e (not d!)
+
+
+//   mymap.erase(itlow,itup);        // erases [itlow,itup)
+
+// 	printPair(itlow);
+// //   // print content:
+//   for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+//     std::cout << it->first << " => " << it->second << '\n';
+}
+
+void test_lower_upper_bound_int ()
 {
   NAMESPACE::map<char,int> mymap;
   NAMESPACE::map<char,int>::iterator itlow,itup;
 
 //   std::cout << "CRASH" << std::endl;
-  mymap['a']=20;
+  mymap['f']=20;
   mymap['b']=40;
   mymap['c']=60;
-  mymap['d']=80;
+  mymap['r']=80;
   mymap['e']=100;
-  itlow=mymap.lower_bound ('c');  // itlow points to b
-  itup=mymap.upper_bound ('c');   // itup points to e (not d!)
+  std::cout << mymap.lower_bound ('c')->second << mymap.lower_bound ('c')->first << std::endl;
+  mymap.lower_bound ('c')->second = 14;  // itlow points to b
+  itlow=mymap.upper_bound ('k');   // itup points to e (not d!)
 
-  mymap.erase(itlow,itup);        // erases [itlow,itup)
 
-//   // print content:
-  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+//   mymap.erase(itlow,itup);        // erases [itlow,itup)
+
+// 	printPair(itlow);
+// //   // print content:
+//   for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+//     std::cout << it->first << " => " << it->second << '\n';
 }
 
+void test_assign()
+{
+	NAMESPACE::map<int, int> old;
+
+	old.insert(NAMESPACE::make_pair(2, 2));
+	old.insert(NAMESPACE::make_pair(3, 2));
+	old.insert(NAMESPACE::make_pair(4, 2));
+	old.insert(NAMESPACE::make_pair(5, 2));
+
+
+
+
+	for (NAMESPACE::map<int,int>::iterator it=old.begin(); it!=old.end(); ++it)
+    	std::cout << it->first << " => " << it->second << '\n';
+
+	NAMESPACE::map<int, int> recent(old);
+	for (NAMESPACE::map<int,int>::iterator it=recent.begin(); it!=recent.end(); ++it)
+		std::cout << it->first << " => " << it->second << '\n';
+
+}
 
 void test_clear()
 {
@@ -282,6 +356,8 @@ void test_clear()
     std::cout << it->first << " => " << it->second << '\n';
 
   mymap.clear();
+  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+    std::cout << it->first << " => " << it->second << '\n';
   mymap['a']=1101;
   mymap['b']=2202;
 
@@ -350,8 +426,9 @@ int main()
     // test_hook();
     // test_find();
     // test_erase();
-    // test_lower_upper_bound();
-    test_equal_range();
+	// test_lower_upper_bound_int();
+    // test_lower_upper_bound_string();
+    // test_equal_range();
     // test_clear();
     // test_swap();
     // test_compare():
@@ -365,9 +442,9 @@ int main()
     // test_char();
     // test_count();
     // test_string();
-    // test_assign_str();
+    // test_assign();
     // test_swap();
-    // test_clear();
+    test_clear();
 
     // test_get_alloc();
     // test_comparison();
