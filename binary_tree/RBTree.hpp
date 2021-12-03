@@ -29,7 +29,6 @@ struct Node
 
     bool operator==(const Node<T,V> &rhs)
     {
-        std::cout << "golo" << std::endl;
         if (_right == rhs._right 
             && _left == rhs._left
             && _key == rhs._key
@@ -92,7 +91,7 @@ class Tree
         typedef V Mapped_value;
         Tree() : _size(0)
         {
-             std::allocator<Node<T,V>> alloc;
+             std::allocator<Node<T,V> > alloc;
             _sentry = alloc.allocate(1);
             alloc.construct(_sentry, Node<T,V>());
 
@@ -108,7 +107,7 @@ class Tree
 
          Tree(Tree const &x) : _size(0) 
         {
-            std::allocator<Node<T,V>> alloc;
+            std::allocator<Node<T,V> > alloc;
             _sentry = alloc.allocate(1);
             alloc.construct(_sentry, Node<T,V>());
 
@@ -119,15 +118,33 @@ class Tree
             _sentry->_key = T();
             _sentry->_value = V();
             
-            _root = _sentry;
+            Node<T, V> *current;
+            if (x.size())
+                current = val_min(x.getRoot());
+            else 
+                current = _sentry;
+            if (current == _sentry)
+            {
+                _root = current;
+            }
+            while (current != _sentry)
+            {
+               insert_new_node(current->_key, current->_value);
+               current = next_node(current);
+            }
+            _size = x._size;
         }
+
+        
 
         ~Tree()
         {
+            std::allocator<Node<T,V> > alloc;
             // std::cout << "WARNING TREE DESTROYED" << std::endl;
             if (_root != _sentry)
                 delete_tree(_root);
-            delete _sentry;
+            alloc.destroy(_sentry);
+            alloc.deallocate(_sentry , 1);
         };
 
         size_t size() const
@@ -135,7 +152,7 @@ class Tree
             return (_size);
         }
 
-        Node<T,V> * getRoot()
+        Node<T,V> * getRoot() const
         {
             return (_root);
         }
@@ -155,7 +172,7 @@ class Tree
 
         void delete_tree(Node<T,V> *head)
         {
-            std::allocator<Node<T,V>> alloc;
+            std::allocator<Node<T,V> > alloc;
             Alloc alloc_pair;
 
             if (head == NULL)
@@ -212,10 +229,12 @@ class Tree
         Node<T,V> * init_new_node(T key, V value = V())
         {
             Node<T,V>* new_node;
-            std::allocator<Node<T,V>> alloc;
+            std::allocator<Node<T,V> > alloc;
+            Alloc alloc_pair;
             
             new_node = alloc.allocate(1);
             alloc.construct(new_node, Node<T,V>());
+
 
             new_node->_left = _sentry;
             new_node->_right = _sentry;
@@ -223,9 +242,9 @@ class Tree
             new_node->_color = RED;
             new_node->_key = key;
             new_node->_value = value;
-            new_node->_pair = new ft::pair<const T, V>(key, value);
+            new_node->_pair = alloc_pair.allocate(1);
+            alloc_pair.construct(new_node->_pair, ft::pair<T, V>(key, value));
             
-
             return (new_node);
         }
 
@@ -254,7 +273,7 @@ class Tree
 
             if (head != _sentry)
             {
-                if (!Compare{}(head->_key,to_insert->_key))
+                if (!Compare()(head->_key,to_insert->_key))
                 {
                     if (head->_left != _sentry)
                     {
@@ -337,9 +356,9 @@ class Tree
 
     void right_rotate(Node<T,V> *relegate)
     {
-        std::cout << "rigth rotate = \nrelegate key = " << relegate->_key << std::endl;
+        // std::cout << "rigth rotate = \nrelegate key = " << relegate->_key << std::endl;
         Node<T,V> *promote = relegate->_left; //1
-        std::cout << "promote key = " << promote->_key << std::endl;
+        // std::cout << "promote key = " << promote->_key << std::endl;
 
             relegate->_left = promote->_right;
             if (promote->_right != _sentry)
@@ -439,7 +458,7 @@ class Tree
             {
                 return (temp);
             }
-            else if (Compare{}(key, temp->_key))
+            else if (Compare()(key, temp->_key))
             {
                 temp = temp->_left;
             }
@@ -476,7 +495,11 @@ class Tree
     Node<T,V> *val_min(Node<T,V> *current_node)
     {
         Node<T,V> *temp;
-
+        if (current_node == _sentry)
+        {
+            std::cerr << "_sentry" << std::endl;
+            return (_sentry);
+        }
         temp = current_node;
 
         while (temp->_left != _sentry)
@@ -510,6 +533,50 @@ class Tree
             temp = temp->_left;
         }
         return (temp->_pair);
+    }
+
+    
+    Node<T, V> * upper_key(const T& key)
+    {
+        Node<T,V> *temp = _root;
+
+        while (temp != _sentry)
+        {
+            if (Compare()(temp->_key, key))
+            {
+                temp = temp->_right;
+            }
+            else
+            {
+                if (temp->_left == _sentry || Compare()(temp->_left->_key, key))
+                    return (next_node(temp));
+                else
+                    temp = temp->_left;
+            }
+        }
+        return (temp);
+    }
+
+    Node<T, V> * lower_key(const T& key)
+    {
+        Node<T,V> *temp = _root;
+        Node<T,V> *v_next_node;
+        temp = val_min(getRoot());
+       
+        while (temp != _sentry)
+        {
+            v_next_node = next_node(temp);
+            if (
+            ((Compare()(temp->_key , key) && Compare()(key, v_next_node->_key))
+             || temp->_key == key))
+                return (temp);
+            else 
+            {
+                temp = v_next_node;
+            }
+
+        }
+        return (temp);
     }
 
 
@@ -744,8 +811,8 @@ Node<T,V>* uncle(Node<T,V> *current)
 template<class T, class V>
 Node<T,V> *search_head(Node<T,V> *node)
 {
-    if (node->_parent && node->_parent->_parent)
-        std::cerr << node << "|" << node->_parent  << "|" << node->_parent->_parent << "|" << node->_parent->_parent->_parent << std::endl;
+    // if (node->_parent && node->_parent->_parent)
+    //     std::cerr << node << "|" << node->_parent  << "|" << node->_parent->_parent << "|" << node->_parent->_parent->_parent << std::endl;
 
     while(node->_parent != NULL)
     {

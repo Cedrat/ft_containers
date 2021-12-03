@@ -38,7 +38,7 @@ ft::vector<std::string> split_string(std::string str, std::string splitter)
     return (split_str);
 }
 
-static std::string bool_color(bool color)
+std::string bool_color(bool color)
 {
     if (color == RED)
     {
@@ -61,14 +61,14 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
 {
     ft::vector<std::string> tilted_tree(depth * 2 - 1, std::string(split_rbt.size() * SPACE_FIT,' '));
 
-    for (int i = 0; i < split_rbt.size() ; i++)
+    for (size_t i = 0; i < split_rbt.size() ; i++)
     {
         tilted_tree[(split_rbt[i].find('[')/SPACE_FIT) * 2].insert(i * SPACE_FIT, s_substr(split_rbt[i]));
     }
 
-    for (int i = tilted_tree.size() - 1; i > 0 ; i = i-2)
+    for (size_t i = tilted_tree.size() - 1; i > 0 ; i = i-2)
     {
-        for (int letter = 0; letter < tilted_tree[i].size(); letter++)
+        for (size_t letter = 0; letter < tilted_tree[i].size(); letter++)
         {
             if (tilted_tree[i][letter] == ',')
                 tilted_tree[i - 1][letter] = '|';
@@ -79,9 +79,9 @@ ft::vector<std::string> tilt_tree(ft::vector<std::string> split_rbt, int depth)
     char right_child;
     int previous_pipe = 0;
     int pos_coma;
-    for (int i = 0; i < tilted_tree.size() ; i++)
+    for (size_t i = 0; i < tilted_tree.size() ; i++)
     {
-        for (int letter = 0; letter < tilted_tree[i].size();letter++)
+        for (size_t letter = 0; letter < tilted_tree[i].size();letter++)
         {
             previous_pipe = 0;
             pos_coma = 0;
@@ -135,6 +135,7 @@ void print_tree(Node<T,V> *head)
     ft::vector<std::string> split_rbt = split_string(RBT, "\n");
     tilt_tree(split_rbt, depth_tree(head));
 }
+
 
 template<class T, class V>
 std::string print_tree_str(Node<T,V> *head,  int current_depth = 0 , std::string binary_str = std::string())

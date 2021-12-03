@@ -15,7 +15,7 @@ struct pair
     second_type second;
     pair()
     {};
-    pair(const pair<first_type, second_type>&pair_) : first(first_type()), second(second_type())
+    pair(const pair<first_type, second_type>&pair_) : first(pair_.first), second(pair_.second)
     {
     }
     pair(first_type first_element, second_type second_element) :
@@ -28,6 +28,7 @@ struct pair
     pair(const pair<U, V> &pr) : first(pr.first), second(pr.second)
     {
     }
+
 
     pair &operator=(const pair &rhs)
     {
