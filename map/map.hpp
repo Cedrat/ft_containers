@@ -119,10 +119,16 @@ class map
                 // delete _RBT;
               }
 
-              // size_type count (const key_type& k) const
-              // {
-              //   return (_RBT.find_if_key_exist(k));
-              // }
+              size_type count (const key_type& k) const
+              {
+                return (_RBT->find_if_key_exist(k));
+              }
+
+              template< class K >
+              size_type count( const K& x ) const
+              {
+                return (_RBT->find_if_key_exist(x));
+              }
 
 
               iterator begin()
@@ -176,10 +182,10 @@ class map
                 return (iterator(_RBT->find_node(k), _RBT));
               }
 
-              // const_iterator find (const key_type& k) const
-              // {
-              //   return (const_iterator(_RBT->find_node(k)));
-              // }
+              const_iterator find (const key_type& k) const
+              {
+                return (const_iterator(_RBT->find_node(k), _RBT));
+              }
               void erase (iterator position)
               {
                 _RBT->delete_node(position._ptr);

@@ -463,7 +463,7 @@ class Tree
                 temp = temp->_right;
             }
         }
-        return (NULL);
+        return (_sentry);
     }
 
     bool find_if_key_exist(T const & key) const

@@ -161,7 +161,7 @@ namespace ft
             {
             }
 
-            const_map_iterator(map_iterator<Node, Key, Mapped, Tree> & iterator) : _ptr(iterator._ptr)
+            const_map_iterator(const map_iterator<Node, Key, Mapped, Tree> & iterator) : _ptr(iterator._ptr), _tree(iterator._tree)
             {
 
             }
