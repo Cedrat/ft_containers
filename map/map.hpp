@@ -21,7 +21,7 @@ namespace ft
 
 template <class Key,
           class T,
-          class Compare = <std::less<Key>>, 
+          class Compare = std::less<Key>, 
           class Alloc = std::allocator<ft::pair<const Key,T> > >
 class map
 {
@@ -160,8 +160,9 @@ class map
 
               size_type max_size() const
               {
-                Alloc alloc;
-                return (alloc.max_size() / 4);
+                std::allocator<Node<Key, T> > tree_alloc;
+
+                return (tree_alloc.max_size());
               }
 
               bool empty() const
@@ -230,7 +231,7 @@ class map
               iterator lower_bound (const key_type& k)
               {
 
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
                 {
                   return (begin());
                 }
@@ -239,7 +240,7 @@ class map
 
               const_iterator lower_bound (const key_type& k) const
               {
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
                 {
                   return (begin());
                 }
@@ -248,22 +249,22 @@ class map
 
               iterator upper_bound (const key_type& k)
               {
-                if (Compare()(_RBT->val_max(_RBT->getRoot())->_key, k))
+                if (Compare()(_RBT->val_max(_RBT->getRoot())->_pair->first, k))
                 {
                   return (end());
                 }
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
                   return (iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
                 return (iterator(_RBT->upper_key(k), _RBT));
               }
 
               const_iterator upper_bound (const key_type& k) const 
               {
-                if (Compare()(_RBT->val_max(_RBT->getRoot())->_key , k))
+                if (Compare()(_RBT->val_max(_RBT->getRoot())->_pair->first , k))
                 {
                   return (end());
                 }
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_key))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
                   return (const_iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
                 return (const_iterator(_RBT->upper_key(k), _RBT));
               }
@@ -278,10 +279,10 @@ class map
                 return (ft::make_pair(lower_bound(k), upper_bound(k)));
               }
 
-              value_compare value_comp() const
-              {
-                return 
-              }
+              // value_compare value_comp() const
+              // {
+              //   return 
+              // }
 
               allocator_type get_allocator() const
               {
