@@ -11,6 +11,7 @@
 #include "../pair.hpp"
 #include <memory>
 
+
 #define RED 1
 #define BLACK 0
 #define LEAF NULL
@@ -23,7 +24,7 @@ struct Node
     Node *_right;
     Node *_parent;
     ft::pair<const T, V> *_pair;
-    long int    _color;
+    bool    _color;
     // T     _key;
     // V     _value;
 
