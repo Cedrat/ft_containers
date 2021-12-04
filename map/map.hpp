@@ -105,9 +105,26 @@ class map
 
               ft::pair<const iterator,bool> insert (const value_type& val)
               {
-                  _RBT->insert_new_node(val.first, val.second);
+                  const iterator it = iterator(_RBT->insert_new_node(val.first, val.second), _RBT);
                   
-                  return (ft::pair<const iterator, bool>());
+                  return (ft::pair<const iterator, bool>(it, 1));
+              }
+
+              iterator insert (iterator position, const value_type& val)
+              {
+                _RBT->insert_new_node(val.first, val.second);
+                  
+                  return (position);
+              }
+
+              template <class InputIterator>
+              void insert (InputIterator first, InputIterator last)
+              {
+                while (first != last)
+                {
+                  _RBT->insert_new_node(first->first, first->second);
+                  first++;
+                }
               }
 
               ~map()
