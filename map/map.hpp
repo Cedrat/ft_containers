@@ -7,11 +7,11 @@
 #include "../is_integral.hpp"
 #include "../enable_if.hpp"
 #include "../lexicographical_compare.hpp"
-#include "../reverse_iterator.hpp"
 #include "../ft_distance.hpp"
 #include "map_iterator.hpp"
 #include "../binary_tree/print_tree.hpp"
 #include <map>
+#include "reverse_map_iterator.hpp"
 
 
 #define FALSE 0
@@ -43,8 +43,8 @@ class map
         typedef map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > iterator;
         typedef const_map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > const_iterator;
         // typedef const_random_access_iterator<value_type> const_iterator;
-        // typedef reverse_iterator<const_iterator> const_reverse_iterator;
-        // typedef reverse_iterator<iterator> reverse_iterator;
+        typedef reverse_map_iterator<const iterator>  const_reverse_iterator;
+        typedef reverse_map_iterator<iterator> reverse_iterator;
         typedef std::ptrdiff_t difference_type;
 
 
@@ -180,6 +180,16 @@ class map
                 return (iterator(_RBT->getSentry(), _RBT));
               }
 
+              reverse_iterator rend()
+              {
+                return (reverse_iterator(iterator(_RBT->getSentry(), _RBT)));
+              }
+
+              reverse_iterator rbegin()
+              {
+                return (reverse_iterator(iterator(_RBT->val_max(_RBT->getRoot()), _RBT)));
+              }
+
               const_iterator begin() const
               {
                 return (const_iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
@@ -189,6 +199,18 @@ class map
               {
                 return (const_iterator(_RBT->getSentry(), _RBT));
               }
+
+              const_reverse_iterator rend() const
+              {
+                return (const_reverse_iterator(_RBT->getSentry(), _RBT));
+              }
+
+              const_reverse_iterator rbegin() const
+              {
+                return (const_reverse_iterator(_RBT->val_max(_RBT->getRoot()), _RBT));
+              }
+
+              
 
               mapped_type& operator[] (const key_type& key)
               {
@@ -371,7 +393,7 @@ class map
               bool operator< (const map<Key,T,Compare,Alloc>& lhs,
                     const map<Key,T,Compare,Alloc>& rhs )
               {
-                  return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), lhs.value_comp()));
+                  return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
               }
 
               template <class Key, class T, class Compare, class Alloc>

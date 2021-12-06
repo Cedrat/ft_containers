@@ -12,16 +12,20 @@ namespace ft
             typedef bidirectional_iterator_tag iterator_category;
             typedef long difference_type;
             // typedef Node<Key, Mapped> value_type; //tree<Key, T>
-            typedef Node value_type;
-            typedef Node *pointer;
+            // typedef Node value_type;
+            typedef Node *node;
             typedef ft::pair<const Key, Mapped> *pointer_pair;
             typedef const ft::pair<const Key, Mapped> *const_pointer_pair;
             typedef ft::pair<const Key, Mapped> &pair;
             typedef const ft::pair<const Key, Mapped> &const_pair;
-            typedef Node& reference;
+            typedef ft::pair<const Key, Mapped> *pointer;
+            typedef ft::pair<const Key, Mapped> &reference;
+            typedef ft::pair<const Key, Mapped> value_type;
+
+            // typedef Node& reference;
             
 
-            pointer _ptr;
+            node _ptr;
             Tree    *_tree;
 
 
@@ -30,7 +34,7 @@ namespace ft
 
             }
 
-            map_iterator(pointer ptr, Tree *tree) : _ptr(ptr), _tree(tree)
+            map_iterator(node ptr, Tree *tree) : _ptr(ptr), _tree(tree)
             {
             }
 
@@ -75,7 +79,7 @@ namespace ft
                 return (_ptr->_pair);
             }
 
-            const_pointer_pair operator->() const 
+            const pointer_pair operator->() const 
             {
                 return (_ptr->_pair);
             }
@@ -85,7 +89,7 @@ namespace ft
                 return (*_ptr->_pair);
             }
 
-            pair operator*() const
+            const_pair operator*() const
             {
                 return (*_ptr->_pair);
             }
@@ -95,7 +99,7 @@ namespace ft
                 if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_max(_tree->getRoot());
                 else 
-                    _ptr = previous_node(_ptr);
+                    _ptr = _tree->previous_node(_ptr);
                 return (*this);
             }
 
@@ -105,7 +109,7 @@ namespace ft
                 if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_max(_tree->getRoot());
                 else 
-                    _ptr = previous_node(_ptr);
+                    _ptr = _tree->previous_node(_ptr);
                 return (temp);
             }
 
@@ -148,16 +152,18 @@ namespace ft
             typedef bidirectional_iterator_tag iterator_category;
             typedef long difference_type;
             // typedef Node<Key, Mapped> value_type; //tree<Key, T>
-            typedef Node value_type;
-            typedef Node *pointer;
+            // typedef Node value_type;
+            typedef Node *node;
             typedef ft::pair<const Key, Mapped> *pointer_pair;
             typedef const ft::pair<const Key, Mapped> *const_pointer_pair;
             typedef ft::pair<const Key, Mapped> &pair;
             typedef const ft::pair<const Key, Mapped> &const_pair;
-            typedef Node& reference;
+            typedef ft::pair<const Key, Mapped> *pointer;
+            typedef ft::pair<const Key, Mapped> &reference;
+            typedef ft::pair<const Key, Mapped> value_type;
             
 
-            pointer _ptr;
+            node _ptr;
             Tree    *_tree;
 
 
@@ -166,7 +172,7 @@ namespace ft
 
             }
 
-            const_map_iterator(pointer ptr, Tree *tree) : _ptr(ptr), _tree(tree)
+            const_map_iterator(node ptr, Tree *tree) : _ptr(ptr), _tree(tree)
             {
             }
 
@@ -205,8 +211,9 @@ namespace ft
             //     return (_ptr->_pair);
             // }
 
-            const_pointer_pair operator->() const 
+            const pointer_pair operator->() const 
             {
+                std::cout << "ok";
                 return (_ptr->_pair);
             }
 
@@ -222,13 +229,11 @@ namespace ft
 
             const_map_iterator& operator--() //predecrement
             {
-                                std::cout << this->_ptr->_pair->first << "value" << std::endl;
 
                 if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_max(_tree->getRoot());
                 else 
-                    _ptr = previous_node(_ptr);
-                                    std::cout << this->_ptr->_pair->first << "value" << std::endl;
+                    _ptr = _tree->previous_node(_ptr);
 
                 return (*this);
             }
@@ -236,12 +241,10 @@ namespace ft
              const_map_iterator operator--(int) //postdecrement
             {
                 const_map_iterator temp = *this;
-                std::cout << this->_ptr->_pair->first << "value" << std::endl;
                 if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_max(_tree->getRoot());
                 else 
-                    _ptr = previous_node(_ptr);
-                std::cout << this->_ptr->_pair->first << "value" << std::endl;
+                    _ptr =_tree->previous_node(_ptr);
                 return (temp);
             }
 

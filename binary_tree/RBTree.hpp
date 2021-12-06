@@ -703,6 +703,42 @@ class Tree
         delete(node_to_delete);
     }
 
+    Node<T,V> *previous_node(Node<T,V> *current_node)
+    {
+        Node<T,V>  *temp = current_node; 
+
+        if (temp->_left != _sentry)
+        {
+            temp = temp->_left;
+            while (temp->_right != _sentry)
+            {
+                temp = temp->_right;
+            }
+            return (temp);
+        }
+        else if (temp->_parent != _sentry)
+        {
+            if (temp->_parent->_right == temp)
+                return (temp->_parent);
+            if (temp->_parent->_left == temp)
+            {
+                while (temp->_parent != _sentry && temp->_parent->_left == temp)
+                {
+                    temp = temp->_parent;
+                }
+                if (temp == _root)
+                {
+                    return (_sentry);
+                }
+                else
+                {
+                    return (temp->_parent);
+                }
+            }
+        }
+        return (_sentry);
+    }
+
 };
 
 
@@ -773,26 +809,7 @@ Node<T,V> *next_node(Node<T,V> *current_node)
     return (temp->_parent);
 }
 
-template<class T, class V>
-Node<T,V> *previous_node(Node<T,V> *current_node)
-{
-    Node<T,V>  *temp = current_node; 
 
-    if (temp->_left->isSentry() == FALSE)
-    {
-        return (minimal(temp));
-    }
-    if (temp->_parent->_left != temp)
-    {
-        return (temp->_parent);
-    }
-    while (temp->_parent && temp->_parent->_left != temp)
-    {
-        temp = temp->_parent;
-    }
-
-    return (temp->_parent);
-}
 
 template<class T, class V>
 Node<T,V>* getBrother(Node<T,V> *current)
