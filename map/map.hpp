@@ -43,7 +43,7 @@ class map
         typedef map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > iterator;
         typedef const_map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > const_iterator;
         // typedef const_random_access_iterator<value_type> const_iterator;
-        typedef reverse_map_iterator<const iterator>  const_reverse_iterator;
+        typedef reverse_map_iterator<const_iterator>  const_reverse_iterator;
         typedef reverse_map_iterator<iterator> reverse_iterator;
         typedef std::ptrdiff_t difference_type;
 

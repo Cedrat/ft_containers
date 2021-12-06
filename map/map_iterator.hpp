@@ -79,20 +79,17 @@ namespace ft
                 return (_ptr->_pair);
             }
 
-            const pointer_pair operator->() const 
+            const pointer_pair operator->() const
             {
                 return (_ptr->_pair);
             }
+
 
             pair operator*()
             {
                 return (*_ptr->_pair);
             }
 
-            const_pair operator*() const
-            {
-                return (*_ptr->_pair);
-            }
 
             map_iterator& operator--() //preincrement
             {
@@ -133,7 +130,6 @@ namespace ft
                 }
                 return (temp);
             }
-
             friend bool operator!=(const map_iterator<Node, Key, Mapped, Tree> &lhs, const map_iterator<Node, Key, Mapped, Tree> &rhs)
             {
                 return (lhs._ptr != rhs._ptr);
@@ -156,11 +152,11 @@ namespace ft
             typedef Node *node;
             typedef ft::pair<const Key, Mapped> *pointer_pair;
             typedef const ft::pair<const Key, Mapped> *const_pointer_pair;
-            typedef ft::pair<const Key, Mapped> &pair;
+            typedef const ft::pair<const Key, Mapped> &pair;
             typedef const ft::pair<const Key, Mapped> &const_pair;
-            typedef ft::pair<const Key, Mapped> *pointer;
-            typedef ft::pair<const Key, Mapped> &reference;
-            typedef ft::pair<const Key, Mapped> value_type;
+            typedef const ft::pair<const Key, Mapped> *pointer;
+            typedef const ft::pair<const Key, Mapped> &reference;
+            typedef const ft::pair<const Key, Mapped> value_type;
             
 
             node _ptr;
@@ -182,38 +178,9 @@ namespace ft
             }
 
 
-            // const_map_iterator& operator=(map_iterator<Node, Key, Mapped, Tree> const &rhs)
-            // {
-            //     this->_ptr = rhs._ptr;
-            //     return (*this);
-            // }
-
-            // const_map_iterator(pointer ptr) : _ptr(ptr)
-            // {
-
-            // }
-
-            // const_map_iterator(ft::pair<const Key,Mapped> *xd) : _ptr(NULL)
-            // {
-            // }
-
-            // const_map_iterator(typename T::Node tree) : _ptr(NULL)
-            // {
-            // }
-
-            // const_map_iterator(typename _ptr->_pair) : _ptr(tree->_pair)
-            // {
-            // }
-
-
-            // pointer_pair operator->() 
-            // {
-            //     return (_ptr->_pair);
-            // }
 
             const pointer_pair operator->() const 
             {
-                std::cout << "ok";
                 return (_ptr->_pair);
             }
 

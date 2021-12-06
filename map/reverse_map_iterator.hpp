@@ -78,10 +78,10 @@ namespace ft
             }
 
 
-            // const_pointer operator->() const
-            // {
-            //         return (const_cast<const_pointer>(_current.operator->()));
-            // }
+            const_pointer operator->() const
+            {
+                    return ((_current.operator->()));
+            }
 
             reverse_map_iterator& operator++()
             {
@@ -109,6 +109,15 @@ namespace ft
                 ++_current;
                 return (temp);
             };  
+            friend bool operator!=(const reverse_map_iterator<Iterator> &lhs, const reverse_map_iterator<Iterator> &rhs)
+            {
+                return (lhs.base() != rhs.base());
+            }
+
+            friend bool operator==(const reverse_map_iterator<Iterator> &lhs, const reverse_map_iterator<Iterator> &rhs)
+            {
+                return (lhs.base() == rhs.base());
+            }
     };
 
 };
