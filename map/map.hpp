@@ -51,6 +51,22 @@ class map
 
         private :
             Tree<Key, T, Compare, Alloc> *_RBT;
+
+        class value_compare
+        {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+        friend class map;
+        protected:
+          Compare comp;
+          value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+        public:
+          typedef bool result_type;
+          typedef value_type first_argument_type;
+          typedef value_type second_argument_type;
+          bool operator() (const value_type& x, const value_type& y) const
+          {
+            return comp(x.first, y.first);
+          }
+        };
         
         public :
             explicit map (const key_compare& comp = key_compare(),
@@ -105,16 +121,22 @@ class map
 
               ft::pair<const iterator,bool> insert (const value_type& val)
               {
-                  const iterator it = iterator(_RBT->insert_new_node(val.first, val.second), _RBT);
+                  bool exist = _RBT->find_if_key_exist(val.first);
                   
-                  return (ft::pair<const iterator, bool>(it, 1));
+                  if (!exist)
+                    _RBT->insert_new_node(val.first, val.second);
+
+                  const iterator it = iterator(_RBT->find_node(val.first), _RBT);
+                  
+
+                  return (ft::pair<const iterator, bool>(it, !exist));
               }
 
               iterator insert (iterator position, const value_type& val)
               {
                 _RBT->insert_new_node(val.first, val.second);
-                  
-                  return (position);
+                  position = iterator(_RBT->find_node(val.first),_RBT);
+                 return (position);
               }
 
               template <class InputIterator>
@@ -191,7 +213,7 @@ class map
 
               bool empty() const
               {
-                return (_RBT->size());
+                return (!_RBT->size());
               }
 
               iterator find (const key_type& k)
@@ -303,16 +325,77 @@ class map
                 return (ft::make_pair(lower_bound(k), upper_bound(k)));
               }
 
-              // value_compare value_comp() const
-              // {
-              //   return 
-              // }
+              value_compare value_comp() const
+              {
+                return (value_compare(Compare()));
+              }
 
               allocator_type get_allocator() const
               {
                 return (Alloc());
               }
 
+              
+
 };
+            template <class Key, class T, class Compare, class Alloc>
+              bool operator== ( const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+              {
+
+                typename ft::map<Key,T,Compare,Alloc>::const_iterator lhs_itbegin = lhs.begin();
+                typename ft::map<Key,T,Compare,Alloc>::const_iterator rhs_itbegin = rhs.begin();
+                if (lhs.size() == rhs.size())
+                {
+                  while (lhs_itbegin != lhs.end())
+                  {
+                    if (*lhs_itbegin != *rhs_itbegin)
+                      return (false);
+                    lhs_itbegin++;
+                    rhs_itbegin++;
+                  }
+                }
+                else
+                  return (false);
+                return (true);
+              }
+
+              template <class Key, class T, class Compare, class Alloc>
+              bool operator!= (const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+              {
+                  return (!(lhs == rhs));
+              }
+
+              template <class Key, class T, class Compare, class Alloc>
+              bool operator< (const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+              {
+                  return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), lhs.value_comp()));
+              }
+
+              template <class Key, class T, class Compare, class Alloc>
+              bool operator> (const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+              {
+                return (rhs < lhs);
+              }
+
+              template <class Key, class T, class Compare, class Alloc>
+              bool operator>= (const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+              {
+                return (!(rhs > lhs));
+              }
+
+              template <class Key, class T, class Compare, class Alloc>
+              bool operator<= (const map<Key,T,Compare,Alloc>& lhs,
+                    const map<Key,T,Compare,Alloc>& rhs )
+              {
+                return (!(rhs < lhs));
+              }
+
+
+
 };
 #endif

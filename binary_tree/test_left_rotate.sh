@@ -53,6 +53,9 @@ test6()
     echo A4
     echo A5
     echo A6
+    echo A7
+    echo A8 
+    echo A9
     echo D2
 }
 
@@ -82,7 +85,7 @@ test7()
 }
 
 test(){
-    test7| valgrind ./a.out
+    test6| valgrind ./a.out
 }
 
 test

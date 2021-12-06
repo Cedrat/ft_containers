@@ -15,7 +15,9 @@ namespace ft
             typedef Node value_type;
             typedef Node *pointer;
             typedef ft::pair<const Key, Mapped> *pointer_pair;
+            typedef const ft::pair<const Key, Mapped> *const_pointer_pair;
             typedef ft::pair<const Key, Mapped> &pair;
+            typedef const ft::pair<const Key, Mapped> &const_pair;
             typedef Node& reference;
             
 
@@ -73,12 +75,17 @@ namespace ft
                 return (_ptr->_pair);
             }
 
-            pointer_pair operator->() const 
+            const_pointer_pair operator->() const 
             {
                 return (_ptr->_pair);
             }
 
             pair operator*()
+            {
+                return (*_ptr->_pair);
+            }
+
+            pair operator*() const
             {
                 return (*_ptr->_pair);
             }
@@ -144,7 +151,9 @@ namespace ft
             typedef Node value_type;
             typedef Node *pointer;
             typedef ft::pair<const Key, Mapped> *pointer_pair;
+            typedef const ft::pair<const Key, Mapped> *const_pointer_pair;
             typedef ft::pair<const Key, Mapped> &pair;
+            typedef const ft::pair<const Key, Mapped> &const_pair;
             typedef Node& reference;
             
 
@@ -191,37 +200,48 @@ namespace ft
             // }
 
 
-            pointer_pair operator->() 
+            // pointer_pair operator->() 
+            // {
+            //     return (_ptr->_pair);
+            // }
+
+            const_pointer_pair operator->() const 
             {
                 return (_ptr->_pair);
             }
 
-            pointer_pair operator->() const 
-            {
-                return (_ptr->_pair);
-            }
+            // pair operator*()
+            // {
+            //     return (*_ptr->_pair);
+            // }
 
-            pair operator*()
+            const_pair operator*() const
             {
                 return (*_ptr->_pair);
             }
 
-            const_map_iterator& operator--() //preincrement
+            const_map_iterator& operator--() //predecrement
             {
+                                std::cout << this->_ptr->_pair->first << "value" << std::endl;
+
                 if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_max(_tree->getRoot());
                 else 
                     _ptr = previous_node(_ptr);
+                                    std::cout << this->_ptr->_pair->first << "value" << std::endl;
+
                 return (*this);
             }
 
-             const_map_iterator operator--(int) //postincrement
+             const_map_iterator operator--(int) //postdecrement
             {
                 const_map_iterator temp = *this;
+                std::cout << this->_ptr->_pair->first << "value" << std::endl;
                 if (_ptr == _tree->getSentry())
                     _ptr = _tree->val_max(_tree->getRoot());
                 else 
                     _ptr = previous_node(_ptr);
+                std::cout << this->_ptr->_pair->first << "value" << std::endl;
                 return (temp);
             }
 

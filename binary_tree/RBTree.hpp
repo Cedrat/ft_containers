@@ -216,7 +216,10 @@ class Tree
         {
             Node<T,V> *new_node;
             new_node = init_new_node(value_to_insert, value);
-            insertion(_root, new_node);
+            if (insertion(_root, new_node) == FALSE)
+            {
+                return (_root);
+            }
             balance(new_node);
             // std::cout << "root key " << _root->_pair->first << std::endl;
             // std::cout << "root value " << _root->_value << std::endl;
@@ -264,17 +267,21 @@ class Tree
         }
 
 
-        void insertion(Node<T,V> *head ,Node<T,V> *to_insert)
+        bool insertion(Node<T,V> *head ,Node<T,V> *to_insert)
         {
 
             if (head != _sentry)
             {
                 if (!Compare()(head->_pair->first,to_insert->_pair->first))
                 {
-                    if (head->_left != _sentry)
+                    if (head->_pair->first == to_insert->_pair->first)
                     {
-                        insertion(head->_left, to_insert);
-                        return ;
+
+                        return (FALSE);
+                    }
+                    else if (head->_left != _sentry)
+                    {
+                        return (insertion(head->_left, to_insert));
                     }
                     else
                     {
@@ -283,10 +290,13 @@ class Tree
                 }
                 else
                 {
-                    if (head->_right != _sentry)
+                    if (head->_pair->first == to_insert->_pair->first)
                     {
-                        insertion(head->_right, to_insert);
-                        return ;
+                        return (FALSE);
+                    }
+                    else if (head->_right != _sentry)
+                    {
+                        return (insertion(head->_right, to_insert));
                     }
                     else
                     {
@@ -299,6 +309,7 @@ class Tree
             {
                 _root = to_insert;
             }
+            return (TRUE);
         }
     void balance(Node<T,V> *current_node)
     {
