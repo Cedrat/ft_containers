@@ -69,6 +69,7 @@ int main()
 				if (nb >= NB_MIN && nb <= NB_MAX)
 				{
 					RB_tree.delete_node(RB_tree.find_node(nb));;
+						
 				}
 				else 
 				{
@@ -86,7 +87,6 @@ int main()
 			std::cout << "Exit" << std::endl;
 			break;
 		}
-		// system("clear");
 		print_tree(RB_tree.getRoot());
 	}
 }

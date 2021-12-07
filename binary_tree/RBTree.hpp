@@ -91,9 +91,13 @@ class Tree
         typedef V Mapped_value;
         Tree() : _size(0)
         {
-             std::allocator<Node<T,V> > alloc;
-            _sentry = alloc.allocate(1);
-            alloc.construct(_sentry, Node<T,V>());
+             std::allocator<Node<T,V> > alloc_node;
+            _sentry = alloc_node.allocate(1);
+            alloc_node.construct(_sentry, Node<T,V>());
+            Alloc alloc;
+            _sentry->_pair = alloc.allocate(1);
+            alloc.construct(_sentry->_pair, ft::pair<T,V>(T(),V()));
+
 
             _sentry->_right = LEAF;
             _sentry->_left = LEAF;
@@ -105,9 +109,12 @@ class Tree
 
          Tree(Tree const &x) : _size(0) 
         {
-            std::allocator<Node<T,V> > alloc;
-            _sentry = alloc.allocate(1);
-            alloc.construct(_sentry, Node<T,V>());
+            std::allocator<Node<T,V> > alloc_node;
+            _sentry = alloc_node.allocate(1);
+            alloc_node.construct(_sentry, Node<T,V>());
+             Alloc alloc;
+            _sentry->_pair = alloc.allocate(1);
+            alloc.construct(_sentry->_pair, ft::pair<T,V>(T(),V()));
 
             _sentry->_right = LEAF;
             _sentry->_left = LEAF;
@@ -116,6 +123,9 @@ class Tree
             // _sentry->_pair->first = T();
             // _sentry->_value = V();
             
+            std::cout << "copu construct alloc" << std::endl;
+            std::cout << x.size() << std::endl;
+
             Node<T, V> *current;
             if (x.size())
                 current = val_min(x.getRoot());
@@ -137,12 +147,16 @@ class Tree
 
         ~Tree()
         {
-            std::allocator<Node<T,V> > alloc;
+            std::allocator<Node<T,V> > alloc_node;
+            Alloc alloc;
             // std::cout << "WARNING TREE DESTROYED" << std::endl;
             if (_root != _sentry)
                 delete_tree(_root);
-            alloc.destroy(_sentry);
-            alloc.deallocate(_sentry , 1);
+            alloc.destroy(_sentry->_pair);
+            alloc.deallocate(_sentry->_pair , 1);
+            alloc_node.destroy(_sentry);
+            alloc_node.deallocate(_sentry , 1);
+
         };
 
         size_t size() const
@@ -402,17 +416,17 @@ class Tree
     }
 
 
-    void re_balance(Node<T,V> *son)
+    void    re_balance(Node<T,V> *son)
     {
         Node<T,V> *grand_p = grand_parent(son);
         Node<T,V> *parent_ = parent(son);
 
-        if (grand_p != _sentry && son == grand_p->_left->_right)
+        if (son == grand_p->_left->_right)
         {
             left_rotate(parent_);
             son = son->_left;
         }
-        else if (grand_p != _sentry && son == grand_p->_right->_left)
+        else if (son == grand_p->_right->_left)
         {
             right_rotate(parent_);
             son = son->_right;
@@ -588,10 +602,11 @@ class Tree
 
     void balance_after_delete(Node<T,V> *current_node)
     {
-        Node<T,V> *brother = getBrother(current_node);
+        Node<T,V> *brother; 
        
         while (current_node != _root && current_node->_color == BLACK)
         {
+            brother = getBrother(current_node);
             if (current_node == current_node->_parent->_left)
             {
                 if (brother->_color == RED)
@@ -627,7 +642,7 @@ class Tree
                 if (brother->_color == RED)
                 {
                     brother->_color = BLACK;
-                    brother->_parent->_color = RED;
+                    current_node->_parent->_color = RED;
                     right_rotate(current_node->_parent);
                     brother = current_node->_parent->_left;
                 }
@@ -663,6 +678,8 @@ class Tree
         bool original_color = node_to_delete->_color;
         Node<T,V>* node_begin_correction;
 
+        if (node_to_delete == _sentry)
+            return ;
         temp = node_to_delete;
         if (node_to_delete->_left == _sentry)
         {
@@ -699,8 +716,13 @@ class Tree
         {
             balance_after_delete(node_begin_correction);
         }
-        delete(node_to_delete->_pair);
-        delete(node_to_delete);
+        Alloc alloc_pair;
+        std::allocator<Node<T,V> > alloc_node;
+        
+        alloc_pair.destroy(node_to_delete->_pair);
+        alloc_pair.deallocate(node_to_delete->_pair, 1);
+        alloc_node.destroy(node_to_delete);
+        alloc_node.deallocate(node_to_delete , 1);
     }
 
     Node<T,V> *previous_node(Node<T,V> *current_node)

@@ -65,7 +65,7 @@ class map
           bool operator() (const value_type& x, const value_type& y) const
           {
             return comp(x.first, y.first);
-          }
+          }   
         };
         
         public :
@@ -96,11 +96,8 @@ class map
                 std::allocator<alloc_tree> tree_alloc;
                 _RBT = tree_alloc.allocate(1);
                 tree_alloc.construct(_RBT, alloc_tree());
-                while (first != last)
-                {
-                  insert(*first);
-                  first++;
-                }
+                insert(first, last);
+                // print_tree(_RBT->getRoot());
               }
 
               map& operator= (const map& rhs)
@@ -249,6 +246,9 @@ class map
               }
               void erase (iterator position)
               {
+                (void) position;
+                std::cout << position->first << std::endl;
+                std::cout << position->second << std::endl;
                 _RBT->delete_node(position._ptr);
               }
 

@@ -56,6 +56,7 @@ test6()
     echo A7
     echo A8 
     echo A9
+    echo A10
     echo D2
 }
 
@@ -70,7 +71,7 @@ test7()
     echo D1
 }
 
-test7()
+test8()
 {
     echo A1
     echo A2
