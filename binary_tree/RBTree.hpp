@@ -123,9 +123,6 @@ class Tree
             // _sentry->_pair->first = T();
             // _sentry->_value = V();
             
-            std::cout << "copu construct alloc" << std::endl;
-            std::cout << x.size() << std::endl;
-
             Node<T, V> *current;
             if (x.size())
                 current = val_min(x.getRoot());

@@ -34,7 +34,7 @@ namespace ft
 
             reverse_map_iterator(iterator_type it) : _current(it)
             {
-                // _current--;
+                // _current++;
             };
 
             // reverse_map_iterator(iterator_type it) : _current(it)
@@ -49,13 +49,18 @@ namespace ft
              
              iterator_type base() const
             {
+                // iterator_type temp = _current;
+
+                // temp++;
                 return (_current) ;
             }
 
             value_type operator*()
             {
-                // iterator_type temp = base();
-                return (*_current);
+                iterator_type temp = _current;
+                temp--;
+                return (*temp);
+                // return (*_current);
             }
 
             // const_value_type operator*() const
@@ -74,13 +79,17 @@ namespace ft
 
             pointer operator->()
             {
-                    return (_current.operator->());
+                    iterator_type temp = _current;
+                    temp--;
+                    return ((temp.operator->()));
             }
 
 
             const_pointer operator->() const
             {
-                    return ((_current.operator->()));
+                    iterator_type temp = _current;
+                    temp--;
+                    return ((temp.operator->()));
             }
 
             reverse_map_iterator& operator++()

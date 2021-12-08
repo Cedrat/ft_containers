@@ -179,12 +179,12 @@ class map
 
               reverse_iterator rend()
               {
-                return (reverse_iterator(iterator(_RBT->getSentry(), _RBT)));
+                return (reverse_iterator(begin()));
               }
 
               reverse_iterator rbegin()
               {
-                return (reverse_iterator(iterator(_RBT->val_max(_RBT->getRoot()), _RBT)));
+                return (reverse_iterator(iterator(_RBT->getSentry(), _RBT)));
               }
 
               const_iterator begin() const
@@ -199,12 +199,12 @@ class map
 
               const_reverse_iterator rend() const
               {
-                return (const_reverse_iterator(_RBT->getSentry(), _RBT));
+                return (const_reverse_iterator(begin()));
               }
 
               const_reverse_iterator rbegin() const
               {
-                return (const_reverse_iterator(_RBT->val_max(_RBT->getRoot()), _RBT));
+                return (const_reverse_iterator(_RBT->getSentry()), _RBT);
               }
 
               
