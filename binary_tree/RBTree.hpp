@@ -23,12 +23,15 @@ struct Node
     Node *_left;
     Node *_right;
     Node *_parent;
-    ft::pair<const T, V> *_pair;
-    bool    _color;
+    ft::pair<const T, V> _pair;
+    size_t    _color;
     // T     _key;
     // V     _value;
 
+    Node(T first, V second) : _pair(first, second)
+    {
 
+    }
     bool operator==(const Node<T,V> &rhs)
     {
         if (_right == rhs._right 
@@ -50,7 +53,7 @@ struct Node
     //     _right = rhs->_right;
     //     _parent = rhs->_parent;
     //     _color = rhs->_color;
-    //     _key = rhs->_pair->first;
+    //     _key = rhs->_pair.first;
     //     _value = rhs->_value
     //     _pair = rhs->_pair;
 
@@ -93,10 +96,8 @@ class Tree
         {
              std::allocator<Node<T,V> > alloc_node;
             _sentry = alloc_node.allocate(1);
-            alloc_node.construct(_sentry, Node<T,V>());
-            Alloc alloc;
-            _sentry->_pair = alloc.allocate(1);
-            alloc.construct(_sentry->_pair, ft::pair<T,V>(T(),V()));
+            alloc_node.construct(_sentry, Node<T,V>(T(), V()));
+
 
 
             _sentry->_right = LEAF;
@@ -111,16 +112,14 @@ class Tree
         {
             std::allocator<Node<T,V> > alloc_node;
             _sentry = alloc_node.allocate(1);
-            alloc_node.construct(_sentry, Node<T,V>());
-             Alloc alloc;
-            _sentry->_pair = alloc.allocate(1);
-            alloc.construct(_sentry->_pair, ft::pair<T,V>(T(),V()));
+            alloc_node.construct(_sentry, Node<T,V>(T(),V()));
+
 
             _sentry->_right = LEAF;
             _sentry->_left = LEAF;
             _sentry->_parent = LEAF;
             _sentry->_color = BLACK;
-            // _sentry->_pair->first = T();
+            // _sentry->_pair.first = T();
             // _sentry->_value = V();
             
             Node<T, V> *current;
@@ -134,7 +133,7 @@ class Tree
             }
             while (current != _sentry)
             {
-               insert_new_node(current->_pair->first, current->_pair->second);
+               insert_new_node(current->_pair.first, current->_pair.second);
                current = next_node(current);
             }
             _size = x._size;
@@ -149,8 +148,6 @@ class Tree
             // std::cout << "WARNING TREE DESTROYED" << std::endl;
             if (_root != _sentry)
                 delete_tree(_root);
-            alloc.destroy(_sentry->_pair);
-            alloc.deallocate(_sentry->_pair , 1);
             alloc_node.destroy(_sentry);
             alloc_node.deallocate(_sentry , 1);
 
@@ -194,8 +191,6 @@ class Tree
             {
                 delete_tree(head->_right);
             }
-            alloc_pair.destroy(head->_pair);
-            alloc_pair.deallocate(head->_pair, 1);
             alloc.destroy(head);
             alloc.deallocate(head , 1);
         }
@@ -232,7 +227,7 @@ class Tree
                 return (_root);
             }
             balance(new_node);
-            // std::cout << "root key " << _root->_pair->first << std::endl;
+            // std::cout << "root key " << _root->_pair.first << std::endl;
             // std::cout << "root value " << _root->_value << std::endl;
             _size++;
             return (_root);
@@ -245,15 +240,13 @@ class Tree
             Alloc alloc_pair;
             
             new_node = alloc.allocate(1);
-            alloc.construct(new_node, Node<T,V>());
+            alloc.construct(new_node, Node<T,V>(key, value));
 
 
             new_node->_left = _sentry;
             new_node->_right = _sentry;
             new_node->_parent = _sentry;
             new_node->_color = RED;
-            new_node->_pair = alloc_pair.allocate(1);
-            alloc_pair.construct(new_node->_pair, ft::pair<T, V>(key, value));
             
             return (new_node);
         }
@@ -283,9 +276,9 @@ class Tree
 
             if (head != _sentry)
             {
-                if (!Compare()(head->_pair->first,to_insert->_pair->first))
+                if (!Compare()(head->_pair.first,to_insert->_pair.first))
                 {
-                    if (head->_pair->first == to_insert->_pair->first)
+                    if (head->_pair.first == to_insert->_pair.first)
                     {
 
                         return (FALSE);
@@ -301,7 +294,7 @@ class Tree
                 }
                 else
                 {
-                    if (head->_pair->first == to_insert->_pair->first)
+                    if (head->_pair.first == to_insert->_pair.first)
                     {
                         return (FALSE);
                     }
@@ -324,7 +317,7 @@ class Tree
         }
     void balance(Node<T,V> *current_node)
     {
-        // std::cout << "balance = " << current_node->_pair->first << std::endl;
+        // std::cout << "balance = " << current_node->_pair.first << std::endl;
         if (current_node->_parent == _sentry)
         {
             current_node->_color = BLACK;
@@ -345,9 +338,9 @@ class Tree
 
     void left_rotate(Node<T,V> *relegate)
     {
-        // std::cout << "left_rotate : \nrelegate key = " << relegate->_pair->first << std::endl;
+        // std::cout << "left_rotate : \nrelegate key = " << relegate->_pair.first << std::endl;
         Node<T,V> *promote = relegate->_right; //1
-        // std::cout << "promote key = " << promote->_pair->first << std::endl;
+        // std::cout << "promote key = " << promote->_pair.first << std::endl;
 
         relegate->_right = promote->_left;
         if (promote->_left != _sentry)
@@ -369,14 +362,14 @@ class Tree
         }
         promote->_left = relegate;
         relegate->_parent = promote;
-        // std::cerr << promote->_parent->_pair->first << std::endl;
+        // std::cerr << promote->_parent->_pair.first << std::endl;
     }
 
     void right_rotate(Node<T,V> *relegate)
     {
-        // std::cout << "rigth rotate = \nrelegate key = " << relegate->_pair->first << std::endl;
+        // std::cout << "rigth rotate = \nrelegate key = " << relegate->_pair.first << std::endl;
         Node<T,V> *promote = relegate->_left; //1
-        // std::cout << "promote key = " << promote->_pair->first << std::endl;
+        // std::cout << "promote key = " << promote->_pair.first << std::endl;
 
             relegate->_left = promote->_right;
             if (promote->_right != _sentry)
@@ -436,7 +429,7 @@ class Tree
     {
         Node<T,V> *grand_p = grand_parent(son);
         Node<T,V> *parent_ = parent(son);
-        // std::cout << "son->key = " << son->_pair->first << std::endl;
+        // std::cout << "son->key = " << son->_pair.first << std::endl;
             if (son == parent(son)->_left)
             {
                 right_rotate(grand_parent(son));
@@ -472,11 +465,11 @@ class Tree
 
         while (temp != _sentry)
         {
-            if (key == temp->_pair->first)
+            if (key == temp->_pair.first)
             {
                 return (temp);
             }
-            else if (Compare()(key, temp->_pair->first))
+            else if (Compare()(key, temp->_pair.first))
             {
                 temp = temp->_left;
             }
@@ -494,11 +487,11 @@ class Tree
 
         while (temp != _sentry)
         {
-            if (key == temp->_pair->first)
+            if (key == temp->_pair.first)
             {
                 return (TRUE);
             }
-            else if (key >= temp->_pair->first)
+            else if (key >= temp->_pair.first)
             {
                 temp = temp->_right;
             }
@@ -559,13 +552,13 @@ class Tree
 
         while (temp != _sentry)
         {
-            if (Compare()(temp->_pair->first, key))
+            if (Compare()(temp->_pair.first, key))
             {
                 temp = temp->_right;
             }
             else
             {
-                if (temp->_left == _sentry || Compare()(temp->_left->_pair->first, key))
+                if (temp->_left == _sentry || Compare()(temp->_left->_pair.first, key))
                     return (next_node(temp));
                 else
                     temp = temp->_left;
@@ -584,8 +577,8 @@ class Tree
         {
             v_next_node = next_node(temp);
             if (
-            ((Compare()(temp->_pair->first , key) && (v_next_node != _sentry && Compare()(key, v_next_node->_pair->first)))
-             || temp->_pair->first == key))
+            ((Compare()(temp->_pair.first , key) && (v_next_node != _sentry && Compare()(key, v_next_node->_pair.first)))
+             || temp->_pair.first == key))
                 return (temp);
             else 
             {
@@ -716,8 +709,6 @@ class Tree
         Alloc alloc_pair;
         std::allocator<Node<T,V> > alloc_node;
         
-        alloc_pair.destroy(node_to_delete->_pair);
-        alloc_pair.deallocate(node_to_delete->_pair, 1);
         alloc_node.destroy(node_to_delete);
         alloc_node.deallocate(node_to_delete , 1);
     }
@@ -780,7 +771,7 @@ Node<T,V>* grand_parent(Node<T,V> *current)
 // template<class T, class V>
 // ft::pair<const T, V> *next_pair(ft::pair<const T,V> *current_pair)
 // {
-//     Node<T,V> *temp = find_node(current_pair->first);
+//     Node<T,V> *temp = find_node(current_pair.first);
 
 
 //     if (temp->_right->isSentry() != FALSE)
@@ -789,7 +780,7 @@ Node<T,V>* grand_parent(Node<T,V> *current)
 //     }
 //     else if (temp->_parent)
 //     {
-//         while (temp->_parent && temp->_parent->_pair->first > temp->_key)
+//         while (temp->_parent && temp->_parent->_pair.first > temp->_key)
 //         {
 //             temp = temp->_parent;
 //         }

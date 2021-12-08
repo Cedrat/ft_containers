@@ -76,18 +76,23 @@ namespace ft
 
             pointer_pair operator->()
             {
-                return (_ptr->_pair);
+                return (&_ptr->_pair);
             }
 
-            const pointer_pair operator->() const
+            const_pointer_pair operator->() const
             {
-                return (_ptr->_pair);
+                return (&_ptr->_pair);
             }
 
 
             pair operator*()
             {
-                return (*_ptr->_pair);
+                return (_ptr->_pair);
+            }
+
+            const_pair operator*() const
+            {
+                return (_ptr->_pair);
             }
 
 
@@ -179,9 +184,9 @@ namespace ft
 
 
 
-            const pointer_pair operator->() const 
+            const_pointer_pair operator->() const 
             {
-                return (_ptr->_pair);
+                return (&_ptr->_pair);
             }
 
             // pair operator*()
@@ -191,7 +196,7 @@ namespace ft
 
             const_pair operator*() const
             {
-                return (*_ptr->_pair);
+                return (_ptr->_pair);
             }
 
             const_map_iterator& operator--() //predecrement

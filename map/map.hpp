@@ -215,7 +215,7 @@ class map
                 {
                   _RBT->insert_new_node(key, mapped_type());
                 }
-                return (_RBT->find_node(key)->_pair->second);
+                return (_RBT->find_node(key)->_pair.second);
               }
 
               size_type size() const
@@ -247,8 +247,6 @@ class map
               void erase (iterator position)
               {
                 (void) position;
-                std::cout << position->first << std::endl;
-                std::cout << position->second << std::endl;
                 _RBT->delete_node(position._ptr);
               }
 
@@ -299,7 +297,7 @@ class map
               iterator lower_bound (const key_type& k)
               {
 
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
                 {
                   return (begin());
                 }
@@ -308,7 +306,7 @@ class map
 
               const_iterator lower_bound (const key_type& k) const
               {
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
                 {
                   return (begin());
                 }
@@ -317,22 +315,22 @@ class map
 
               iterator upper_bound (const key_type& k)
               {
-                if (Compare()(_RBT->val_max(_RBT->getRoot())->_pair->first, k))
+                if (Compare()(_RBT->val_max(_RBT->getRoot())->_pair.first, k))
                 {
                   return (end());
                 }
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
                   return (iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
                 return (iterator(_RBT->upper_key(k), _RBT));
               }
 
               const_iterator upper_bound (const key_type& k) const 
               {
-                if (Compare()(_RBT->val_max(_RBT->getRoot())->_pair->first , k))
+                if (Compare()(_RBT->val_max(_RBT->getRoot())->_pair.first , k))
                 {
                   return (end());
                 }
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair->first))
+                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
                   return (const_iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
                 return (const_iterator(_RBT->upper_key(k), _RBT));
               }

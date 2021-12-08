@@ -145,7 +145,7 @@ std::string print_tree_str(Node<T,V> *head,  int current_depth = 0 , std::string
     {
         binary_str += print_tree_str(head->_left, current_depth + 1);
     }
-    ss << std::string(current_depth * SPACE_FIT, ' ') << "[" << head->_pair->first << "," << bool_color(head->_color) << "]" << child(head->_left) << child(head->_right) << "\n";
+    ss << std::string(current_depth * SPACE_FIT, ' ') << "[" << head->_pair.first << "," << bool_color(head->_color) << "]" << child(head->_left) << child(head->_right) << "\n";
     binary_str += ss.str();
     if (head->_right)
     {
