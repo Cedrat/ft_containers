@@ -2,7 +2,8 @@
 # define RANDOM_ACCESS_ITERATOR_HPP
 
 
-#include "iterator_tags.hpp"
+#include "../utils/iterator_traits.hpp"
+#include "../utils/iterator_tags.hpp"
 namespace ft
 {   
     template<class T>
@@ -24,11 +25,6 @@ namespace ft
             {
             }
             
-            // random_access_iterator& operator=(random_access_iterator &rhs)
-            // {
-            //     this->_ptr = rhs._ptr;
-            //     return (*this);
-            // }
             reference operator*() const
             {
                 return (*_ptr);
@@ -44,10 +40,6 @@ namespace ft
                 return (_ptr);
             }
 
-            // value_type operator[](int n) 
-            // {
-            //     return (_ptr[n]);
-            // }
 
             reference operator[](int n) const
             {
@@ -98,10 +90,7 @@ namespace ft
                 return (temp); 
             }
 
-            // difference_type operator -(random_access_iterator second)
-            // {
-            //     return (_ptr - second._ptr); 
-            // }
+
 
             random_access_iterator operator--(int)
             {
@@ -116,11 +105,7 @@ namespace ft
                 return (lhs._ptr - rhs._ptr);
             }
             
-            // template<class Iterator>
-            // friend difference_type operator-(const Iterator &lhs, const Iterator &rhs)
-            // {
-            //     return (lhs - rhs);
-            // }
+
 
             friend random_access_iterator operator+(const random_access_iterator<T>::difference_type &lhs, const random_access_iterator<T> &rhs)
             {
@@ -157,9 +142,6 @@ namespace ft
 
             pointer _ptr;
 
-            // pointer getPtr(
-                
-            // private :
     };
 
     template<class T>
@@ -186,11 +168,6 @@ namespace ft
             {
             }
             
-            // const_random_access_iterator& operator=(const const_random_access_iterator &rhs)
-            // {
-            //     this->_ptr = rhs._ptr;
-            //     return (*this);
-            // }
 
             const_random_access_iterator& operator=(const random_access_iterator<T> &rhs)
             {
@@ -212,11 +189,6 @@ namespace ft
             {
                 return (_ptr);
             }
-
-            // value_type operator[](int n) 
-            // {
-            //     return (_ptr[n]);
-            // }
 
             reference operator[](int n) const
             {
@@ -267,11 +239,6 @@ namespace ft
                 return (temp); 
             }
 
-            // difference_type operator -(const_random_access_iterator second)
-            // {
-            //     return (_ptr - second._ptr); 
-            // }
-
             const_random_access_iterator operator--(int)
             {
                 const_random_access_iterator temp = *this;
@@ -284,11 +251,6 @@ namespace ft
             {
                 return (lhs._ptr - rhs._ptr);
             }
-
-            // friend difference_type operator+(const const_random_access_iterator<T> &lhs, const const_random_access_iterator<T> &rhs)
-            // {
-            //     return (lhs._ptr + rhs._ptr);
-            // }
 
 
             friend bool operator!=(const const_random_access_iterator<T> &lhs, const const_random_access_iterator<T> &rhs)

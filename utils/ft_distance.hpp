@@ -2,6 +2,7 @@
 # define FT_DISTANCE_HPP  
 
 #include "iterator_traits.hpp"  
+#include "iterator_tags.hpp"
 
 namespace ft
 {   

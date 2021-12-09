@@ -3,12 +3,12 @@
 
 #include <cstdlib>
 #include <iostream>
-#include "../vector.hpp"
+#include "../vector/vector.hpp"
 #include <string>
 #include <sstream>
 #include <vector>
 #include <unistd.h>
-#include "../pair.hpp"
+#include "../utils/pair.hpp"
 #include <memory>
 
 

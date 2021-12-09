@@ -4,11 +4,12 @@
 #include <memory>
 #include <iostream>
 #include "random_access_iterator.hpp"
-#include "is_integral.hpp"
-#include "enable_if.hpp"
-#include "lexicographical_compare.hpp"
+#include "../utils/is_integral.hpp"
+#include "../utils/enable_if.hpp"
+#include "../utils/lexicographical_compare.hpp"
 #include "reverse_iterator.hpp"
-#include "ft_distance.hpp"
+#include "../utils/ft_distance.hpp"
+#include "../utils/iterator_tags.hpp"
 
 
 #define FALSE 0

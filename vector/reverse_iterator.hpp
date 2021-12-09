@@ -1,8 +1,8 @@
 #ifndef REVERSE_ITERATOR_HPP
 # define REVERSE_ITERATOR_HPP
 
-#include "iterator_traits.hpp"
-#include "ft_distance.hpp"
+#include "../utils/iterator_traits.hpp"
+#include "../utils/ft_distance.hpp"
 
 namespace ft
 {
@@ -18,7 +18,6 @@ class reverse_iterator
         Iterator _current;
     public : 
         typedef          Iterator                                             iterator_type;
-        // typedef typename ft::reverse_iterator<const Iterator>                 const_reverse_iterator;
         typedef typename ft::iterator_traits<Iterator>::difference_type       difference_type;
         typedef typename ft::iterator_traits<Iterator>::value_type            value_type;
         typedef typename ft::iterator_traits<Iterator>::pointer               pointer;             
