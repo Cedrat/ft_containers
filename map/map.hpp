@@ -4,10 +4,10 @@
 #include "../binary_tree/RBTree.hpp"
 #include <memory>
 #include <iostream>
-#include "../is_integral.hpp"
-#include "../enable_if.hpp"
-#include "../lexicographical_compare.hpp"
-#include "../ft_distance.hpp"
+#include "../utils/is_integral.hpp"
+#include "../utils/enable_if.hpp"
+#include "../utils/lexicographical_compare.hpp"
+#include "../utils/ft_distance.hpp"
 #include "map_iterator.hpp"
 #include "../binary_tree/print_tree.hpp"
 #include <map>
@@ -414,8 +414,5 @@ class map
               {
                 return (!(rhs < lhs));
               }
-
-
-
 };
 #endif

@@ -1,7 +1,7 @@
-#ifndef MAP_ITERATOR
-# define MAP_ITERATOR
+#ifndef MAP_ITERATOR_HPP
+# define MAP_ITERATOR_HPP
 
-#include "../iterator_tags.hpp"
+#include "../utils/iterator_tags.hpp"
 #include "../binary_tree/RBTree.hpp"
 namespace ft
 {
@@ -11,13 +11,13 @@ namespace ft
         public :
             typedef bidirectional_iterator_tag iterator_category;
             typedef long difference_type;
-            // typedef Node<Key, Mapped> value_type; //tree<Key, T>
-            // typedef Node value_type;
+
             typedef Node *node;
             typedef ft::pair<const Key, Mapped> *pointer_pair;
             typedef const ft::pair<const Key, Mapped> *const_pointer_pair;
             typedef ft::pair<const Key, Mapped> &pair;
             typedef const ft::pair<const Key, Mapped> &const_pair;
+            
             typedef ft::pair<const Key, Mapped> *pointer;
             typedef ft::pair<const Key, Mapped> &reference;
             typedef ft::pair<const Key, Mapped> value_type;
@@ -37,42 +37,6 @@ namespace ft
             map_iterator(node ptr, Tree *tree) : _ptr(ptr), _tree(tree)
             {
             }
-
-
-            // map_iterator& operator=(map_iterator<Node, Key, Mapped, Tree> &rhs)
-            // {
-            //     this->_ptr = rhs._ptr;
-            //     return (*this);
-            // }
-            // map_iterator(map_iterator<Node, Key, Mapped, Tree> const &rhs)
-            // {
-            //     *this->_ptr = rhs._ptr;
-            // }
-
-            // map_iterator& operator=(const map_iterator<Node, Key, Mapped, Tree> &rhs)
-            // {
-            //     this->_ptr = rhs._ptr;
-            //     return (*this);
-            // }
-
-            // map_iterator(pointer ptr) : _ptr(ptr)
-            // {
-
-            // }
-
-            // map_iterator(ft::pair<const Key,Mapped> *xd) : _ptr(NULL)
-            // {
-            // }
-
-            // map_iterator(typename T::Node tree) : _ptr(NULL)
-            // {
-            // }
-
-            // map_iterator(typename _ptr->_pair) : _ptr(tree->_pair)
-            // {
-            // }
-
-
 
             pointer_pair operator->()
             {
@@ -188,11 +152,6 @@ namespace ft
             {
                 return (&_ptr->_pair);
             }
-
-            // pair operator*()
-            // {
-            //     return (*_ptr->_pair);
-            // }
 
             const_pair operator*() const
             {
