@@ -4,5 +4,5 @@
 a.out
 ft_test
 std_test
-/containers_test
-/map/containers_test
+*/containers_test
+FT_CONTAINERS_TESTER

@@ -60,15 +60,15 @@ class vector
             }
             _capacity = new_capacity;
             _array = alloc.allocate(capacity());
-
         }
         template<class Iterator>
         void assign(Iterator first, Iterator last, ft::false_type)
         {
             Alloc alloc;
-            _size = ft::distance(first, last);
-            if (_size > _capacity)
-                reallocate(_size);
+            size_t temp;
+            temp = ft::distance(first, last);
+            if (temp > _capacity)
+                reallocate(temp);
             int i(0);
             while (first != last)
             {
@@ -76,6 +76,7 @@ class vector
                 first++;
                 i++;
             }
+            _size = temp;
 
         }
 
@@ -108,20 +109,26 @@ class vector
             }
             
             iterator it_end = end();
-            _size+=n;
             while (it_end != begin())
             {
+                if ((it_end - begin() + n - 1) < _size)
+                    alloc.destroy(&_array[it_end - begin() + n - 1]);
                 alloc.construct(&_array[it_end - begin() + n - 1] ,*(it_end -1));
                 it_end--;
             }
             for (size_t i = 0; i < pos; i++)
             {
-                _array[i] = *(begin() + i);
+                                if (i < _size)
+                    alloc.destroy(&_array[i]);
+                alloc.construct(&_array[i], *(begin() + i));
             }   
             for (size_t i = 0; i < n; i++)
             {
-                _array[pos + i] =  val; 
+                 if ((pos + i) < _size)
+                    alloc.destroy(&_array[pos + i]);
+                alloc.construct(&_array[pos + i], val);
             }
+            _size+=n;
         }
 
         template <class InputIterator>
@@ -138,21 +145,28 @@ class vector
                 reserve(_size + range);
             }
             iterator it_end = end();
-            _size+=range;
+            
             while ((it_end - begin()) != (long)pos)
             {
-                alloc.construct(&_array[it_end - begin() + range - 1], *(it_end - 1));
+                if ((it_end - begin() + range - 1) < _size)
+                    alloc.destroy(&_array[it_end - begin() + range - 1]);
+                alloc.construct(&_array[it_end - begin() + range - 1],  *(it_end - 1));
                 it_end--;
             }
             for (size_t i = 0; i < pos; i++)
             {
-                _array[i] = *(begin() + i);
+                if (i < _size)
+                    alloc.destroy(&_array[i]);
+                alloc.construct(&_array[i], *(begin() + i));
             }
             for (size_t i = 0; i < range; i++)
             {
-                _array[pos + i] = *first;
+                if ((pos + i) < _size)
+                    alloc.destroy(&_array[pos + i]);
+                alloc.construct(&_array[pos + i], *first);
                 first++; 
             }
+            _size+=range;
         }
     
         void initialize()
@@ -349,7 +363,8 @@ class vector
         void pop_back()
         {
             Alloc alloc;
-            alloc.destroy(&_array[_size]);
+
+            alloc.destroy(&_array[_size - 1]);
             _size--;
         }
 
@@ -421,18 +436,32 @@ class vector
 
         iterator erase (iterator first, iterator last)
         {
+            // Alloc alloc;
             iterator temp = first;
-            size_t range = last - first;
-            iterator it_end = end();
-            _size -= range;
-            if (last == it_end)
-                return (end());
-            while (first != (it_end))
+            // size_t range = last - first;
+            // iterator it_end = end();
+            // _size -= range;
+            // if (last == it_end)
+            //     return (end());
+            // while (first != last)
+            // {
+            //     _array[first - begin()] = *(first + range);
+            //     first++;
+            // }
+            // // while (range > 0)
+            // // {
+            // //     alloc.destroy(&_array[end() - begin () - range]);
+            // //     _size--;
+            // //     range--;
+            // // }
+            // return (temp);
+            while (first != last)
             {
-                _array[first - begin()] = *(first + range);
-                first++;
+                last--;
+                erase(last);
             }
             return (temp);
+            
         }
 
         void swap (vector &swapped)

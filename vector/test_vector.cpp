@@ -76,10 +76,16 @@ void push_back_test(NAMESPACE::vector<T> &the_vector)
     // print_vector<int>(the_vector);
     for (int i=0; i < NB_OF_ELEMENTS; i++)
     {
-        print_vector<int>(the_vector);
+        // print_vector<int>(the_vector);
         the_vector.push_back(i);
         // print_element_i_vector(the_vector, i);
     }
+    // for (int i=0; i < the_vector.size(); i++)
+    // {
+    //     // print_vector<int>(the_vector);
+    //     the_vector.erase(i);
+    //     // print_element_i_vector(the_vector, i);
+    // }
     std::cout << "time : " << stamp_time(start)<< std::endl;
 }
 
@@ -911,37 +917,37 @@ int main()
 
     NAMESPACE::vector<int> myvector;
 
-    test_constructor();
-    test_const_constructor();
-    copy_constructor_time();
+    // test_constructor();
+    // test_const_constructor();
+    // copy_constructor_time();
     push_back_test<int>(myvector);
-    pop_back_test<int>(myvector);
-    test_insert();
-    resize_vector_test();
-    reserve_vector_test();
-    at_vector_test();
-    iterator_vector_test();
-    const_iterator_vector_test();
-    assign_vector_test();
-    test_insert();
-    // test_insert2();
-    test_str_insert();
-    test_erase();
-    test_char();
-    test_string();
-    test_assign_str();
-    test_swap();
-    test_clear();
+    // pop_back_test<int>(myvector);
+    // test_insert();
+    // resize_vector_test();
+    // reserve_vector_test();
+    // at_vector_test();
+    // iterator_vector_test();
+    // const_iterator_vector_test();
+    // assign_vector_test();
+    // test_insert();
+    // // test_insert2();
+    // test_str_insert();
+    // test_erase();
+    // test_char();
+    // test_string();
+    // test_assign_str();
+    // test_swap();
+    // test_clear();
 
-    test_get_alloc();
-    test_comparison();
-    test_swap_external();
-    test_reverse_iterator();
-    test_comparison_iterator();
-    bidirect_it();
-    ite();
-    rev_ite_construct();
-    test_reverse_iterator();
+    // test_get_alloc();
+    // test_comparison();
+    // test_swap_external();
+    // test_reverse_iterator();
+    // test_comparison_iterator();
+    // bidirect_it();
+    // ite();
+    // rev_ite_construct();
+    // test_reverse_iterator();
 
 }
 
