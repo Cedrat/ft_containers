@@ -66,14 +66,27 @@ class vector
         {
             Alloc alloc;
             size_t temp;
+            size_type old_size = _size;
+
             temp = ft::distance(first, last);
+            bool realloc = false;
             if (temp > _capacity)
+            {
                 reallocate(temp);
-            int i(0);
+                realloc = true;
+            }
+            size_type i(0);
             while (first != last)
             {
+                 if (i < old_size && realloc == false)
+                    alloc.destroy(&_array[i]);
                 alloc.construct(&_array[i], *first);
                 first++;
+                i++;
+            }
+            while (i < old_size)
+            {
+                alloc.destroy(&_array[i]);
                 i++;
             }
             _size = temp;
@@ -83,11 +96,28 @@ class vector
         void assign(size_type n, const T& val, ft::true_type)
         {
             Alloc alloc;
+            size_type old_size = _size;
             if (n > _capacity)
                 reallocate(n);
-            for (size_type i(0); i < n; i++)
+            // else
+            // {
+            //     for (int i = 0; (n + i) < _size ; i++)
+            //     {
+            //         alloc.destroy(&_array[n + i]);
+            //     }
+            // }
+            size_type i(0);
+            while (i < n)
             {
+                if (i < old_size)
+                    alloc.destroy(&_array[i]);
                 alloc.construct(&_array[i], val);
+                i++;
+            }
+            while (i < old_size)
+            {
+                alloc.destroy(&_array[i]);
+                i++;
             }
             _size = n;
         }
@@ -97,6 +127,7 @@ class vector
             size_t pos;
             Alloc alloc;
             size_t new_alloc = _size;
+            int stop_1 = position - begin();
 
             pos = position - begin();
             if ((_size + n) > _capacity)
@@ -107,66 +138,65 @@ class vector
                     new_alloc *= 2;
                 reserve(new_alloc);
             }
-            
-            iterator it_end = end();
-            while (it_end != begin())
+            int size = _size;
+            ft::vector<T> tmp;
+            int i = 0;
+            while (i < stop_1)
             {
-                if ((it_end - begin() + n - 1) < _size)
-                    alloc.destroy(&_array[it_end - begin() + n - 1]);
-                alloc.construct(&_array[it_end - begin() + n - 1] ,*(it_end -1));
-                it_end--;
+                tmp.push_back(_array[i]);
+                i++;
             }
-            for (size_t i = 0; i < pos; i++)
+
+            while (n)
             {
-                                if (i < _size)
-                    alloc.destroy(&_array[i]);
-                alloc.construct(&_array[i], *(begin() + i));
-            }   
-            for (size_t i = 0; i < n; i++)
-            {
-                 if ((pos + i) < _size)
-                    alloc.destroy(&_array[pos + i]);
-                alloc.construct(&_array[pos + i], val);
+                tmp.push_back(val);
+                n--;
             }
-            _size+=n;
+            while (i < size)
+            {
+                tmp.push_back(_array[i]);
+                i++;
+            }
+
+            this->swap(tmp);
+
         }
 
         template <class InputIterator>
         void insert (iterator position, InputIterator first, InputIterator last, ft::false_type)
         {
-            size_t pos;
             size_t range;
             Alloc alloc;
+            vector<T> tmp;
+
+            int stop_1 = position - begin();
 
             range = ft::distance(first, last);
-            pos = position - begin();
             if ((_size + range) > _capacity)
             {
                 reserve(_size + range);
             }
-            iterator it_end = end();
-            
-            while ((it_end - begin()) != (long)pos)
+
+            int i = 0;
+            int size = _size;
+            while (i < stop_1)
             {
-                if ((it_end - begin() + range - 1) < _size)
-                    alloc.destroy(&_array[it_end - begin() + range - 1]);
-                alloc.construct(&_array[it_end - begin() + range - 1],  *(it_end - 1));
-                it_end--;
+                tmp.push_back(_array[i]);
+                i++;
             }
-            for (size_t i = 0; i < pos; i++)
+
+            while (first != last)
             {
-                if (i < _size)
-                    alloc.destroy(&_array[i]);
-                alloc.construct(&_array[i], *(begin() + i));
+                tmp.push_back(*first);
+                first++;
             }
-            for (size_t i = 0; i < range; i++)
+            while (i < size)
             {
-                if ((pos + i) < _size)
-                    alloc.destroy(&_array[pos + i]);
-                alloc.construct(&_array[pos + i], *first);
-                first++; 
+                tmp.push_back(_array[i]);
+                i++;
             }
-            _size+=range;
+
+            this->swap(tmp);
         }
     
         void initialize()
@@ -379,15 +409,23 @@ class vector
                 reserve(_capacity * 2);
             }
             
-
-            iterator it_end = end();
-            while ((it_end - begin()) != temp_pos)
+            ft::vector<T> tmp;
+            int i = 0;
+            int size = _size;
+            while (i < (position - begin()))
             {
-                alloc.construct(&_array[it_end - begin()],*(it_end - 1));
-                it_end--;
+                tmp.push_back(_array[i]);
+                i++;
             }
-            alloc.construct(&_array[temp_pos], val);
-            _size++;
+
+                tmp.push_back(val);
+            while (i < size)
+            {
+                tmp.push_back(_array[i]);
+                i++;
+            }
+
+            this->swap(tmp);
             
             return (temp_pos+ begin());
         }
@@ -436,25 +474,8 @@ class vector
 
         iterator erase (iterator first, iterator last)
         {
-            // Alloc alloc;
             iterator temp = first;
-            // size_t range = last - first;
-            // iterator it_end = end();
-            // _size -= range;
-            // if (last == it_end)
-            //     return (end());
-            // while (first != last)
-            // {
-            //     _array[first - begin()] = *(first + range);
-            //     first++;
-            // }
-            // // while (range > 0)
-            // // {
-            // //     alloc.destroy(&_array[end() - begin () - range]);
-            // //     _size--;
-            // //     range--;
-            // // }
-            // return (temp);
+
             while (first != last)
             {
                 last--;
