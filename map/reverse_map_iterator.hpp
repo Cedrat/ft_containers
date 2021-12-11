@@ -118,16 +118,18 @@ namespace ft
                 ++_current;
                 return (temp);
             };  
-            friend bool operator!=(const reverse_map_iterator<Iterator> &lhs, const reverse_map_iterator<Iterator> &rhs)
+            
+    };
+            template<class Iterator1, class Iterator2>
+            bool operator!=(const reverse_map_iterator<Iterator1> &lhs, const reverse_map_iterator<Iterator2> &rhs)
             {
                 return (lhs.base() != rhs.base());
             }
-
-            friend bool operator==(const reverse_map_iterator<Iterator> &lhs, const reverse_map_iterator<Iterator> &rhs)
+            template<class Iterator1, class Iterator2>
+            bool operator==(const reverse_map_iterator<Iterator1> &lhs, const reverse_map_iterator<Iterator2> &rhs)
             {
                 return (lhs.base() == rhs.base());
             }
-    };
 
 };
 #endif

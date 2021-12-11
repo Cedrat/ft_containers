@@ -326,10 +326,8 @@ void test_assign()
 {
 	NAMESPACE::map<int, int> old;
 
-	old.insert(NAMESPACE::make_pair(2, 2));
-	old.insert(NAMESPACE::make_pair(3, 2));
-	old.insert(NAMESPACE::make_pair(4, 2));
-	old.insert(NAMESPACE::make_pair(5, 2));
+	old[2] = 2;
+
 
 
 
@@ -337,9 +335,13 @@ void test_assign()
 	for (NAMESPACE::map<int,int>::iterator it=old.begin(); it!=old.end(); ++it)
     	std::cout << it->first << " => " << it->second << '\n';
 
-	NAMESPACE::map<int, int> recent(old);
+	NAMESPACE::map<int, int> recent;
+  recent = old;
 	for (NAMESPACE::map<int,int>::iterator it=recent.begin(); it!=recent.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
+
+  NAMESPACE::map<int, int> clean;
+  old = clean;
 
 }
 
@@ -442,9 +444,9 @@ int main()
     // test_char();
     // test_count();
     // test_string();
-    // test_assign();
+    test_assign();
     // test_swap();
-    test_clear();
+    // test_clear();
 
     // test_get_alloc();
     // test_comparison();

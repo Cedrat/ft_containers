@@ -138,6 +138,33 @@ class Tree
             }
             _size = x._size;
         }
+        Tree& operator=(Tree const & rhs)
+        {
+            this->delete_tree();
+
+
+            Node<T, V> *current;
+            if (rhs.size())
+                current = rhs.val_min(rhs.getRoot());
+            else 
+                current = _sentry;
+            if (current == rhs.getSentry())
+            {
+                _root = current;
+            }
+            if ( current == _sentry)
+            {
+                _size = rhs._size;
+                return (*this);
+            }
+            while (current != rhs.getSentry())
+            {
+               insert_new_node(current->_pair.first, current->_pair.second);
+               current = rhs.next_node(current);
+            }
+            _size = rhs._size;
+            return (*this);
+        }
 
         
 
@@ -163,7 +190,7 @@ class Tree
             return (_root);
         }
 
-        Node<T,V> *getSentry()
+        Node<T,V> *getSentry() const
         {
             return (_sentry);
         }
@@ -171,7 +198,8 @@ class Tree
 
         void delete_tree()
         {
-            delete_tree(_root);
+            if (_root != _sentry) 
+                delete_tree(_root);
             _root = _sentry;
             _size = 0;
         }
@@ -207,7 +235,7 @@ class Tree
             return (FALSE);
         }
 
-        Node<T,V> *minimal(Node<T,V> *current_node)
+        Node<T,V> *minimal(Node<T,V> *current_node) const
         {
             Node<T,V> *temp;
             temp = current_node;
@@ -224,6 +252,11 @@ class Tree
             new_node = init_new_node(value_to_insert, value);
             if (insertion(_root, new_node) == FALSE)
             {
+                std::allocator<Node<T,V> > alloc;
+
+                alloc.destroy(new_node);
+                alloc.deallocate(new_node , 1);
+
                 return (_root);
             }
             balance(new_node);
@@ -254,7 +287,7 @@ class Tree
 
 
 
-        Node<T,V> *next_node(Node<T,V> *current_node)
+        Node<T,V> *next_node(Node<T,V> *current_node) const
         {
             Node<T,V>  *temp;
             temp = current_node; 
@@ -276,14 +309,13 @@ class Tree
 
             if (head != _sentry)
             {
-                if (!Compare()(head->_pair.first,to_insert->_pair.first))
+                if (to_insert->_pair.first == head->_pair.first)
                 {
-                    if (head->_pair.first == to_insert->_pair.first)
-                    {
-
-                        return (FALSE);
-                    }
-                    else if (head->_left != _sentry)
+                    return (FALSE);
+                }
+                else if (!Compare()(head->_pair.first,to_insert->_pair.first))
+                {
+                    if (head->_left != _sentry)
                     {
                         return (insertion(head->_left, to_insert));
                     }
@@ -294,11 +326,7 @@ class Tree
                 }
                 else
                 {
-                    if (head->_pair.first == to_insert->_pair.first)
-                    {
-                        return (FALSE);
-                    }
-                    else if (head->_right != _sentry)
+                    if (head->_right != _sentry)
                     {
                         return (insertion(head->_right, to_insert));
                     }
@@ -491,19 +519,19 @@ class Tree
             {
                 return (TRUE);
             }
-            else if (key >= temp->_pair.first)
+            else if (Compare()(key, temp->_pair.first))
             {
-                temp = temp->_right;
+                temp = temp->_left;
             }
             else
             {
-                temp = temp->_left;
+                temp = temp->_right;
             }
         }
         return (FALSE);
     }
 
-    Node<T,V> *val_min(Node<T,V> *current_node)
+    Node<T,V> *val_min(Node<T,V> *current_node) const
     {
         Node<T,V> *temp;
         if (current_node == _sentry)
@@ -552,17 +580,9 @@ class Tree
 
         while (temp != _sentry)
         {
-            if (Compare()(temp->_pair.first, key))
-            {
-                temp = temp->_right;
-            }
-            else
-            {
-                if (temp->_left == _sentry || Compare()(temp->_left->_pair.first, key))
-                    return (next_node(temp));
-                else
-                    temp = temp->_left;
-            }
+            if (Compare()(key, temp->_pair.first))
+                return (temp);
+            temp = next_node(temp);
         }
         return (temp);
     }
@@ -576,10 +596,12 @@ class Tree
         while (temp != _sentry)
         {
             v_next_node = next_node(temp);
-            if (
-            ((Compare()(temp->_pair.first , key) && (v_next_node != _sentry && Compare()(key, v_next_node->_pair.first)))
-             || temp->_pair.first == key))
+            if (temp->_pair.first == key)
                 return (temp);
+            else if ((Compare()(temp->_pair.first , key) && (v_next_node != _sentry && Compare()(key, v_next_node->_pair.first))))
+            {
+                return (next_node(temp));
+            }
             else 
             {
                 temp = v_next_node;

@@ -102,17 +102,7 @@ class map
 
               map& operator= (const map& rhs)
               {
-                std::allocator<alloc_tree> tree_alloc;
-                _RBT = tree_alloc.allocate(1);
-                tree_alloc.construct(_RBT, alloc_tree());
-                const_iterator it;
-
-                it = rhs.begin();
-                while (it != rhs.end())
-                {
-                  insert(*it);
-                  it++;
-                }
+                *this->_RBT = *rhs._RBT;
                 return (*this);
               }
 
@@ -149,9 +139,9 @@ class map
               ~map()
               {
                 std::allocator<alloc_tree> tree_alloc;
+                // _RBT->delete_tree();
                 tree_alloc.destroy(_RBT);
                 tree_alloc.deallocate(_RBT, 1);
-                // _RBT->delete_tree();
                 // delete _RBT;
               }
 
@@ -211,7 +201,7 @@ class map
 
               mapped_type& operator[] (const key_type& key)
               {
-                if (_RBT->find_if_key_exist(key) == FALSE)
+                if (_RBT->find_node(key) == _RBT->getSentry())
                 {
                   _RBT->insert_new_node(key, mapped_type());
                 }
@@ -276,7 +266,8 @@ class map
 
               void clear()
               {
-                _RBT->delete_tree();
+                if (size() != 0)
+                  _RBT->delete_tree();
               }
 
               void swap(map &x)
@@ -413,6 +404,11 @@ class map
                     const map<Key,T,Compare,Alloc>& rhs )
               {
                 return (!(rhs < lhs));
+              }
+              template <class Key, class T, class Compare, class Alloc>
+              void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)
+              {
+                  x.swap(y);
               }
 };
 #endif

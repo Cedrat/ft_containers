@@ -42,5 +42,9 @@ std::cout << "\nINSERT\n";
 	// for (size_t i = 0; i < insert_bis.size(); i++)
 	// 	std::cout << insert_bis[i] << ' ';
 	// std::cout << '\n';
+	ft::vector<std::string>	insert_in_you;
+
+	insert_in_you = insert_in_me;
+
   return 0;
 }
