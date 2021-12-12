@@ -82,6 +82,9 @@ class map
 
               map(const map& other)
               {
+                std::allocator<alloc_tree> tree_alloc;
+                _RBT = tree_alloc.allocate(1);
+                tree_alloc.construct(_RBT, alloc_tree());
                 *this = other;
               }
 
@@ -306,12 +309,14 @@ class map
 
               iterator upper_bound (const key_type& k)
               {
+
                 if (Compare()(_RBT->val_max(_RBT->getRoot())->_pair.first, k))
                 {
                   return (end());
                 }
-                if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
-                  return (iterator(_RBT->val_min(_RBT->getRoot()), _RBT));
+                Node<Key,T> *lower_val = _RBT->val_min(_RBT->getRoot());
+                if (Compare()(k, lower_val->_pair.first))
+                  return (iterator(lower_val, _RBT));
                 return (iterator(_RBT->upper_key(k), _RBT));
               }
 

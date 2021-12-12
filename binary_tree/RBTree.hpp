@@ -508,7 +508,6 @@ class Tree
         }
         return (_sentry);
     }
-
     bool find_if_key_exist(T const & key) const
     {
         Node<T,V> *temp = _root;
@@ -580,9 +579,16 @@ class Tree
 
         while (temp != _sentry)
         {
-            if (Compare()(key, temp->_pair.first))
+            if (Compare()(key , temp->_pair.first) == TRUE)
+            {
                 return (temp);
-            temp = next_node(temp);
+            }
+            else if (Compare()(key, temp->_pair.first))
+                temp = temp->_left;
+            else 
+            {
+                temp = temp->_right;
+            }
         }
         return (temp);
     }
@@ -590,23 +596,20 @@ class Tree
     Node<T, V> * lower_key(const T& key)
     {
         Node<T,V> *temp = _root;
-        Node<T,V> *v_next_node;
-        temp = val_min(getRoot());
+        temp = getRoot();
        
         while (temp != _sentry)
         {
-            v_next_node = next_node(temp);
-            if (temp->_pair.first == key)
-                return (temp);
-            else if ((Compare()(temp->_pair.first , key) && (v_next_node != _sentry && Compare()(key, v_next_node->_pair.first))))
+            if (Compare()(temp->_pair.first, key) == FALSE)
             {
-                return (next_node(temp));
+                return (temp);
             }
+            else if (Compare()(key, temp->_pair.first))
+                temp = temp->_left;
             else 
             {
-                temp = v_next_node;
+                temp = temp->_right;
             }
-
         }
         return (temp);
     }

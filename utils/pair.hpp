@@ -5,39 +5,42 @@ namespace ft
 {
 
 
-template<class T1, class T2>
-struct pair
-{
-    typedef T1 first_type;
-    typedef T2 second_type;
-
-    first_type first;
-    second_type second;
-    pair()
-    {};
-    pair(const pair<first_type, second_type>&pair_) : first(pair_.first), second(pair_.second)
+    template<class T1, class T2>
+    struct pair
     {
-    }
-    pair(first_type first_element, second_type second_element) :
-        first(first_element), second(second_element)
-    {
+        typedef T1 first_type;
+        typedef T2 second_type;
 
+        first_type first;
+        second_type second;
+        pair()
+        {};
+        pair(const pair<first_type, second_type>&pair_) : first(pair_.first), second(pair_.second)
+        {
+        }
+
+        // pair(pair<first_type, second_type>&pair_) : first(pair_.first), second(pair_.second)
+        // {
+        // }
+        pair(first_type first_element, second_type second_element) :
+            first(first_element), second(second_element)
+        {
+
+        };
+
+        template <class U, class V>
+        pair(const pair<U, V> &pr) : first(pr.first), second(pr.second)
+        {
+        }
+
+        pair &operator=(const pair &rhs)
+        {
+            first = rhs.first;
+            second = rhs.second;
+
+            return (*this);
+        };
     };
-
-    template <class U, class V>
-    pair(const pair<U, V> &pr) : first(pr.first), second(pr.second)
-    {
-    }
-
-
-    pair &operator=(const pair &rhs)
-    {
-        first = rhs.first;
-        second = rhs.second;
-
-        return (*this);
-    };
-};
 
 template< class T1, class T2 >
 pair<T1,T2> make_pair(T1 first, T2 second)
