@@ -15,4 +15,4 @@ echo "  STD" > 'file2'
 ./$TEST_STD >> 'file2'
 
 diff -y 'file1' 'file2'
-rm 'file1' 'file2' $TEST_STD $TEST_FT a.out
+rm 'file1' 'file2' $TEST_STD $TEST_FT
