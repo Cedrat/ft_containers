@@ -45,142 +45,148 @@ unsigned long int	stamp_time(unsigned long int start_time)
 	return (actual_time);
 }
 
-template<class T>
-void print_element_i_vector(NAMESPACE::vector<T> const & the_vector, size_t index)
+
+template<class T, class V, class E = std::less<T>()>
+void print_map(NAMESPACE::map<T, V, E>  &other)
 {
-    std::cout << "value for index " << index << " : " << the_vector[index] << std::endl;
+  std::cout << "size = " << other.size() << std::endl;
+  std::cout << "max_size = " << other.max_size() << std::endl;
+  typename NAMESPACE::map<T,V, E>::iterator it_b = other.begin();
+  int i = 0;
+
+  while (it_b != other.end())
+  {
+    std::cout << "ELEMENT[" << i << "] : first = " << it_b->first << " second = " << it_b->second << std::endl;
+    i++;
+    it_b++;
+  }
 }
-
-template<class T>
-void print_vector(NAMESPACE::vector<T> const &the_vector)
-{
-    std::cout << "size : " << the_vector.size() << std::endl;
-    std::cout << "max_size : " << the_vector.max_size() << std::endl;
-    std::cout << "capacity : " << the_vector.capacity() << std::endl;
-    std::cout << "empty : " << the_vector.empty() << std::endl;
-    if (the_vector.empty() == FALSE)
-    {
-        std::cout << "front_value " << the_vector.front() << std::endl;
-        std::cout << "back_value " << the_vector.back() << std::endl;
-    }
-    std::cout << "--------------------------------------" << std::endl;
-};
-
-template<class T>
-void print_all_vectors_elements(NAMESPACE::vector<T>  const &the_vector)
-{
-    for (size_t i = 0 ; i < the_vector.size(); i++)
-    {
-        print_vector(the_vector);
-        print_element_i_vector(the_vector, i);
-    }
-}
-
 bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
-struct classcomp {
+struct classcomp 
+{
   bool operator() (const char& lhs, const char& rhs) const
   {return lhs<rhs;}
 };
 
+
 void test_constructor()
 {
-  std::map<char,int> first;
+  NAMESPACE::map<char,int> first;
 
   first['a']=10;
   first['b']=30;
   first['c']=50;
   first['d']=70;
+  print_map<char, int>(first);
+  NAMESPACE::map<char,int>second (first.begin(),first.end());
+  print_map<char, int>(second);
 
-  std::map<char,int> second (first.begin(),first.end());
+  NAMESPACE::map<char,int>third (second);
+  print_map<char, int>(third);
 
-  std::map<char,int> third (second);
-
-  std::map<char,int,classcomp> fourth;                 // class as Compare
+  NAMESPACE::map<char,int,classcomp> fourth;                 
+  print_map<char, int>(fourth);
 
   bool(*fn_pt)(char,char) = fncomp;
-  std::map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
-
+  NAMESPACE::map<char,int,bool(*)(char,char)> fifth (fn_pt); 
+  
+  print_map<char, int>(fifth);
 }
+
+
+
+void operator_assign ()
+{
+  std::cout << "Operator assign" << std::endl;
+  NAMESPACE::map<int,std::string> first;
+  NAMESPACE::map<int,std::string> second;
+
+  std::cout << "empty = " << std::endl;
+  second=first;
+  print_map(first);
+  print_map(second);
+
+  for (int i = 0; i < NB_OF_ELEMENTS; i++)
+  {
+    first.insert(NAMESPACE::make_pair(i, "same word"));
+  }
+  std::cout << "not empty" << std::endl;
+
+  second=first;                //
+  first=NAMESPACE::map<int,std::string>();  
+
+  print_map(first);
+  print_map(second);
+}
+
+
+
+void test_empty()
+{
+  std::cout << "Empty test" << std::endl;
+  NAMESPACE::map<int, std::string> first;
+  NAMESPACE::map<int, std::string> second;
+  second.insert(NAMESPACE::make_pair(2, "yolo"));
+
+  std::cout << first.empty() << "\n" << second.empty() << std::endl;
+  std::cout << "Clear second map" << std::endl;
+  second.clear();
+  std::cout << second.empty() << std::endl;
+}
+
+
 
 void test_insert()
 {
     NAMESPACE::map<int, std::string> first;
+    NAMESPACE::pair<NAMESPACE::map<int, std::string>::iterator, bool> little_pair;
+    std::cout << "insert with pair return" << std::endl;
+    little_pair = first.insert(NAMESPACE::pair<int, std::string>(50, "coucou"));
+    std::cout << "pair.first = " << little_pair.first->first << " already_present ? " << little_pair.second << std::endl;
+    little_pair = first.insert(NAMESPACE::pair<int, std::string>(49, "coucou"));
+    std::cout << "pair.first = " << little_pair.first->first << " already_present ? " << little_pair.second << std::endl;
+    little_pair = first.insert(NAMESPACE::pair<int, std::string>(49, "coucou"));
+    std::cout << "pair.first = " << little_pair.first->first << " already_present ? " << little_pair.second << std::endl;
+    little_pair = first.insert(NAMESPACE::pair<int, std::string>(42, "coucou"));
+    std::cout << "pair.first = " << little_pair.first->first << " already_present ? " << little_pair.second << std::endl;
+    little_pair = first.insert(NAMESPACE::pair<int, std::string>(45, "coucou"));
+    std::cout << "pair.first = " << little_pair.first->first << " already_present ? " << little_pair.second << std::endl;
+    little_pair = first.insert(NAMESPACE::pair<int, std::string>(45, "coucou"));
+    std::cout << "pair.first = " << little_pair.first->first << " already_present ? " << little_pair.second << std::endl;
 
-    first.insert(NAMESPACE::pair<int, std::string>(5, "coucou"));
-
-}
-
-// void test_count()
-// {
-//     NAMESPACE::map<int, std::string> first;
-
-//     first.insert(ft::pair<int, std::string>(5, "coucou"));
-
-//     std::cout << first.count(5) << std::endl;
-//     std::cout << first.count(3) << std::endl;
-
-// }
-
-void travel_in_tree()
-{
-    NAMESPACE::map<int, std::string> first;
-
-    first.insert(NAMESPACE::pair<int, std::string>(50, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(49, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(51, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(48, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(40, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(43, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(42, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(45, "coucou"));
+    std::cout << "with hint" << std::endl;
 
     NAMESPACE::map<int, std::string>::iterator it = first.begin();
-    NAMESPACE::map<int, std::string>::iterator it_end = first.end();
-    int i = 0;
-    while (it != it_end)
-    {
-        std::cout << "ELEMENT["<<i<<"] = " << it->first << std::endl;
-        it++;
-        i++;
-    }
+    std::cout <<  first.insert(it , NAMESPACE::pair<int, std::string>(23, "ZBRAAH"))->first << std::endl;
 
-
-
+    NAMESPACE::map<int, std::string> second;
+    second.insert(first.begin(), first.end());
+    print_map(second);
 }
 
-void test_begin()
+void test_erase()
 {
-    NAMESPACE::map<int, std::string> first;
+  NAMESPACE::map<char,int> first;
+  std::cout << "Erase" << std::endl;
 
-    first.insert(NAMESPACE::pair<int, std::string>(50, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(49, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(51, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(48, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(40, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(43, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(42, "coucou"));
-    first.insert(NAMESPACE::pair<int, std::string>(45, "coucou"));
+  first['a']=10;
+  first['b']=30;
+  first['c']=50;
+  first['d']=70;
+  first['e']= 23;
 
-    NAMESPACE::map<int, std::string>::iterator it = first.begin();
-    NAMESPACE::map<int, std::string>::iterator it_end = first.end();
+  first.erase(first.begin());
+  std::cout << "Erase one element" << std::endl;
+  print_map(first);
 
-    std::cout << "it->value->first = " << it->first << std::endl;
-    std::cout << "it->value->first = " << (++it)->first << std::endl;
-    std::cout << "it->value->first = " << (it++)->first << std::endl;
-
-    while (it != it_end)
-    {
-        std::cout << "it->value->first = " << it->first << std::endl;
-        ++it;
-    }
-    it = first.begin();
-    it_end--;
-    // while (it != it_end)
-    // {
-    //     std::cout << "it->value->first = " << it_end->first << std::endl;
-    //     --it_end;
-    // }
+  std::cout << "Erase one element and check if well erased" << std::endl;
+  std::cout << "Erase 'a' who is already erased " << first.erase('a') << std::endl;
+  std::cout << "Erase 'b'" << first.erase('b') << std::endl;
+  print_map(first);
+  std::cout << "Erase with range of iterator" << std::endl;
+  first.erase(first.begin(), first.end());
+  print_map(first);
 }
 
 void test_find()
@@ -209,7 +215,7 @@ void test_find()
 void test_swap()
 {
   NAMESPACE::map<char,int> foo,bar;
-
+  std::cout << "SWAP" << std::endl;
   foo['x']=100;
   foo['y']=200;
 
@@ -219,18 +225,14 @@ void test_swap()
 
   foo.swap(bar);
 
-  std::cout << "foo contains:\n";
-  for (NAMESPACE::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
-
-  std::cout << "bar contains:\n";
-  for (NAMESPACE::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+  print_map(foo);
+  print_map(bar);
 }
 
 void    test_hook()
 {
   NAMESPACE::map<char,std::string> mymap;
+  std::cout << "Hoom test" << std::endl;
 
   mymap['a']="an element";
   mymap['b']="another element";
@@ -240,156 +242,49 @@ void    test_hook()
     std::cout << "mymap['b'] is " << mymap['b'] << '\n';
     std::cout << "mymap['c'] is " << mymap['c'] << '\n';
     std::cout << "mymap['d'] is " << mymap['d'] << '\n';
-
-  std::cout << "mymap now contains " << mymap.size() << " elements.\n";
 }
 
-void test_erase()
-{
-    NAMESPACE::map<char,int> mymap;
-    NAMESPACE::map<char,int>::iterator it;
-
-    // insert some values:
-    mymap['a']=10;
-    mymap['b']=20;
-    mymap['c']=30;
-    mymap['d']=40;
-    mymap['e']=50;
-    mymap['f']=60;
-
-    it=mymap.find('b');
-    mymap.erase (it);                   // erasing by iterator
-
-    mymap.erase ('c');                  // erasing by key
-
-    it=mymap.find ('e');
-    mymap.erase ( it, mymap.end() );    // erasing by range
-
-    //show content:
-
-
-   for (it = mymap.begin(); it!=mymap.end() ; it++)
-   {
-        std::cout << it->first << " => " << it->second << '\n';
-   }
-}
 
 void test_lower_upper_bound_string ()
 {
   NAMESPACE::map<char,std::string> mymap;
   NAMESPACE::map<char,std::string>::iterator itlow,itup;
+  std::cout << "Test lower upper " << std::endl;
 
-//   std::cout << "CRASH" << std::endl;
   mymap['f']="20";
   mymap['b']="40";
   mymap['c']="60";
   mymap['r']="80";
   mymap['e']="100";
   std::cout << mymap.lower_bound ('c')->second << mymap.lower_bound ('c')->first << std::endl;
-  mymap.lower_bound ('c')->second = "14";  // itlow points to b
-  itlow=mymap.upper_bound ('k');   // itup points to e (not d!)
-
-
-//   mymap.erase(itlow,itup);        // erases [itlow,itup)
-
-// 	printPair(itlow);
-// //   // print content:
-//   for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-//     std::cout << it->first << " => " << it->second << '\n';
-}
-
-void test_lower_upper_bound_int ()
-{
-  NAMESPACE::map<char,int> mymap;
-  NAMESPACE::map<char,int>::iterator itlow,itup;
-
-//   std::cout << "CRASH" << std::endl;
-  mymap['f']=20;
-  mymap['b']=40;
-  mymap['c']=60;
-  mymap['r']=80;
-  mymap['e']=100;
-  std::cout << mymap.lower_bound ('c')->second << mymap.lower_bound ('c')->first << std::endl;
-  mymap.lower_bound ('c')->second = 14;  // itlow points to b
-  itlow=mymap.upper_bound ('k');   // itup points to e (not d!)
-
-
-//   mymap.erase(itlow,itup);        // erases [itlow,itup)
-
-// 	printPair(itlow);
-// //   // print content:
-//   for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-//     std::cout << it->first << " => " << it->second << '\n';
-}
-
-void test_assign()
-{
-	NAMESPACE::map<int, int> old;
-
-	old[2] = 2;
-
-
-
-
-
-	for (NAMESPACE::map<int,int>::iterator it=old.begin(); it!=old.end(); ++it)
-    	std::cout << it->first << " => " << it->second << '\n';
-
-	NAMESPACE::map<int, int> recent;
-  recent = old;
-	for (NAMESPACE::map<int,int>::iterator it=recent.begin(); it!=recent.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
-
-  NAMESPACE::map<int, int> clean;
-  old = clean;
+  mymap.lower_bound ('c')->second = "14";  
+  itlow=mymap.upper_bound ('k');  
 
 }
+
+
 
 void test_clear()
 {
   NAMESPACE::map<char,int> mymap;
+  std::cout << "Test clear" << std::endl;
 
   mymap['x']=100;
   mymap['y']=200;
   mymap['z']=300;
 
   std::cout << "mymap contains:\n";
-  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+  print_map(mymap);
 
   mymap.clear();
-  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+  print_map(mymap);
   mymap['a']=1101;
   mymap['b']=2202;
 
   std::cout << "mymap contains:\n";
-  for (NAMESPACE::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-    std::cout << it->first << " => " << it->second << '\n';
+  print_map(mymap);
 }
 
-// void test_compare ()
-// {
-//   NAMESPACE::map<char,int> mymap;
-
-//   NAMESPACE::map<char,int>::key_compare mycomp = mymap.key_comp();
-
-//   mymap['a']=100;
-//   mymap['b']=200;
-//   mymap['c']=300;
-
-//   std::cout << "mymap contains:\n";
-
-//   char highest = mymap.rbegin()->first;     // key value of last element
-
-//   NAMESPACE::map<char,int>::iterator it = mymap.begin();
-//   do {
-//     std::cout << it->first << " => " << it->second << '\n';
-//   } while ( mycomp((*it++).first, highest) );
-
-//   std::cout << '\n';
-
-// }
 void test_equal_range ()
 {
     NAMESPACE::map<char,int> mymap;
@@ -408,56 +303,41 @@ void test_equal_range ()
     std::cout << ret.second->first << " => " << ret.second->second << '\n';
 }
 
+void test_reverse_iterator()
+{
+  NAMESPACE::map<char,int> mymap;
+
+    mymap['a']=10;
+    mymap['b']=20;
+    mymap['c']=30;
+    mymap['d']=40;
+    mymap['e']=60;
+    mymap['f']=50;
+    mymap['g']=320;
+    mymap['h']=42340;
+    mymap['i']=560;
+
+    NAMESPACE::map<char, int>::reverse_iterator rit_b = mymap.rbegin();
+    while (rit_b != mymap.rend())
+    {
+      std::cout << rit_b->first << std::endl;
+      rit_b++;
+    }
+}
+
 int main()
 {
-
-    // NAMESPACE::vector<int> myvector;
-
-    // test_constructor();
-    // test_const_constructor();
-    // copy_constructor_time();
-    // test_compare();
-    // travel_in_tree();
-    // test_begin();
-    // push_back_test<int>(myvector);
-    // pop_back_test<int>(myvector);
-    // test_insert();
-    // resize_vector_test();
-    // reserve_vector_test();
-    // at_vector_test();
-    // test_hook();
-    // test_find();
-    // test_erase();
-	// test_lower_upper_bound_int();
-    // test_lower_upper_bound_string();
-    // test_equal_range();
-    // test_clear();
-    // test_swap();
-    // test_compare():
-    // iterator_vector_test();
-    // const_iterator_vector_test();
-    // assign_vector_test();
-    // test_insert();
-    // test_insert2();
-    // test_str_insert();
-    // test_erase();
-    // test_char();
-    // test_count();
-    // test_string();
-    test_assign();
-    // test_swap();
-    // test_clear();
-
-    // test_get_alloc();
-    // test_comparison();
-    // test_swap_external();
-    // test_reverse_iterator();
-    // test_comparison_iterator();
-    // bidirect_it();
-    // ite();
-    // rev_ite_construct();
-    // test_reverse_iterator();
-
+ test_constructor();
+  operator_assign();
+  test_empty();
+  test_hook();
+  test_insert();
+  test_erase();
+  test_swap();
+  test_lower_upper_bound_string();
+  test_clear();
+  test_equal_range();
+  test_reverse_iterator();
 }
 
 //  std::vector<int> 

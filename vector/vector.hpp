@@ -99,13 +99,7 @@ class vector
             size_type old_size = _size;
             if (n > _capacity)
                 reallocate(n);
-            // else
-            // {
-            //     for (int i = 0; (n + i) < _size ; i++)
-            //     {
-            //         alloc.destroy(&_array[n + i]);
-            //     }
-            // }
+
             size_type i(0);
             while (i < n)
             {

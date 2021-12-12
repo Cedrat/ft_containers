@@ -173,28 +173,6 @@ void at_vector_test()
     }
 }
 
-void	prepost_incdec(NAMESPACE::vector<int> &my_vector)
-{
-	NAMESPACE::vector<int>::iterator it = my_vector.begin();
-	NAMESPACE::vector<int>::iterator it_tmp;
-
-	std::cout << "Pre inc" << std::endl;
-	it_tmp = ++it;
-	std::cout << *it_tmp << " | " << *it << std::endl;
-
-	std::cout << "Pre dec" << std::endl;
-	it_tmp = --it;
-	std::cout << *it_tmp << " | " << *it << std::endl;
-
-	std::cout << "Post inc" << std::endl;
-	it_tmp = it++;
-	std::cout << *it_tmp << " | " << *it << std::endl;
-
-	std::cout << "Post dec" << std::endl;
-	it_tmp = it--;
-	std::cout << *it_tmp << " | " << *it << std::endl;
-	std::cout << "###############################################" << std::endl;
-}
 
 void		ite()
 {
@@ -205,7 +183,6 @@ void		ite()
 
 	for (int i = 0; i < size; ++i)
 		it[i] = (size - i) * 5;
-	prepost_incdec(my_vector);
 
 	it = it + 5;
 	it = 1 + it;
@@ -355,25 +332,6 @@ void const_iterator_vector_test()
     it_end = myvector.end();
 
 
-    // std::cout << "increment test and while (it_begin != it_end)" << std::endl;
-    // std::cout << *it_begin << std::endl;
-    // while (it_begin != myvector.end())
-    // {
-    //     // *it_begin = 5;
-    //     std::cout << *it_begin << std::endl;
-    //     it_begin++;
-    // }
-    // it_begin = myvector.begin();
-    // it_end--;
-    // std::cout << "decrement test and while (it_begin != it_end)" << std::endl;
-    // while (it_begin != it_end)
-    // {
-    //     // *it_begin = 5;
-    //     std::cout << *--it_end << std::endl;
-    // }
-
-    // it_end = myvector.end();
-
     it_begin += 2;
     std::cout << *(it_begin) << std::endl;
     it_begin += 5;
@@ -506,21 +464,14 @@ void test_str_insert()
     it = tyvector.end();
      std::cout << *--it<< std::endl;
     print_all_vectors_elements(tyvector);
-    // // print_all_vectors_elements(tyvector);
-    std::cout << "\n\n\n\n";
-    // // std::cout << *tyvector.insert (it,11,300) << std::endl;;
-    // print_all_vectors_elements(tyvector);
-
-    // "it" no longer valid, get a new one:
+    print_all_vectors_elements(tyvector);
     it = myvector.begin();
 
     NAMESPACE::vector<std::string> anothervector (2,"bllaaaaa");
     myvector.insert (it+2,anothervector.begin(),anothervector.end());
 
-    // std::string myarray [] = { "one","two","three" };
-    print_all_vectors_elements(myvector);
-    std::cout << "\n\n\n\n";
-    // myvector.insert (myvector.begin(), myarray, myarray+3);
+        print_all_vectors_elements(myvector);
+
 
     print_all_vectors_elements(myvector);
         std::cout << "\n\n\n\n";
@@ -580,57 +531,23 @@ void test_erase()
     for (int i=1; i<=20; i++) 
         myvector.push_back(i);
 
-    // erase the 6th element
     std::cout << *(myvector.erase (myvector.begin()+5)) << std::endl;
-    // print_all_vectors_elements(myvector);
+
     std::cout << *myvector.erase (myvector.begin()) << std::endl;
-    // print_all_vectors_elements(myvector);
+
 
     std::cout << myvector.erase (myvector.end() - 1) - myvector.begin() << std::endl;
-    // print_all_vectors_elements(myvector);
+    print_all_vectors_elements(myvector);
 
 
     std::cout <<  *myvector.erase (myvector.begin(),myvector.begin()+3) << std::endl;
-    //  print_all_vectors_elements(myvector);
     //erase the two last
      std::cout <<  *myvector.erase (myvector.end() - 2,myvector.end()) << std::endl;
-    //  print_all_vectors_elements(myvector);
 
     std::cout << * myvector.erase (myvector.begin() + 3, myvector.end() - 3) << std::endl;
-    //  print_all_vectors_elements(myvector);
+     print_all_vectors_elements(myvector);
 
 
-    NAMESPACE::vector<std::string> myvector_string;
-    std::string  test = "TEST";
-
-    // set some values (from 1 to 10)
-//     for (int i=1; i<=20; i++) 
-//         myvector_string.push_back(test);
-
-//     // erase the 6th element
-//     std::cout << *myvector_string.erase(myvector_string.begin()+5) << std::endl;
-//     // print_all_vectors_elements(myvector_string);
-//     std::cout << *myvector_string.erase(myvector_string.begin()) << std::endl;
-//     // print_all_vectors_elements(myvector_string);
-    
-//     std::cout << myvector_string.erase(myvector_string.end() - 1) - myvector_string.begin() << std::endl;
-//     // print_all_vectors_elements(myvector_string);
-
-
-
-//   // erase the first 3 elements:
-//     std::cout <<  *myvector_string.erase(myvector_string.begin(),myvector_string.begin()+3) << std::endl;
-//     //  print_all_vectors_elements(myvector_string);
-//     //erase the two last
-//      std::cout <<  *myvector_string.erase(myvector_string.end() - 2,myvector_string.end()) << std::endl;
-//     //  print_all_vectors_elements(myvector_string);
-
-//     std::cout << * myvector_string.erase(myvector_string.begin() + 3, myvector_string.end() - 3) << std::endl;
-//     //  print_all_vectors_elements(myvector);
-// //   std::cout << "myvector contains:";
-// //   for (unsigned i=0; i<myvector.size(); ++i)
-// //     std::cout << ' ' << myvector[i];
-// //   std::cout << '\n';
 }
 void test_swap()
 {
@@ -658,10 +575,9 @@ void test_assign()
     NAMESPACE::vector<int> foo (3,5);
     NAMESPACE::vector<int> bar (5,5);
 
-    // print_all_vectors_elements(bar);
+
     bar[1] = foo[2];
-    // foo = NAMESPACE::vector<int>();
-    // print_all_vectors_elements(foo);
+
     print_all_vectors_elements(bar);
 }
 
@@ -670,11 +586,9 @@ void test_assign_str()
     NAMESPACE::vector<std::string> foo (102,"54959495");
     NAMESPACE::vector<std::string> bar (100,"5439459394");
 
-    // print_all_vectors_elements(bar);
     foo[5] = foo[1].insert(0, "voila");
     foo = bar;
-    // foo = NAMESPACE::vector<int>();
-    // print_all_vectors_elements(foo);
+    print_all_vectors_elements(bar);
     print_all_vectors_elements(bar);
 }
 
@@ -804,11 +718,7 @@ void test_reverse_iterator()
         rit_begin++;
     }
     rit_begin = myvector.rbegin();
-    // while (rit_begin != rit_end)
-    // {
-    //     std::cout << *rit_begin << std::endl;
-    //     rit_begin++;
-    // }
+
     while (rit_begin != rit_end)
     {
         rit_end--;
@@ -861,24 +771,6 @@ void test_reverse_iterator()
 
 }
 
-void test_comparison_iterator()
-{
-
-}
-
-
-void test_char()
-{
-    NAMESPACE::vector<std::vector<int>> my_vector(1, std::vector<int>());
-    // std::string test = "test";
-
-    // for (int i = 0; i < 1; i++)
-    // {
-    //     my_vector.push_back(test);
-    // }
-    // print_all_vectors_elements(my_vector);
-}
-
 void test_string()
 {
     NAMESPACE::vector<std::string> my_vector(1, "test");
@@ -888,7 +780,6 @@ void test_string()
     {
         my_vector.push_back(test);
     }
-    // print_all_vectors_elements(my_vector);
 }
 
 int main()
@@ -910,7 +801,6 @@ int main()
     test_insert();
     test_str_insert();
     test_erase();
-    test_char();
     test_string();
     test_assign_str();
     test_swap();
@@ -920,7 +810,6 @@ int main()
     test_comparison();
     test_swap_external();
     test_reverse_iterator();
-    test_comparison_iterator();
     bidirect_it();
     ite();
     rev_ite_construct();

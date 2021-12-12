@@ -80,7 +80,7 @@ struct Node
     }
 };
 
-template<class T, class V, class Compare = std::less<T>, class Alloc = std::allocator<ft::pair<const T, V> > >
+template<class T, class V, class Compare = std::less<T>, class Alloc = std::allocator<Node<const T, V> > >
 class Tree
 {
     private :
