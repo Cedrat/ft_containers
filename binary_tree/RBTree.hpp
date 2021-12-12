@@ -94,7 +94,7 @@ class Tree
         typedef V Mapped_value;
         Tree() : _size(0)
         {
-             std::allocator<Node<T,V> > alloc_node;
+             Alloc alloc_node;
             _sentry = alloc_node.allocate(1);
             alloc_node.construct(_sentry, Node<T,V>(T(), V()));
 
@@ -110,7 +110,7 @@ class Tree
 
          Tree(Tree const &x) : _size(0) 
         {
-            std::allocator<Node<T,V> > alloc_node;
+            Alloc alloc_node;
             _sentry = alloc_node.allocate(1);
             alloc_node.construct(_sentry, Node<T,V>(T(),V()));
 
@@ -170,7 +170,7 @@ class Tree
 
         ~Tree()
         {
-            std::allocator<Node<T,V> > alloc_node;
+            Alloc alloc_node;
             Alloc alloc;
             // std::cout << "WARNING TREE DESTROYED" << std::endl;
             if (_root != _sentry)
@@ -206,7 +206,7 @@ class Tree
 
         void delete_tree(Node<T,V> *head)
         {
-            std::allocator<Node<T,V> > alloc;
+            Alloc alloc;
             Alloc alloc_pair;
 
             if (head == NULL)
@@ -252,7 +252,7 @@ class Tree
             new_node = init_new_node(value_to_insert, value);
             if (insertion(_root, new_node) == FALSE)
             {
-                std::allocator<Node<T,V> > alloc;
+                Alloc alloc;
 
                 alloc.destroy(new_node);
                 alloc.deallocate(new_node , 1);
@@ -269,7 +269,7 @@ class Tree
         Node<T,V> * init_new_node(T key, V value = V())
         {
             Node<T,V>* new_node;
-            std::allocator<Node<T,V> > alloc;
+            Alloc alloc;
             Alloc alloc_pair;
             
             new_node = alloc.allocate(1);
@@ -732,7 +732,7 @@ class Tree
             balance_after_delete(node_begin_correction);
         }
         Alloc alloc_pair;
-        std::allocator<Node<T,V> > alloc_node;
+        Alloc alloc_node;
         
         alloc_node.destroy(node_to_delete);
         alloc_node.deallocate(node_to_delete , 1);

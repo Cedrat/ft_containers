@@ -189,35 +189,6 @@ void push_pop_back_bench()
     std::cout << stamp_time(start) <<  "ms" <<std::endl;
 }
 
-void insert_bench()
-{
-    NAMESPACE::vector<std::string> test;
-    std::cout << "insert bench" << std::endl;
-    std::cout << "single element" << std::endl;
-    size_t start = chrono_init();
-    // for (int i = 0; i < 5000 ;i++)
-    // {
-    //     test.insert(test.begin() + i , "sameastheprevious");
-    // }
-    std::cout << "Currently, this test make me segfault on the computer at school\n You can uncomment if you want try" << std::endl;
-    std::cout << stamp_time(start) <<  "ms" <<std::endl;
-    std::cout << "fill element" << std::endl;
-    start = chrono_init();
-    test.clear();
-    for (int i = 0; i < 5000 ;i++)
-    {
-        test.insert(test.begin() + i/2 , 3 ,"sameastheprevious");
-    }
-    std::cout << stamp_time(start) <<  "ms" <<std::endl;
-    NAMESPACE::vector<std::string> test2;
-    std::cout << "range element" << std::endl;
-    start = chrono_init();
-    for (int i = 0; i < 5000 ;i++)
-    {
-        test2.insert(test2.begin() + i/2 , test.begin() , test.begin() + 3);
-    }
-    std::cout << stamp_time(start) <<  "ms" <<std::endl;
-}
 
 void swap_bench()
 {
@@ -234,14 +205,13 @@ void swap_bench()
 }
 int main()
 {
-    constructor_bench();
-    operator_assign();
-    resize_bench();
-    reserve_bench();
-    crochet_bench();
-    assign_bench();
-    push_pop_back_bench();
-    insert_bench();
-    swap_bench();
+    // constructor_bench();
+    // operator_assign();
+    // resize_bench();
+    // reserve_bench();
+    // crochet_bench();
+    // assign_bench();
+    // push_pop_back_bench();
+    // swap_bench();
 
 }

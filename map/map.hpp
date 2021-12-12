@@ -27,7 +27,9 @@ template <class Key,
 class map
 {
       private :
-        typedef Tree<Key, T, Compare, Alloc> alloc_tree;
+        typedef Node<Key, T> node;
+        typedef typename Alloc::template rebind<node>::other    alloc_node;
+        typedef Tree<Key, T, Compare, alloc_node> alloc_tree;
       
       public :
         typedef Key key_type;
@@ -36,12 +38,13 @@ class map
         typedef Compare key_compare;
         typedef Alloc allocator_type;
         typedef size_t size_type;
+
         typedef typename allocator_type::reference reference;
         typedef typename allocator_type::const_reference const_reference;
         typedef typename allocator_type::pointer pointer;
         typedef typename allocator_type::const_pointer const_pointer;
-        typedef map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > iterator;
-        typedef const_map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, Alloc> > const_iterator;
+        typedef map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, alloc_node> > iterator;
+        typedef const_map_iterator<Node<Key, T>, Key, T, Tree<Key, T, Compare, alloc_node> > const_iterator;
         
         typedef reverse_map_iterator<const_iterator>  const_reverse_iterator;
         typedef reverse_map_iterator<iterator> reverse_iterator;
@@ -50,15 +53,15 @@ class map
 
 
         private :
-            Tree<Key, T, Compare, Alloc> *_RBT;
+            Tree<Key, T, Compare, alloc_node> *_RBT;
 
         class value_compare
-        {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
-        friend class map;
+        {   
+        class map;
         protected:
           Compare comp;
-          value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
         public:
+          value_compare (Compare c) : comp(c) {}  
           typedef bool result_type;
           typedef value_type first_argument_type;
           typedef value_type second_argument_type;
@@ -275,7 +278,7 @@ class map
 
               void swap(map &x)
               {
-                Tree<Key, T, Compare, Alloc> *temp;
+                Tree<Key, T, Compare, alloc_node> *temp;
 
                 temp = _RBT;
                 _RBT = x._RBT;
