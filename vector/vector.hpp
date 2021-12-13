@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <iostream>
+#include <string>
 #include "random_access_iterator.hpp"
 #include "../utils/is_integral.hpp"
 #include "../utils/enable_if.hpp"
@@ -118,80 +119,147 @@ class vector
 
         void insert (iterator position, size_type n, const value_type& val,  ft::true_type)
         {
-            size_t pos;
-            Alloc alloc;
-            size_t new_alloc = _size;
-            int stop_1 = position - begin();
+            size_t range;
 
-            pos = position - begin();
-            if ((_size + n) > _capacity)
+            long temp_pos;
+            Alloc alloc;
+            
+            long end_old_vector = end() - begin() - 1;
+            range = n;
+            long end_new_vector = end_old_vector + range;
+
+            int nb_element_to_switch = end() - position;
+            temp_pos = position - begin() + range;
+            if ((_size + range) > _size)
             {
-                if (new_alloc == 0)
-                    new_alloc = 1;
-                while (new_alloc <  (_size + n))
-                    new_alloc *= 2;
-                reserve(new_alloc);
+                resize(_size + range);
             }
-            int size = _size;
-            ft::vector<T> tmp;
-            int i = 0;
-            while (i < stop_1)
+            size_t i = 0;
+            if (end_old_vector == 0)
             {
-                tmp.push_back(_array[i]);
+                while (i < range)
+                {
+                    _array[i] = val;
+                    i++;
+                }
+                return ;
+            }
+            int temp_range = range;
+
+            while (nb_element_to_switch)
+            {
+                _array[end_new_vector] = _array[end_old_vector - i];
+                nb_element_to_switch--;
+                end_new_vector--;
                 i++;
             }
-
+            temp_range -= i;
+            while (temp_range > 0)
+            {
+                n--;
+                _array[end_new_vector] =  val;
+                temp_range--;
+                end_new_vector--;
+            }
             while (n)
             {
-                tmp.push_back(val);
                 n--;
+                _array[end_new_vector] = val;
+                end_new_vector--;
             }
-            while (i < size)
-            {
-                tmp.push_back(_array[i]);
-                i++;
-            }
-
-            this->swap(tmp);
-
         }
+
+        // alloc.construct(&_array[end_vector], _array[end_vector - 1]);
 
         template <class InputIterator>
         void insert (iterator position, InputIterator first, InputIterator last, ft::false_type)
         {
             size_t range;
+
+            long temp_pos;
             Alloc alloc;
-            vector<T> tmp;
-
-            int stop_1 = position - begin();
-
+            
+            long end_old_vector = end() - begin() - 1;
             range = ft::distance(first, last);
-            if ((_size + range) > _capacity)
-            {
-                reserve(_size + range);
-            }
+            long end_new_vector = end_old_vector + range;
 
-            int i = 0;
-            int size = _size;
-            while (i < stop_1)
+            int nb_element_to_switch = end() - position;
+            temp_pos = position - begin() + range;
+            if ((_size + range) > _size)
             {
-                tmp.push_back(_array[i]);
+                resize(_size + range);
+            }
+            size_t i = 0;
+            if (end_old_vector == 0)
+            {
+                while (i < range)
+                {
+                    _array[i] = *first;
+                    first++;
+                    i++;
+                }
+                return ;
+            }
+            int temp_range = range;
+
+            while (nb_element_to_switch)
+            {
+                _array[end_new_vector] = _array[end_old_vector - i];
+                nb_element_to_switch--;
+                end_new_vector--;
                 i++;
             }
-
+            temp_range -= i;
+            while (temp_range > 0)
+            {
+                last--;
+                _array[end_new_vector] =  *last;
+                temp_range--;
+                end_new_vector--;
+            }
             while (first != last)
             {
-                tmp.push_back(*first);
-                first++;
+                last--;
+                _array[end_new_vector] = *last;
+                end_new_vector--;
             }
-            while (i < size)
-            {
-                tmp.push_back(_array[i]);
-                i++;
-            }
-
-            this->swap(tmp);
         }
+        //  template <class InputIterator>
+        // void insert (iterator position, InputIterator first, InputIterator last, ft::false_type)
+        // {
+        //     size_t range;
+        //     Alloc alloc;
+        //     vector<T> tmp;
+
+        //     int stop_1 = position - begin();
+
+        //     range = ft::distance(first, last);
+        //     if ((_size + range) > _capacity)
+        //     {
+        //         reserve(_size + range);
+        //     }
+
+        //     int i = 0;
+        //     int size = _size;
+        //     while (i < stop_1)
+        //     {
+        //         tmp.push_back(_array[i]);
+        //         i++;
+        //     }
+
+        //     while (first != last)
+        //     {
+        //         tmp.push_back(*first);
+        //         first++;
+        //     }
+        //     while (i < size)
+        //     {
+        //         tmp.push_back(_array[i]);
+        //         i++;
+        //     }
+
+        //     this->swap(tmp);
+        // }
     
         void initialize()
         {
@@ -392,36 +460,65 @@ class vector
             _size--;
         }
 
+        // iterator insert (iterator position, const value_type& val)
+        // {
+        //     long temp_pos;
+        //     Alloc alloc;
+            
+        //     temp_pos = position - begin();
+        //     if (_size == _capacity)
+        //     {
+        //         reserve(_capacity * 2);
+        //     }
+            
+        //     ft::vector<T> tmp;
+        //     int i = 0;
+        //     int size = _size;
+        //     while (i < (position - begin()))
+        //     {
+        //         tmp.push_back(_array[i]);
+        //         i++;
+        //     }
+
+        //         tmp.push_back(val);
+        //     while (i < size)
+        //     {
+        //         tmp.push_back(_array[i]);
+        //         i++;
+        //     }
+
+        //     this->swap(tmp);
+            
+        //     return (temp_pos+ begin());
+        // }
+
         iterator insert (iterator position, const value_type& val)
         {
             long temp_pos;
             Alloc alloc;
             
             temp_pos = position - begin();
+            long end_vector = end() - begin();
             if (_size == _capacity)
             {
                 reserve(_capacity * 2);
             }
-            
-            ft::vector<T> tmp;
-            int i = 0;
-            int size = _size;
-            while (i < (position - begin()))
+            if (end_vector == 0)
             {
-                tmp.push_back(_array[i]);
-                i++;
+                alloc.construct(&_array[end_vector], val);
+                _size++;
+                return (temp_pos + begin());
             }
-
-                tmp.push_back(val);
-            while (i < size)
+            alloc.construct(&_array[end_vector], _array[end_vector - 1]);
+            end_vector--;
+            while (temp_pos < end_vector)
             {
-                tmp.push_back(_array[i]);
-                i++;
+                _array[end_vector] = _array[end_vector - 1];
+                end_vector--;
             }
-
-            this->swap(tmp);
-            
-            return (temp_pos+ begin());
+            _array[end_vector] = val;
+            _size++;
+            return (temp_pos + begin());
         }
 
         void insert (iterator position, size_type n, const value_type& val)

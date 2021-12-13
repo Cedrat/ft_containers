@@ -40,6 +40,7 @@ unsigned long int	stamp_time(unsigned long int start_time)
 void constructor_bench()
 {
     std::cout << "Constructor Bench" << std::endl;
+
     size_t start = chrono_init();
 
     NAMESPACE::vector<std::string> *test;
@@ -189,6 +190,34 @@ void push_pop_back_bench()
     std::cout << stamp_time(start) <<  "ms" <<std::endl;
 }
 
+void insert_bench()
+{
+    NAMESPACE::vector<std::string> test;
+    std::cout << "insert bench" << std::endl;
+    std::cout << "single element" << std::endl;
+    size_t start = chrono_init();
+    for (int i = 0; i < 15000 ;i++)
+    {
+        test.insert(test.begin() + i/2 , "sameastheprevious");
+    }
+    std::cout << stamp_time(start) <<  "ms" <<std::endl;
+    std::cout << "fill element" << std::endl;
+    start = chrono_init();
+    test.clear();
+    for (int i = 0; i < 5000 ;i++)
+    {
+        test.insert(test.begin() + i/2 , 3 ,"sameastheprevious");
+    }
+    std::cout << stamp_time(start) <<  "ms" <<std::endl;
+    NAMESPACE::vector<std::string> test2;
+    std::cout << "range element" << std::endl;
+    start = chrono_init();
+    for (int i = 0; i < 5000 ;i++)
+    {
+        test2.insert(test2.begin() + i/2 , test.begin() , test.begin() + 3);
+    }
+    std::cout << stamp_time(start) <<  "ms" <<std::endl;
+}
 
 void swap_bench()
 {
@@ -213,5 +242,7 @@ int main()
     // assign_bench();
     // push_pop_back_bench();
     // swap_bench();
+    insert_bench();
+    
 
 }
