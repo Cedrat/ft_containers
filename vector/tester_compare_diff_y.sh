@@ -1,12 +1,13 @@
 #!/bin/bash
 
-lib_name='ft_containers.a'
+FILE_NAME='test_vector.cpp'
 TEST_STD='std_test'
 TEST_FT='ft_test'
+FLAGS='-Wall -Wextra -Werror -std=c++98'
 
+clang++  $FLAGS -DNAMESPACE=std -o $TEST_STD   $FILE_NAME
+clang++ $FLAGS -DNAMESPACE=ft -o $TEST_FT  $FILE_NAME
 
-clang++  -DNAMESPACE=std -o $TEST_STD  -Wall -Werror -Wextra test_vector.cpp
-clang++ -DNAMESPACE=ft -o $TEST_FT  -Wall -Werror -g -Wextra test_vector.cpp 
 
 
 echo "  FT" > file1

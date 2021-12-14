@@ -234,14 +234,14 @@ void swap_bench()
 }
 int main()
 {
-    // constructor_bench();
-    // operator_assign();
-    // resize_bench();
-    // reserve_bench();
-    // crochet_bench();
-    // assign_bench();
-    // push_pop_back_bench();
-    // swap_bench();
+    constructor_bench();
+    operator_assign();
+    resize_bench();
+    reserve_bench();
+    crochet_bench();
+    assign_bench();
+    push_pop_back_bench();
+    swap_bench();
     insert_bench();
     
 

@@ -2,10 +2,10 @@
 FILE_NAME='test_stack.cpp'
 TEST_STD='std_test'
 TEST_FT='ft_test'
+FLAGS='-Wall -Wextra -Werror -std=c++98'
 
-
-clang++ -DNAMESPACE=std -o $TEST_STD   $FILE_NAME
-clang++ -DNAMESPACE=ft -o $TEST_FT   $FILE_NAME
+clang++ $FLAGS -DNAMESPACE=std -o $TEST_STD   $FILE_NAME
+clang++ $FLAGS -DNAMESPACE=ft -o $TEST_FT   $FILE_NAME
 
 
 echo "  FT" > 'file1'

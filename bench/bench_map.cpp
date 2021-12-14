@@ -253,15 +253,13 @@ void lower_upper_bound_bench()
 }
 int main()
 {
-    // constructor_bench();
-    // operator_assign();
-    // crochet_bench();
+    constructor_bench();
+    operator_assign();
+    crochet_bench();
 
-    // insert_erase_bench();
-    // swap_bench();
+    insert_erase_bench();
+    swap_bench();
 
     find_count_bench();
     lower_upper_bound_bench();
-    
-
 }

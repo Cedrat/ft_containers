@@ -3,7 +3,6 @@
 #include <map>
 #include <vector>
 #include <iostream>
-// #include <chrono>
 #include <iostream>
 #include <sys/time.h>
 #include <ctime>
@@ -46,8 +45,24 @@ unsigned long int	stamp_time(unsigned long int start_time)
 }
 
 
-template<class T, class V, class E = std::less<T>()>
-void print_map(NAMESPACE::map<T, V, E>  &other)
+template<class T, class V>
+void print_map(NAMESPACE::map<T, V>  &other)
+{
+  std::cout << "size = " << other.size() << std::endl;
+  std::cout << "max_size = " << other.max_size() << std::endl;
+  typename NAMESPACE::map<T,V>::iterator it_b = other.begin();
+  int i = 0;
+
+  while (it_b != other.end())
+  {
+    std::cout << "ELEMENT[" << i << "] : first = " << it_b->first << " second = " << it_b->second << std::endl;
+    i++;
+    it_b++;
+  }
+}
+
+template<class T, class V, class E>
+void print_map_comp(NAMESPACE::map<T, V, E>  &other)
 {
   std::cout << "size = " << other.size() << std::endl;
   std::cout << "max_size = " << other.max_size() << std::endl;
@@ -61,6 +76,8 @@ void print_map(NAMESPACE::map<T, V, E>  &other)
     it_b++;
   }
 }
+
+
 bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
 struct classcomp 
@@ -86,12 +103,12 @@ void test_constructor()
   print_map<char, int>(third);
 
   NAMESPACE::map<char,int,classcomp> fourth;                 
-  print_map<char, int>(fourth);
+  print_map_comp<char, int>(fourth);
 
   bool(*fn_pt)(char,char) = fncomp;
   NAMESPACE::map<char,int,bool(*)(char,char)> fifth (fn_pt); 
   
-  print_map<char, int>(fifth);
+  print_map_comp<char, int>(fifth);
 }
 
 
@@ -339,5 +356,3 @@ int main()
   test_equal_range();
   test_reverse_iterator();
 }
-
-//  std::vector<int> 
