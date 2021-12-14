@@ -291,6 +291,27 @@ class map
                 return (Compare());
               }
 
+              // iterator lower_bound (const key_type& k)
+              // {
+
+              //   if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
+              //   {
+              //     return (begin());
+              //   }
+              //   return (iterator(_RBT->lower_key(k), _RBT));
+              // }
+
+              // const_iterator lower_bound (const key_type& k) const
+              // {
+              //   if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
+              //   {
+              //     return (begin());
+              //   }
+              //   return (const_iterator(_RBT->lower_key(k), _RBT));
+              // }
+
+
+
               iterator lower_bound (const key_type& k)
               {
 
@@ -309,7 +330,6 @@ class map
                 }
                 return (const_iterator(_RBT->lower_key(k), _RBT));
               }
-
               iterator upper_bound (const key_type& k)
               {
 

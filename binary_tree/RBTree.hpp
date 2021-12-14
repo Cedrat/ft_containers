@@ -576,10 +576,10 @@ class Tree
     Node<T, V> * upper_key(const T& key)
     {
         Node<T,V> *temp = _root;
-
         while (temp != _sentry)
         {
-            if (Compare()(key , temp->_pair.first) == TRUE)
+            if (Compare()(key , temp->_pair.first) == TRUE &&
+                Compare()(key, temp->_left->_pair.first) == FALSE)
             {
                 return (temp);
             }
@@ -597,10 +597,10 @@ class Tree
     {
         Node<T,V> *temp = _root;
         temp = getRoot();
-       
         while (temp != _sentry)
         {
-            if (Compare()(temp->_pair.first, key) == FALSE)
+            if (Compare()(temp->_pair.first, key) == FALSE && 
+                ( temp->_left == _sentry || Compare()(val_max(temp->_left)->_pair.first, key) == TRUE))
             {
                 return (temp);
             }

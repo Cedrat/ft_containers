@@ -247,17 +247,17 @@ void    test_hook()
 
 void test_lower_upper_bound_string ()
 {
-  NAMESPACE::map<char,std::string> mymap;
-  NAMESPACE::map<char,std::string>::iterator itlow,itup;
+  NAMESPACE::map<char,int> mymap;
+  NAMESPACE::map<char,int>::iterator itlow,itup;
   std::cout << "Test lower upper " << std::endl;
 
-  mymap['f']="20";
-  mymap['b']="40";
-  mymap['c']="60";
-  mymap['r']="80";
-  mymap['e']="100";
+  mymap['f']=20;
+  mymap['b']=40;
+  mymap['c']=60;
+  mymap['r']=80;
+  mymap['e']=100;
   std::cout << mymap.lower_bound ('c')->second << mymap.lower_bound ('c')->first << std::endl;
-  mymap.lower_bound ('c')->second = "14";  
+  mymap.lower_bound ('c')->second = 14;  
   itlow=mymap.upper_bound ('k');  
 
 }

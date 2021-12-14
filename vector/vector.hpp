@@ -124,7 +124,7 @@ class vector
             long temp_pos;
             Alloc alloc;
             
-            long end_old_vector = end() - begin() - 1;
+            long end_old_vector = end() - begin();
             range = n;
             long end_new_vector = end_old_vector + range;
 
@@ -148,7 +148,7 @@ class vector
 
             while (nb_element_to_switch)
             {
-                _array[end_new_vector] = _array[end_old_vector - i];
+                _array[end_new_vector - 1] = _array[end_old_vector - i - 1];
                 nb_element_to_switch--;
                 end_new_vector--;
                 i++;
@@ -157,14 +157,14 @@ class vector
             while (temp_range > 0)
             {
                 n--;
-                _array[end_new_vector] =  val;
+                _array[end_new_vector - 1] =  val;
                 temp_range--;
                 end_new_vector--;
             }
             while (n)
             {
                 n--;
-                _array[end_new_vector] = val;
+                _array[end_new_vector - 1] = val;
                 end_new_vector--;
             }
         }
@@ -502,6 +502,12 @@ class vector
             if (_size == _capacity)
             {
                 reserve(_capacity * 2);
+            }
+            if (temp_pos == end() - begin())
+            {
+                 alloc.construct(&_array[end_vector], val);
+                _size++;
+                return (temp_pos + begin());
             }
             if (end_vector == 0)
             {
