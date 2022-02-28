@@ -253,17 +253,14 @@ void bidirect_it()
 		lst.push_back(i * 3);
 
 	NAMESPACE::vector<int> my_vector(lst.begin(), lst.end());
-	//printSize(my_vector);
 
 	lst_it = lst.begin();
 	for (int i = 1; lst_it != lst.end(); ++i)
 		*lst_it++ = i * 5;
 	my_vector.assign(lst.begin(), lst.end());
-	//printSize(my_vector);
 
 	my_vector.insert(my_vector.end(), lst.rbegin(), lst.rend());
-	//printSize(my_vector);
-	//return (0);
+
 }
 void iterator_vector_test()
 {
@@ -283,7 +280,6 @@ void iterator_vector_test()
     std::cout << *it_begin << std::endl;
     while (it_begin != myvector.end())
     {
-        // *it_begin = 5;
         std::cout << *it_begin << std::endl;
         it_begin++;
     }
@@ -292,7 +288,6 @@ void iterator_vector_test()
     std::cout << "decrement test and while (it_begin != it_end)" << std::endl;
     while (it_begin != it_end)
     {
-        // *it_begin = 5;
         std::cout << *--it_end << std::endl;
     }
 
@@ -410,13 +405,7 @@ void test_insert()
     }
     it = tyvector.end();
      std::cout << *--it<< std::endl;
-    // print_all_vectors_elements(tyvector);
-    // // print_all_vectors_elements(tyvector);
 
-    // // std::cout << *tyvector.insert (it,11,300) << std::endl;;
-    // print_all_vectors_elements(tyvector);
-
-    // "it" no longer valid, get a new one:
     it = myvector.begin();
 
     NAMESPACE::vector<int> anothervector (2,400);
@@ -453,7 +442,6 @@ void test_str_insert()
     it = myvector.begin();
     it = myvector.insert ( it , "deux cents" );
     std::cout << *it << std::endl;
-    // std::cout << myvector.end() - it << std::endl;
     myvector.clear();
     for (int i = 0; i < 8; i++)
     {
@@ -705,7 +693,6 @@ void test_reverse_iterator()
     {
         rit_begin[i] = i;
     }
-    // std::cout << *rit_begin.base() << std::endl;
     print_all_vectors_elements(myvector);
 
 
@@ -786,34 +773,32 @@ int main()
 
     NAMESPACE::vector<int> myvector;
 
-    // test_constructor();
-    // test_const_constructor();
-    // copy_constructor_time();
-    // push_pop_back_test();
+    test_constructor();
+    test_const_constructor();
+    copy_constructor_time();
+    push_pop_back_test();
     test_insert();
-    // resize_vector_test();
-    // reserve_vector_test();
-    // at_vector_test();
-    // iterator_vector_test();
-    // const_iterator_vector_test();
-    // assign_vector_test();
-    // test_insert();
-    // test_str_insert();
-    // test_erase();
-    // test_string();
-    // test_assign_str();
-    // test_swap();
-    // test_clear();
+    resize_vector_test();
+    reserve_vector_test();
+    at_vector_test();
+    iterator_vector_test();
+    const_iterator_vector_test();
+    assign_vector_test();
+    test_insert();
+    test_str_insert();
+    test_erase();
+    test_string();
+    test_assign_str();
+    test_swap();
+    test_clear();
 
-    // test_get_alloc();
-    // test_comparison();
-    // test_swap_external();
-    // test_reverse_iterator();
-    // bidirect_it();
-    // ite();
-    // rev_ite_construct();
-    // test_reverse_iterator();
+    test_get_alloc();
+    test_comparison();
+    test_swap_external();
+    test_reverse_iterator();
+    bidirect_it();
+    ite();
+    rev_ite_construct();
+    test_reverse_iterator();
 
 }
-
-//  std::vector<int> 

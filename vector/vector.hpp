@@ -169,7 +169,6 @@ class vector
             }
         }
 
-        // alloc.construct(&_array[end_vector], _array[end_vector - 1]);
 
         template <class InputIterator>
         void insert (iterator position, InputIterator first, InputIterator last, ft::false_type)
@@ -224,42 +223,7 @@ class vector
                 end_new_vector--;
             }
         }
-        //  template <class InputIterator>
-        // void insert (iterator position, InputIterator first, InputIterator last, ft::false_type)
-        // {
-        //     size_t range;
-        //     Alloc alloc;
-        //     vector<T> tmp;
 
-        //     int stop_1 = position - begin();
-
-        //     range = ft::distance(first, last);
-        //     if ((_size + range) > _capacity)
-        //     {
-        //         reserve(_size + range);
-        //     }
-
-        //     int i = 0;
-        //     int size = _size;
-        //     while (i < stop_1)
-        //     {
-        //         tmp.push_back(_array[i]);
-        //         i++;
-        //     }
-
-        //     while (first != last)
-        //     {
-        //         tmp.push_back(*first);
-        //         first++;
-        //     }
-        //     while (i < size)
-        //     {
-        //         tmp.push_back(_array[i]);
-        //         i++;
-        //     }
-
-        //     this->swap(tmp);
-        // }
     
         void initialize()
         {
@@ -460,37 +424,7 @@ class vector
             _size--;
         }
 
-        // iterator insert (iterator position, const value_type& val)
-        // {
-        //     long temp_pos;
-        //     Alloc alloc;
-            
-        //     temp_pos = position - begin();
-        //     if (_size == _capacity)
-        //     {
-        //         reserve(_capacity * 2);
-        //     }
-            
-        //     ft::vector<T> tmp;
-        //     int i = 0;
-        //     int size = _size;
-        //     while (i < (position - begin()))
-        //     {
-        //         tmp.push_back(_array[i]);
-        //         i++;
-        //     }
 
-        //         tmp.push_back(val);
-        //     while (i < size)
-        //     {
-        //         tmp.push_back(_array[i]);
-        //         i++;
-        //     }
-
-        //     this->swap(tmp);
-            
-        //     return (temp_pos+ begin());
-        // }
 
         iterator insert (iterator position, const value_type& val)
         {

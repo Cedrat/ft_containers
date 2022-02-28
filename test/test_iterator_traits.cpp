@@ -40,8 +40,7 @@ int main()
         std::cout << '\n';
     }
  
-//    std::istreambuf_iterator<char> i1(std::cin), i2;
-//    my_reverse(i1, i2); // compilation error
+
     {
         typedef NAMESPACE::iterator_traits<int*> traits;
         if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))

@@ -38,14 +38,6 @@ namespace ft
     struct is_integral_no_cv<char> : public true_type
     {};
 
-    // template<>
-    // struct is_integral_no_cv<char16_t> : public true_type
-    // {};
-
-    // template<>
-    // struct is_integral_no_cv<char32_t> : public true_type
-    // {};
-
     template<>
     struct is_integral_no_cv<wchar_t> : public true_type
     {};

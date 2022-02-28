@@ -22,12 +22,8 @@ namespace ft
             typedef ft::pair<const Key, Mapped> &reference;
             typedef ft::pair<const Key, Mapped> value_type;
 
-            // typedef Node& reference;
-            
-
             node _ptr;
             Tree    *_tree;
-
 
             map_iterator()
             {
@@ -116,10 +112,9 @@ namespace ft
         public :
             typedef bidirectional_iterator_tag iterator_category;
             typedef long difference_type;
-            // typedef Node<Key, Mapped> value_type; //tree<Key, T>
-            // typedef Node value_type;
             typedef Node *node;
             typedef ft::pair<const Key, Mapped> *pointer_pair;
+            
             typedef const ft::pair<const Key, Mapped> *const_pointer_pair;
             typedef const ft::pair<const Key, Mapped> &pair;
             typedef const ft::pair<const Key, Mapped> &const_pair;

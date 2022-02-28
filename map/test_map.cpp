@@ -218,8 +218,6 @@ void test_find()
     mymap['d']=200;
 
     it = mymap.find('b');
-    // if (it != mymap.end())
-    //     mymap.erase (it);
     std::cout << "value find " << it->second << std::endl;
 
     // print content:

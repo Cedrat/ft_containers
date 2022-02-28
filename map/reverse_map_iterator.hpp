@@ -34,14 +34,8 @@ namespace ft
 
             reverse_map_iterator(iterator_type it) : _current(it)
             {
-                // _current++;
             };
 
-            // reverse_map_iterator(iterator_type it) : _current(it)
-            // {
-
-            // };
-        
             template<class Iter>
             reverse_map_iterator(const reverse_map_iterator<Iter>& reverse_it) : _current(reverse_it.base())
             {
@@ -49,9 +43,6 @@ namespace ft
              
              iterator_type base() const
             {
-                // iterator_type temp = _current;
-
-                // temp++;
                 return (_current) ;
             }
 
@@ -59,23 +50,9 @@ namespace ft
             {
                 iterator_type temp = _current;
                 temp--;
+
                 return (*temp);
-                // return (*_current);
             }
-
-            // const_value_type operator*() const
-            // {
-            //     // iterator_type temp = base();
-            //     return (*_current);
-            // }
-
-
-
-            // const pointer operator->() const
-            // {
-            //     return (&(*_current));
-            // }
-
 
             pointer operator->()
             {
@@ -94,12 +71,11 @@ namespace ft
 
             reverse_map_iterator& operator++()
             {
-                //iterator_type temp = base();
                 --_current;
                 return (*this);
             };
 
-            reverse_map_iterator operator++ (int) //Post increment
+            reverse_map_iterator operator++ (int) //Postincrement
             {
                 reverse_map_iterator temp = (*this);
                 --_current;

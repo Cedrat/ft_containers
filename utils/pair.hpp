@@ -18,10 +18,7 @@ namespace ft
         pair(const pair<first_type, second_type>&pair_) : first(pair_.first), second(pair_.second)
         {
         }
-
-        // pair(pair<first_type, second_type>&pair_) : first(pair_.first), second(pair_.second)
-        // {
-        // }
+        
         pair(first_type first_element, second_type second_element) :
             first(first_element), second(second_element)
         {

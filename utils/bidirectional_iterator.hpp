@@ -26,11 +26,6 @@ namespace ft
                 return (*_ptr);
             }
 
-            // pointer operator->()
-            // {
-            //     return (_ptr);
-            // }
-
             bidirectional_iterator_tag& operator++() //preincrement
             {
                 _ptr++;

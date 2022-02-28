@@ -39,36 +39,37 @@ unsigned long int	stamp_time(unsigned long int start_time)
 	return (actual_time);
 }
 
-// template<class T>
-// void print_element_i_vector(NAMESPACE::vector<T> const & the_vector, size_t index)
-// {
-//     std::cout << "value for index " << index << " : " << the_vector[index] << std::endl;
-// }
+template<class T>
+void print_element_i_vector(NAMESPACE::vector<T> const & the_vector, size_t index)
+{
+    std::cout << "value for index " << index << " : " << the_vector[index] << std::endl;
+}
 
-// template<class T>
-// void print_vector(NAMESPACE::vector<T> const &the_vector)
-// {
-//     std::cout << "size : " << the_vector.size() << std::endl;
-//     std::cout << "max_size : " << the_vector.max_size() << std::endl;
-//     std::cout << "capacity : " << the_vector.capacity() << std::endl;
-//     std::cout << "empty : " << the_vector.empty() << std::endl;
-//     if (the_vector.empty() == FALSE)
-//     {
-//         std::cout << "front_value " << the_vector.front() << std::endl;
-//         std::cout << "back_value " << the_vector.back() << std::endl;
-//     }
-//     std::cout << "--------------------------------------" << std::endl;
-// };
+template<class T>
+void print_vector(NAMESPACE::vector<T> const &the_vector)
+{
+    std::cout << "size : " << the_vector.size() << std::endl;
+    std::cout << "max_size : " << the_vector.max_size() << std::endl;
+    std::cout << "capacity : " << the_vector.capacity() << std::endl;
+    std::cout << "empty : " << the_vector.empty() << std::endl;
+    if (the_vector.empty() == FALSE)
+    {
+        std::cout << "front_value " << the_vector.front() << std::endl;
+        std::cout << "back_value " << the_vector.back() << std::endl;
+    }
+    std::cout << "--------------------------------------" << std::endl;
+};
 
-// template<class T>
-// void print_all_vectors_elements(NAMESPACE::vector<T>  const &the_vector)
-// {
-//     for (size_t i = 0 ; i < the_vector.size(); i++)
-//     {
-//         print_vector(the_vector);
-//         print_element_i_vector(the_vector, i);
-//     }
-// }
+template<class T>
+void print_all_vectors_elements(NAMESPACE::vector<T>  const &the_vector)
+{
+    for (size_t i = 0 ; i < the_vector.size(); i++)
+    {
+        print_vector(the_vector);
+        print_element_i_vector(the_vector, i);
+    }
+}
+
 void test_top()
 {
      ft::vector<int> myvector (2,200); 
@@ -185,10 +186,8 @@ void test_pop_push_empty()
 
 int main()
 {
-    //test_constructor();
-    // test_empty();
-    // test_pop_push_empty();
+    test_constructor();
+    test_empty();
+    test_pop_push_empty();
     test_comparison();
 }
-
-// std::stack<int> 

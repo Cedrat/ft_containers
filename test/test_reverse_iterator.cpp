@@ -19,11 +19,9 @@ int main ()
     
     
 
-    //typedef std::vector<int>::reverse_iterator iter_type;
 
     std::reverse_iterator<std::vector<int>::iterator> std_rev_it_begin;
 
-    // NAMESPACE::reverse_iterator<std::vector<int>::iterator> rev_it_begin;
 
     std_rev_it_begin = myvector.rbegin();
     NAMESPACE::reverse_iterator<std::reverse_iterator<std::vector<int>::iterator>> rev_it_begin(std_rev_it_begin);
@@ -31,21 +29,5 @@ int main ()
     std::cout << *rev_it_begin << std::endl;
     std::cout << *rev_it_begin++ << std::endl;
     std::cout << *++rev_it_begin << std::endl;
-    // std::cout << *rev_it_begin << std::endl;
-    // std::cout << *rev_it_begin.base() << std::endl;
-                                                            
-    // iter_type from (myvector.begin());                     
-                                                            
-    // iter_type until (myvector.end());                      
-                                                            
-    // NAMESPACE::reverse_iterator<iter_type> rev_until (from);    
-                                                            
-    // NAMESPACE::reverse_iterator<iter_type> rev_from (until);
 
-    // std::cout << "myvector:";
-    // while (rev_from != rev_until)
-    //     std::cout << ' ' << *rev_from++;
-    // std::cout << '\n';
-
-    // return 0;
 }

@@ -25,8 +25,7 @@ struct Node
     Node *_parent;
     ft::pair<const T, V> _pair;
     size_t    _color;
-    // T     _key;
-    // V     _value;
+
 
     Node(T first, V second) : _pair(first, second)
     {
@@ -46,26 +45,6 @@ struct Node
     {
         return (!(*this == rhs));
     }
-
-    // Node(const Node<T,V> & rhs)
-    // {
-    //     _left = rhs->_left;
-    //     _right = rhs->_right;
-    //     _parent = rhs->_parent;
-    //     _color = rhs->_color;
-    //     _key = rhs->_pair.first;
-    //     _value = rhs->_value
-    //     _pair = rhs->_pair;
-
-    // }
-    // bool operator=(const Node<T,V> &rhs)
-    // {
-    //     _right = rhs._right; 
-    //     _left = rhs._left;
-    //     _key = rhs._key;
-    //     _parent = rhs._parent;
-    //     _color = rhs._color;
-    // }
 
     bool isSentry()
     {
@@ -119,9 +98,7 @@ class Tree
             _sentry->_left = LEAF;
             _sentry->_parent = LEAF;
             _sentry->_color = BLACK;
-            // _sentry->_pair.first = T();
-            // _sentry->_value = V();
-            
+
             Node<T, V> *current;
             if (x.size())
                 current = val_min(x.getRoot());
@@ -172,7 +149,6 @@ class Tree
         {
             Alloc alloc_node;
             Alloc alloc;
-            // std::cout << "WARNING TREE DESTROYED" << std::endl;
             if (_root != _sentry)
                 delete_tree(_root);
             alloc_node.destroy(_sentry);
@@ -260,8 +236,6 @@ class Tree
                 return (_root);
             }
             balance(new_node);
-            // std::cout << "root key " << _root->_pair.first << std::endl;
-            // std::cout << "root value " << _root->_value << std::endl;
             _size++;
             return (_root);
         }
@@ -345,7 +319,6 @@ class Tree
         }
     void balance(Node<T,V> *current_node)
     {
-        // std::cout << "balance = " << current_node->_pair.first << std::endl;
         if (current_node->_parent == _sentry)
         {
             current_node->_color = BLACK;
@@ -366,9 +339,7 @@ class Tree
 
     void left_rotate(Node<T,V> *relegate)
     {
-        // std::cout << "left_rotate : \nrelegate key = " << relegate->_pair.first << std::endl;
         Node<T,V> *promote = relegate->_right; //1
-        // std::cout << "promote key = " << promote->_pair.first << std::endl;
 
         relegate->_right = promote->_left;
         if (promote->_left != _sentry)
@@ -390,14 +361,11 @@ class Tree
         }
         promote->_left = relegate;
         relegate->_parent = promote;
-        // std::cerr << promote->_parent->_pair.first << std::endl;
     }
 
     void right_rotate(Node<T,V> *relegate)
     {
-        // std::cout << "rigth rotate = \nrelegate key = " << relegate->_pair.first << std::endl;
         Node<T,V> *promote = relegate->_left; //1
-        // std::cout << "promote key = " << promote->_pair.first << std::endl;
 
             relegate->_left = promote->_right;
             if (promote->_right != _sentry)
@@ -457,17 +425,17 @@ class Tree
     {
         Node<T,V> *grand_p = grand_parent(son);
         Node<T,V> *parent_ = parent(son);
-        // std::cout << "son->key = " << son->_pair.first << std::endl;
-            if (son == parent(son)->_left)
-            {
-                right_rotate(grand_parent(son));
-            }
-            else
-            {
-                left_rotate(grand_parent(son));
-            }
-            parent_->_color = BLACK;
-            grand_p->_color = RED;
+
+        if (son == parent(son)->_left)
+        {
+            right_rotate(grand_parent(son));
+        }
+        else
+        {
+            left_rotate(grand_parent(son));
+        }
+        parent_->_color = BLACK;
+        grand_p->_color = RED;
     }
 
     void transplante(Node<T,V> *old, Node<T,V> *newcomer)
@@ -793,26 +761,6 @@ Node<T,V>* grand_parent(Node<T,V> *current)
     }
     return (NULL);
 }
-// template<class T, class V>
-// ft::pair<const T, V> *next_pair(ft::pair<const T,V> *current_pair)
-// {
-//     Node<T,V> *temp = find_node(current_pair.first);
-
-
-//     if (temp->_right->isSentry() != FALSE)
-//     {
-//         return (successor(temp->_right)->_pair);
-//     }
-//     else if (temp->_parent)
-//     {
-//         while (temp->_parent && temp->_parent->_pair.first > temp->_key)
-//         {
-//             temp = temp->_parent;
-//         }
-//         return (successor(temp->_right)->_pair);
-//     }
-//     return (temp->_pair);
-// }
 
     template<class T, class V>
     Node<T,V> *minimal(Node<T,V> *current_node)
@@ -837,10 +785,7 @@ Node<T,V> *next_node(Node<T,V> *current_node)
     {
         return (minimal(temp->_right));
     }
-    // while (temp->_parent && temp == temp->_parent->_right)
-    // {
-    //     temp = temp->_parent;
-    // }
+
     return (temp->_parent);
 }
 
@@ -869,12 +814,9 @@ Node<T,V>* uncle(Node<T,V> *current)
 template<class T, class V>
 Node<T,V> *search_head(Node<T,V> *node)
 {
-    // if (node->_parent && node->_parent->_parent)
-    //     std::cerr << node << "|" << node->_parent  << "|" << node->_parent->_parent << "|" << node->_parent->_parent->_parent << std::endl;
-
     while(node->_parent != NULL)
     {
-        node = node->_parent;        // sleep(1);
+        node = node->_parent;      
     }
    return (node);
 }
@@ -886,22 +828,6 @@ bool is_black(Node<T,V> *node)
         return (true);
     return false;
 }
-
-
-
-
-
-
-// void 
-
-// template<class T, class V>
-// void delete_node(Node<T,V> *head, T value)
-// {
-
-// }
-
-
-
 
 template<class T, class V>
 std::string child(Node<T,V> *head)

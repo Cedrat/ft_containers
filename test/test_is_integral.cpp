@@ -4,27 +4,6 @@
 #include "is_integral.hpp"
 
 
-// template <class T>
-//     typename ft::enable_if<std::is_trivially_copyable<T>::value>::type f(T) {
-//       // ...
-//    }
-// int main() {
-//    using std::vector;
-//    vector<int> v;
-//    f(v); // serait illégal
-// }
-
-// iterator_traits example
-// #include <iostream>     // std::cout
-// #include <iterator>     // std::iterator_traits
-// #include <typeinfo>     // typeid
-
-// int main() {
-//   typedef ft::iterator_traits<int*> traits;
-//   if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
-//     std::cout << "int* is a random-access iterator";
-//   return 0;
-// }
 
 #include <iostream>
 #include <type_traits>

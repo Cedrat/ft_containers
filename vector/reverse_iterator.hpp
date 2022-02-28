@@ -80,7 +80,6 @@ class reverse_iterator
 
         reverse_iterator& operator++()
         {
-            //iterator_type temp = base();
             --_current;
             return (*this);
         };

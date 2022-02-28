@@ -2,18 +2,6 @@
 #include <string>
 #include "RBTree.hpp"
  
-
-// #define struct Node<int> * SENTRY {    Node<int> * _left = NULL;    Node<int>  *_right = NULL;    Node<int> * _parent = NULL;    bool    _color = BLACK;    int     _key = int();}
-
-// const struct Node<int> * SENTRY
-// {
-//     Node<SENTRY->_right = LEAF;
-//     SENTRY->_left = LEAF;
-//     SENTRY->_parent = LEAF;
-//     SENTRY->_color = BLACK;
-//     SENTRY->_key = int();
-// };
-
 ft::vector<std::string> split_string(std::string str, std::string splitter)
 {
     ft::vector<std::string> split_str;

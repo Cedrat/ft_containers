@@ -103,7 +103,6 @@ class map
                 _RBT = tree_alloc.allocate(1);
                 tree_alloc.construct(_RBT, alloc_tree());
                 insert(first, last);
-                // print_tree(_RBT->getRoot());
               }
 
               map& operator= (const map& rhs)
@@ -145,10 +144,8 @@ class map
               ~map()
               {
                 std::allocator<alloc_tree> tree_alloc;
-                // _RBT->delete_tree();
                 tree_alloc.destroy(_RBT);
                 tree_alloc.deallocate(_RBT, 1);
-                // delete _RBT;
               }
 
               size_type count (const key_type& k) const
@@ -265,7 +262,6 @@ class map
                   temp = first;
                   temp++;
                   _RBT->delete_node(first._ptr);
-                  // delete(first._ptr);
                   first = temp;
                 }
               }
@@ -284,33 +280,11 @@ class map
                 _RBT = x._RBT;
                 x._RBT = temp;
               }
-              //const_iterator begin() const;     
 
               key_compare key_comp() const
               {
                 return (Compare());
               }
-
-              // iterator lower_bound (const key_type& k)
-              // {
-
-              //   if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
-              //   {
-              //     return (begin());
-              //   }
-              //   return (iterator(_RBT->lower_key(k), _RBT));
-              // }
-
-              // const_iterator lower_bound (const key_type& k) const
-              // {
-              //   if (Compare()(k, _RBT->val_min(_RBT->getRoot())->_pair.first))
-              //   {
-              //     return (begin());
-              //   }
-              //   return (const_iterator(_RBT->lower_key(k), _RBT));
-              // }
-
-
 
               iterator lower_bound (const key_type& k)
               {
